@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/desc_fragment_common">
+
+    <View
+        android:id="@+id/toolbarBg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/settings"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="56sp"
+        android:theme="@style/Theme.MaterialComponents"
+        app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbarBg" />
+
+    <ImageView
+        android:id="@+id/navUpBtn"
+        style="?actionButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/app_bar_height__collapsed"
+        android:elevation="4dp"
+        android:src="@drawable/ic_arrow_left"
+        android:theme="@style/Theme.MaterialComponents"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Space
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/app_bar_height__expanded"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/widgetLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/frame_margin_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.1"
+                android:text="@string/settings_widget"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/altWidgetUpdaterTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:paddingStart="@dimen/frame_margin_horizontal"
+                android:paddingTop="12dp"
+                android:paddingEnd="72dp"
+                android:paddingBottom="12dp"
+                android:text="@string/settings_widget_alt_service"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/widgetLabelTextView" />
+
+            <Switch
+                android:id="@+id/altWidgetUpdaterSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/altWidgetUpdaterTextView"
+                app:layout_constraintEnd_toEndOf="@id/altWidgetUpdaterTextView"
+                app:layout_constraintTop_toTopOf="@id/altWidgetUpdaterTextView" />
+
+            <TextView
+                android:id="@+id/widgetColorTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/frame_margin_horizontal"
+                android:paddingTop="12dp"
+                android:paddingEnd="72dp"
+                android:paddingBottom="12dp"
+                android:text="@string/settings_widget_color"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/altWidgetUpdaterTextView" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/paletteLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/frame_margin_horizontal"
+                android:paddingEnd="@dimen/frame_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/widgetColorTextView">
+
+                <com.thebluealliance.spectrum.SpectrumPalette
+                    android:id="@+id/palette"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

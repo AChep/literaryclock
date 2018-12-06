@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/quoteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/robotoslab_regular"
+        android:shadowColor="#8000"
+        android:shadowDy="4"
+        android:shadowRadius="8"
+        android:textSize="18sp"
+        tools:text="At one minute to twelve, she was sure of it, and cursed herself for even thinking for a moment the cat-creature would help her escape."
+        tools:textColor="?android:textColorPrimary" />
+
+    <ImageView
+        android:id="@+id/refreshBtn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/quoteTextView"
+        android:scaleType="center"
+        android:src="@drawable/ic_refresh"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quoteTextView"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/refreshBtn"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotoslab_regular"
+        android:gravity="end"
+        android:shadowColor="#8000"
+        android:shadowDy="4"
+        android:shadowRadius="8"
+        android:textSize="14sp"
+        tools:text="Clariel"
+        tools:textColor="?android:textColorPrimary" />
+
+    <TextView
+        android:id="@+id/authorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTextView"
+        android:layout_toEndOf="@id/refreshBtn"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotoslab_regular"
+        android:gravity="end"
+        android:shadowColor="#8000"
+        android:shadowDy="4"
+        android:shadowRadius="8"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        tools:text="Garth Nix"
+        tools:textColor="?android:textColorPrimary" />
+
+</RelativeLayout>

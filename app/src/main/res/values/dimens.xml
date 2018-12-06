@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="frame_margin_horizontal">16dp</dimen>
+    <dimen name="frame_margin_horizontal__card">8dp</dimen>
+    <dimen name="frame_margin_vertical">16dp</dimen>
+
+    <dimen name="app_bar_height__expanded">280dp</dimen>
+    <dimen name="app_bar_height__collapsed">72dp</dimen>
+
+</resources>

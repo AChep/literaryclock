@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_donateFragment"
+            app:destination="@id/donateFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_quoteFragment"
+            app:destination="@id/quoteFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/donateFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.DonateFragment"
+        android:label="DonateFragment" />
+    <fragment
+        android:id="@+id/quoteFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.QuoteFragment"
+        android:label="QuoteFragment" >
+        <argument
+            android:name="quote"
+            app:argType="com.artemchep.literaryclock.models.QuoteItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>

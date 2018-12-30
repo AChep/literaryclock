@@ -16,7 +16,7 @@ val appVersionName = "0.0.1"
 val appDependencies = createDependencies(Module.APP)
 
 val keystoreProperties = Properties()
-val keystorePropertiesFile = file("15puzzle-release.properties")
+val keystorePropertiesFile = file("literaryclock-release.properties")
 if (keystorePropertiesFile.exists()) {
     var stream: FileInputStream? = null
     try {
@@ -44,7 +44,7 @@ android {
         create("release") {
             keyAlias = keystoreProperties.getProperty("key_alias")
             keyPassword = keystoreProperties.getProperty("password_store")
-            storeFile = file("15puzzle-release.jks")
+            storeFile = file("literaryclock-release.keystore")
             storePassword = keystoreProperties.getProperty("password_key")
         }
     }

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -120,6 +121,10 @@ class MainFragment : Fragment(),
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
         momentLiveData.observe(viewLifecycleOwner, Observer(::showMoment))
+        databaseIsUpdatingLiveData.observe(
+            viewLifecycleOwner,
+            Observer(progressBar::isVisible::set)
+        )
     }
 
     private fun showUrl(url: String) = url.toUri().launchInCustomTabs(activity!!)

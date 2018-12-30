@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.artemchep.literaryclock.BuildConfig
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.logic.viewmodels.AboutViewModel
 import com.artemchep.literaryclock.models.DependencyItem
@@ -46,6 +45,9 @@ class AboutFragment : Fragment(), View.OnClickListener, OnItemClickListener<Depe
         linkedInBtn.setOnClickListener(this)
         instagramBtn.setOnClickListener(this)
         twitterBtn.setOnClickListener(this)
+
+        appShareBtn.setOnClickListener {
+        }
 
         depsRecyclerView.layoutManager = LinearLayoutManager(activity!!)
         depsRecyclerView.adapter = DependencyAdapter()

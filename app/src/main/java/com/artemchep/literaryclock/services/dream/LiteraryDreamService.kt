@@ -2,9 +2,11 @@ package com.artemchep.literaryclock.services.dream
 
 import android.view.View
 import androidx.lifecycle.Observer
+import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.logic.viewmodels.DreamViewModel
 import com.artemchep.literaryclock.models.QuoteItem
+import com.artemchep.literaryclock.startUpdateDatabaseJob
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.dream_main.*
 
@@ -21,6 +23,10 @@ class LiteraryDreamService : LifecycleAwareDreamService(), LayoutContainer {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         setContentView(R.layout.dream_main)
+
+        // Check the database for updates
+        // every day.
+        startUpdateDatabaseJob(Heart.UID_DATABASE_UPDATE_JOB)
 
         dreamViewModel.setup()
     }

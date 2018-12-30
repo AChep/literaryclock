@@ -77,6 +77,13 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
+    val zhanghaiMaterialProgressBar = Dependency(
+        "Material Progress Bar",
+        ZHANGHAI_MPB_VERSION,
+        "me.zhanghai.android.materialprogressbar:library:$ZHANGHAI_MPB_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+
     val androidxAppCompat = Dependency(
         "AndroidX AppCompat",
         ANDROIDX_APPCOMPAT_VERSION,
@@ -167,6 +174,7 @@ fun createDependencies(module: Module): List<Dependency> {
             solovyevCheckout,
             hdodenhofCircleImageView,
             theblueallianceSpectrum,
+            zhanghaiMaterialProgressBar,
             kodeinGenericJvm,
             kodeinAndroid,
             androidxAppCompat,

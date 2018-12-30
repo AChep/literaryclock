@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey
 open class Quote : RealmObject() {
 
     @PrimaryKey
-    var key : Int = 0
+    var key: String = ""
 
     var quote: String = ""
 

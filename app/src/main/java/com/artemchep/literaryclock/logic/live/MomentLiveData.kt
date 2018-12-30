@@ -1,5 +1,6 @@
 package com.artemchep.literaryclock.logic.live
 
+import android.content.Context
 import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -11,12 +12,13 @@ import com.artemchep.literaryclock.models.Time
  * @author Artem Chepurnoy
  */
 class MomentLiveData(
+    context: Context,
     private val repo: Repo,
     /**
      * Omits the time of the shown
      * moment.
      */
-    timeLiveData: LiveData<Time>
+    private val timeLiveData: LiveData<Time>
 ) : MediatorLiveData<MomentItem>() {
 
     companion object {
@@ -29,6 +31,13 @@ class MomentLiveData(
 
     init {
         addSource(timeLiveData, ::processTime)
+
+        // Refresh the data when the state of the database
+        // changes.
+        val dbStateLiveData = DatabaseIsUpdatingLiveData(context)
+        addSource(dbStateLiveData) {
+            refresh()
+        }
     }
 
     /**
@@ -47,16 +56,29 @@ class MomentLiveData(
             moments
         } else {
             range = time..Time(time.time + RANGE_SIZE)
-            repo.getMoments(range)
-                .also {
-                    // Remember the list of moments that we
-                    // retrieved.
-                    moments = it
-                }
+            loadMoments()
         }.let { moments ->
             val offset = time.time - range.start.time
             return@let moments[offset]
         }
     }
+
+    private fun refresh() {
+        val time = timeLiveData.value ?: return
+
+        // Refresh the loaded
+        // moments
+        loadMoments()
+
+        // Post an update
+        processTime(time)
+    }
+
+    private fun loadMoments() = repo.getMoments(range)
+        .also {
+            // Remember the list of moments that we
+            // retrieved.
+            moments = it
+        }
 
 }

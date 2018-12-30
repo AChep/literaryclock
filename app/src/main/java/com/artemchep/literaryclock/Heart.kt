@@ -1,21 +1,17 @@
 package com.artemchep.literaryclock
 
 import android.app.Application
-import android.util.Log
-import androidx.core.util.forEach
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import com.artemchep.literaryclock.database.Repo
+import com.artemchep.literaryclock.database.RepoImpl
 import com.artemchep.literaryclock.logic.live.MomentLiveData
 import com.artemchep.literaryclock.logic.live.QuoteLiveData
 import com.artemchep.literaryclock.logic.live.TimeLiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
-import com.artemchep.literaryclock.database.Repo
-import com.artemchep.literaryclock.database.RepoImpl
-import com.artemchep.literaryclock.database.models.Moment
-import com.artemchep.literaryclock.database.models.Quote
 import io.realm.Realm
-import io.realm.RealmList
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.*
@@ -27,16 +23,16 @@ import org.solovyev.android.checkout.Billing
 class Heart : Application(), KodeinAware {
 
     companion object {
-
-        const val NOTIFICATION_WIDGET_UPDATE_SERVICE = 100
-
         const val UID_WIDGET_UPDATE_JOB = "job::widget_update"
+        const val UID_DATABASE_UPDATE_JOB = "job::database_update"
 
         const val PI_OPEN_MAIN_SCREEN = 1
         const val PI_UPDATE_WIDGET = 2
 
-        const val ACTION_UPDATE_WIDGET = "com.artemchep.literaryclock.UPDATE_WIDGET"
-
+        private const val ACTION_PREFIX = "com.artemchep.literaryclock"
+        const val ACTION_UPDATE_WIDGET = "$ACTION_PREFIX.UPDATE_WIDGET"
+        const val ACTION_UPDATE_DATABASE_STATE_CHANGED =
+            "$ACTION_PREFIX.UPDATE_DATABASE_STATE_CHANGED"
     }
 
     override val kodein = Kodein.lazy {
@@ -52,9 +48,9 @@ class Heart : Application(), KodeinAware {
          * Provides a moment live data that actually represents
          * the moment of a current time.
          */
-        bind<LiveData<MomentItem>>() with multiton { time: LiveData<Time> ->
+        bind<MediatorLiveData<MomentItem>>() with multiton { time: LiveData<Time> ->
             val repo by kodein.instance<Repo>()
-            return@multiton MomentLiveData(repo, time)
+            return@multiton MomentLiveData(this@Heart, repo, time)
         }
 
         bind<LiveData<QuoteItem>>() with multiton { moment: LiveData<MomentItem> ->
@@ -74,31 +70,11 @@ class Heart : Application(), KodeinAware {
         super.onCreate()
         Realm.init(this)
         Cfg.init(this)
+        CfgInternal.init(this)
 
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            val list = ArrayList<Moment>()
-            store2.forEach { key, value ->
-                Log.d("brrr", "keey=$key")
-                val x = Moment().apply {
-                    this.key = key
-                    this.quotes = RealmList()
-                    value.forEach {
-                        this.quotes.add(Quote().apply {
-                            this.key = it.hashCode()
-                            this.title = it.title
-                            this.author = it.author
-                            this.quote = it.quote
-                            this.asin = it.asin
-                        })
-                    }
-                }
-
-                list.add(x)
-            }
-
-            it.insertOrUpdate(list)
-        }
+        // Check the database for updates
+        // every day.
+        startUpdateDatabaseJob(UID_DATABASE_UPDATE_JOB)
     }
 
 }

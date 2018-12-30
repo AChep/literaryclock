@@ -96,6 +96,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier" />
 
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="1dp"
+        android:elevation="8dp"
+        android:indeterminate="true"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:mpb_progressStyle="horizontal"
+        app:mpb_useIntrinsicPadding="false" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn"
         style="@style/Widget.MaterialComponents.Button"

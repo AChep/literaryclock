@@ -15,7 +15,7 @@ object Cfg : SharedPrefConfig("config") {
      * `true` if the user wants to launch a [foreground service][WidgetUpdateService]
      * to update the widget every minute, `false` otherwise.
      */
-    var isWidgetUpdateServiceEnabled by configDelegate(KEY_WIDGET_UPDATE_SERVICE_ENABLED, false)
+    var isWidgetUpdateServiceEnabled by configDelegate(KEY_WIDGET_UPDATE_SERVICE_ENABLED, true)
 
     var widgetTextColor by configDelegate(KEY_WIDGET_TEXT_COLOR, Color.WHITE)
 

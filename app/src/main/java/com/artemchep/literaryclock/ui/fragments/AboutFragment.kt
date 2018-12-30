@@ -45,9 +45,7 @@ class AboutFragment : Fragment(), View.OnClickListener, OnItemClickListener<Depe
         linkedInBtn.setOnClickListener(this)
         instagramBtn.setOnClickListener(this)
         twitterBtn.setOnClickListener(this)
-
-        appShareBtn.setOnClickListener {
-        }
+        appShareBtn.setOnClickListener(this)
 
         depsRecyclerView.layoutManager = LinearLayoutManager(activity!!)
         depsRecyclerView.adapter = DependencyAdapter()
@@ -80,7 +78,8 @@ class AboutFragment : Fragment(), View.OnClickListener, OnItemClickListener<Depe
             R.id.appGithubBtn -> aboutViewModel.openGitHub()
             R.id.appShareBtn -> {
                 val subject = getString(R.string.app_name)
-                val text = "Check out Literary Clock!"
+                val text = "Literary Clock represents time in a form of literature qoutes. " +
+                        "Check it out: https://play.google.com/store/apps/details?id=com.artemchep.literaryclock"
                 try {
                     val i = Intent(Intent.ACTION_SEND).apply {
                         type = "description/plain"

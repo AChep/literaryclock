@@ -145,6 +145,19 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
+    val googleFirebaseCore = Dependency(
+        "Firebase Core",
+        GOOGLE_FIREBASE_CORE,
+        "com.google.firebase:firebase-core:$GOOGLE_FIREBASE_CORE",
+        DependencyType.IMPLEMENTATION
+    )
+    val googleFirebaseFirestore = Dependency(
+        "Firebase Firestore",
+        GOOGLE_FIREBASE_FIRESTORE,
+        "com.google.firebase:firebase-firestore:$GOOGLE_FIREBASE_FIRESTORE",
+        DependencyType.IMPLEMENTATION
+    )
+
     return when (module) {
         Module.APP -> listOf(
             kotlinStdlib,
@@ -167,6 +180,8 @@ fun createDependencies(module: Module): List<Dependency> {
             androidArchNavigationUiKtx,
             androidArchWork,
             googleMaterial,
+            googleFirebaseCore,
+            googleFirebaseFirestore,
             junit,
             kotlinMockito,
             kluent

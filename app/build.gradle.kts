@@ -68,3 +68,5 @@ realm {
 dependencies {
     handle(this, appDependencies)
 }
+
+apply(plugin = "com.google.gms.google-services")

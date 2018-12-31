@@ -53,7 +53,7 @@ android {
         getByName("release").apply {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
-            isShrinkResources = true
+            isShrinkResources = false
             isUseProguard = false
 
             proguardFiles(

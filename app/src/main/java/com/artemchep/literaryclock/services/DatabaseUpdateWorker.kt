@@ -103,7 +103,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
 
         setState(false)
 
-        return Result.SUCCESS
+        return Result.success()
     }
 
     private fun loadNewBatches(): QuerySnapshot = Tasks.await(

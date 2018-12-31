@@ -29,7 +29,7 @@ class WidgetUpdateWorker(context: Context, params: WorkerParameters) : Worker(co
         }
 
         LiteraryWidgetUpdater.updateLiteraryWidget(applicationContext)
-        return Result.SUCCESS
+        return Result.success()
     }
 
 }

@@ -1,4 +1,4 @@
-package com.artemchep.literaryclock.database.models
+package com.artemchep.literaryclock.data.realm
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey
 /**
  * @author Artem Chepurnoy
  */
-open class Quote : RealmObject() {
+open class RealmQuoteModel : RealmObject() {
 
     @PrimaryKey
     var key: String = ""

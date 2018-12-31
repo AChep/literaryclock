@@ -21,6 +21,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
+import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.logic.viewmodels.MainViewModel
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
@@ -121,10 +122,7 @@ class MainFragment : Fragment(),
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
         momentLiveData.observe(viewLifecycleOwner, Observer(::showMoment))
-        databaseIsUpdatingLiveData.observe(
-            viewLifecycleOwner,
-            Observer(progressBar::isVisible::set)
-        )
+        databaseIsUpdatingLiveData.observe(viewLifecycleOwner, Observer(::showDatabaseState))
     }
 
     private fun showUrl(url: String) = url.toUri().launchInCustomTabs(activity!!)
@@ -204,6 +202,23 @@ class MainFragment : Fragment(),
                 minuteHandRotation = minuteHandRotationNew
             }
         }
+    }
+
+    private fun showDatabaseState(state: DatabaseState) {
+        progressBar.isVisible = true
+        progressBar.animate().cancel() // cancel previous animation
+        progressBar
+            .animate()
+            .apply {
+                when (state) {
+                    DatabaseState.UPDATING -> scaleY(1f).alpha(1f)
+                    DatabaseState.IDLE -> scaleY(0f)
+                        .alpha(0f)
+                        .withEndAction {
+                            progressBar.isVisible = false
+                        }
+                }
+            }
     }
 
     override fun onClick(view: View) {

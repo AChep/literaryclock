@@ -1,4 +1,4 @@
-package com.artemchep.literaryclock.database.firestore
+package com.artemchep.literaryclock.data.firestore
 
 import com.google.firebase.Timestamp
 

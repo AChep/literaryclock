@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.annotation.UiThread
 import androidx.lifecycle.*
 import com.artemchep.literaryclock.logic.SingleLiveEvent
-import com.artemchep.literaryclock.logic.live.DatabaseIsUpdatingLiveData
+import com.artemchep.literaryclock.logic.live.DatabaseStateLiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
@@ -42,9 +42,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             addSource(customTimeLiveData, resolver)
         }
 
-    val databaseIsUpdatingLiveData = DatabaseIsUpdatingLiveData(application)
+    val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
 
-    val momentLiveData by kodein.instance<LiveData<Time>, MediatorLiveData<MomentItem>>(arg = timeLiveData)
+    val momentLiveData by kodein.instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
 
     /**
      * Sets the custom time if the time is not equal to the [current time][currentTimeLiveData],

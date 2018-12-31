@@ -1,7 +1,7 @@
-package com.artemchep.literaryclock.database
+package com.artemchep.literaryclock.data
 
-import com.artemchep.literaryclock.database.models.Moment
-import com.artemchep.literaryclock.database.models.Quote
+import com.artemchep.literaryclock.data.realm.RealmMomentModel
+import com.artemchep.literaryclock.data.realm.RealmQuoteModel
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.store.factory.MomentItemFactory
@@ -15,13 +15,13 @@ import io.realm.kotlin.where
 class RepoImpl : Repo {
 
     companion object {
-        private val emptyMoment = Moment().apply {
+        private val emptyMoment = RealmMomentModel().apply {
             key = 0
-            quotes = RealmList(Quote()
+            quotes = RealmList(RealmQuoteModel()
                 .apply {
                     key = ""
-                    quote =
-                            "There's no quote for this time yet. Try connecting to internet for database to sync."
+                    quote = "There's no quote for this time yet. " +
+                            "Try connecting to internet for database to sync."
                     title = ""
                     author = ""
                     asin = ""
@@ -33,10 +33,10 @@ class RepoImpl : Repo {
         val realm = Realm.getDefaultInstance()
         // Find all of the moments
         // within the range.
-        return realm.where<Moment>()
-            .greaterThanOrEqualTo(Moment::key.name, range.start.time)
-            .lessThanOrEqualTo(Moment::key.name, range.endInclusive.time)
-            .sort(Moment::key.name)
+        return realm.where<RealmMomentModel>()
+            .greaterThanOrEqualTo(RealmMomentModel::key.name, range.start.time)
+            .lessThanOrEqualTo(RealmMomentModel::key.name, range.endInclusive.time)
+            .sort(RealmMomentModel::key.name)
             .findAll()
             // Map objects to UI models
             .let { moments ->

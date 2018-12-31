@@ -1,4 +1,4 @@
-package com.artemchep.literaryclock.database
+package com.artemchep.literaryclock.data
 
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.Time

@@ -9,9 +9,9 @@ import com.artemchep.literaryclock.Batches
 import com.artemchep.literaryclock.BuildConfig
 import com.artemchep.literaryclock.CfgInternal
 import com.artemchep.literaryclock.Heart
-import com.artemchep.literaryclock.database.firestore.FirestoreBatchModel
-import com.artemchep.literaryclock.database.firestore.FirestoreQuoteModel
-import com.artemchep.literaryclock.database.models.Moment
+import com.artemchep.literaryclock.data.firestore.FirestoreBatchModel
+import com.artemchep.literaryclock.data.firestore.FirestoreQuoteModel
+import com.artemchep.literaryclock.data.realm.RealmMomentModel
 import com.artemchep.literaryclock.utils.sendLocalBroadcastIntent
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
@@ -72,7 +72,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
                 .groupBy { it.time }
                 .map {
                     // Map it to realm model
-                    Moment().apply {
+                    RealmMomentModel().apply {
                         key = it.key
                         quotes = it.value.mapTo(RealmList(), FirestoreQuoteModel::toRealmModel)
                     }

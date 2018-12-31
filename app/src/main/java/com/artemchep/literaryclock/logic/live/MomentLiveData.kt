@@ -1,10 +1,10 @@
 package com.artemchep.literaryclock.logic.live
 
-import android.content.Context
 import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.artemchep.literaryclock.database.Repo
+import com.artemchep.literaryclock.data.DatabaseState
+import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.Time
 
@@ -12,8 +12,8 @@ import com.artemchep.literaryclock.models.Time
  * @author Artem Chepurnoy
  */
 class MomentLiveData(
-    context: Context,
     private val repo: Repo,
+    databaseStateLiveData: LiveData<DatabaseState>,
     /**
      * Omits the time of the shown
      * moment.
@@ -31,20 +31,16 @@ class MomentLiveData(
 
     init {
         addSource(timeLiveData, ::processTime)
-
-        // Refresh the data when the state of the database
-        // changes.
-        val dbStateLiveData = DatabaseIsUpdatingLiveData(context)
-        addSource(dbStateLiveData) {
-            refresh()
-        }
+        addSource(databaseStateLiveData, ::processDatabaseState)
     }
+
+    private val rangeInvalid = Time(-1).let { it..it }
 
     /**
      * Current range of [moments] that we
      * hold.
      */
-    private var range: ClosedRange<Time> = Time(-1).let { it..it }
+    private var range: ClosedRange<Time> = rangeInvalid
 
     private lateinit var moments: List<MomentItem>
 
@@ -63,14 +59,13 @@ class MomentLiveData(
         }
     }
 
-    private fun refresh() {
+    @UiThread
+    private fun processDatabaseState(state: DatabaseState) {
         val time = timeLiveData.value ?: return
 
-        // Refresh the loaded
-        // moments
-        loadMoments()
-
-        // Post an update
+        // Reset the range of cache, so it reloads moments
+        // from the database.
+        range = rangeInvalid
         processTime(time)
     }
 

@@ -1,6 +1,6 @@
-package com.artemchep.literaryclock.database.firestore
+package com.artemchep.literaryclock.data.firestore
 
-import com.artemchep.literaryclock.database.models.Quote
+import com.artemchep.literaryclock.data.realm.RealmQuoteModel
 
 /**
  * @author Artem Chepurnoy
@@ -14,7 +14,7 @@ data class FirestoreQuoteModel(
     var time: Int = 0
 ) {
 
-    fun toRealmModel() = Quote()
+    fun toRealmModel() = RealmQuoteModel()
         .also { out ->
             out.key = key
             out.quote = quote

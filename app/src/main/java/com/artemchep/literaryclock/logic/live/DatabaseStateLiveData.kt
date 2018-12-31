@@ -7,12 +7,13 @@ import android.content.IntentFilter
 import androidx.lifecycle.LiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.artemchep.literaryclock.Heart
+import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.services.DatabaseUpdateWorker
 
 /**
  * @author Artem Chepurnoy
  */
-class DatabaseIsUpdatingLiveData(private val context: Context) : LiveData<Boolean>() {
+class DatabaseStateLiveData(private val context: Context) : LiveData<DatabaseState>() {
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -35,6 +36,12 @@ class DatabaseIsUpdatingLiveData(private val context: Context) : LiveData<Boolea
         super.onInactive()
     }
 
-    private fun postCurrentState(): Unit = postValue(DatabaseUpdateWorker.isRunning)
+    private fun postCurrentState(): Unit = postValue(
+        if (DatabaseUpdateWorker.isRunning) {
+            DatabaseState.UPDATING
+        } else {
+            DatabaseState.IDLE
+        }
+    )
 
 }

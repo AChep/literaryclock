@@ -17,15 +17,10 @@ class DreamViewModel(application: Application) : AndroidViewModel(application) {
 
     private val kodein by closestKodein(application)
 
-    val quoteLiveData = MediatorLiveData<QuoteItem>()
-        .apply {
-            // Redirect changes from moment live data
-            // to a mediator.
-            val timeLiveData by kodein.instance<LiveData<Time>>()
-            val momentLiveData by kodein.instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
-            addSource(momentLiveData) { moment ->
-                moment.quotes.random().let(::postValue)
-            }
-        }
+    private val currentTimeLiveData by kodein.instance<LiveData<Time>>()
+
+    private val momentLiveData by kodein.instance<LiveData<Time>, LiveData<MomentItem>>(arg = currentTimeLiveData)
+
+    val quoteLiveData by kodein.instance<LiveData<MomentItem>, LiveData<QuoteItem>>(arg = momentLiveData)
 
 }

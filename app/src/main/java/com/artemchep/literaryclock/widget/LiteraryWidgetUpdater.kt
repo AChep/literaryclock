@@ -12,7 +12,7 @@ import androidx.annotation.WorkerThread
 import com.artemchep.literaryclock.Cfg
 import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.R
-import com.artemchep.literaryclock.database.Repo
+import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.ui.activities.MainActivity

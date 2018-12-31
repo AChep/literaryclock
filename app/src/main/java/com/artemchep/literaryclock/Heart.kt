@@ -3,8 +3,10 @@ package com.artemchep.literaryclock
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.artemchep.literaryclock.database.Repo
-import com.artemchep.literaryclock.database.RepoImpl
+import com.artemchep.literaryclock.data.DatabaseState
+import com.artemchep.literaryclock.data.Repo
+import com.artemchep.literaryclock.data.RepoImpl
+import com.artemchep.literaryclock.logic.live.DatabaseStateLiveData
 import com.artemchep.literaryclock.logic.live.MomentLiveData
 import com.artemchep.literaryclock.logic.live.QuoteLiveData
 import com.artemchep.literaryclock.logic.live.TimeLiveData
@@ -44,13 +46,16 @@ class Heart : Application(), KodeinAware {
          */
         bind<LiveData<Time>>() with singleton { TimeLiveData(this@Heart) }
 
+        bind<LiveData<DatabaseState>>() with singleton { DatabaseStateLiveData(this@Heart) }
+
         /*
          * Provides a moment live data that actually represents
          * the moment of a current time.
          */
-        bind<MediatorLiveData<MomentItem>>() with multiton { time: LiveData<Time> ->
+        bind<LiveData<MomentItem>>() with multiton { time: LiveData<Time> ->
             val repo by kodein.instance<Repo>()
-            return@multiton MomentLiveData(this@Heart, repo, time)
+            val db by kodein.instance<LiveData<DatabaseState>>()
+            return@multiton MomentLiveData(repo, db, time)
         }
 
         bind<LiveData<QuoteItem>>() with multiton { moment: LiveData<MomentItem> ->

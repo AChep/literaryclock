@@ -2,12 +2,10 @@ package com.artemchep.literaryclock.ui.fragments
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
-import android.app.TimePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +27,13 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.ui.adapters.QuoteAdapter
 import com.artemchep.literaryclock.ui.drawables.AnalogClockDrawable
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
+import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.calculateHourHandRotation
 import com.artemchep.literaryclock.utils.calculateMinuteHandRotation
+import com.artemchep.literaryclock.utils.createTimeFormat
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
+import com.artemchep.literaryclock.utils.formatTime
 import kotlinx.android.synthetic.main.fragment_main.*
-import java.util.*
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -61,9 +61,7 @@ class MainFragment : Fragment(),
     private var analogClockAnimator: ValueAnimator? = null
 
     /** The format of a digital clock used system-wide */
-    private val timeFormat by lazy {
-        DateFormat.getTimeFormat(context!!)
-    }
+    private val timeFormat by lazy { createTimeFormat(context!!) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,15 +107,7 @@ class MainFragment : Fragment(),
             }
         })
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
-            val callback = TimePickerDialog.OnTimeSetListener { _, hours, minutes ->
-                val new = hours * 60 + minutes
-                mainViewModel.postTime(Time(new))
-            }
-
-            val h = time.time / 60
-            val m = time.time % 60
-            TimePickerDialog(context, callback, h, m, DateFormat.is24HourFormat(context!!))
-                .show()
+            context!!.showTimePickerDialog(time, mainViewModel::postTime)
         })
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
@@ -144,12 +134,7 @@ class MainFragment : Fragment(),
     }
 
     private fun showDigitalTime(time: Time) {
-        digitalClock.text = Calendar.getInstance().apply {
-            val h = time.time / 60
-            val m = time.time % 60
-            set(Calendar.HOUR_OF_DAY, h)
-            set(Calendar.MINUTE, m)
-        }.time.let(timeFormat::format)
+        digitalClock.text = formatTime(time, timeFormat)
     }
 
     private fun showAnalogTime(time: Time) {
@@ -238,9 +223,9 @@ class MainFragment : Fragment(),
     private fun showMorePopUp(view: View) {
         val popup = PopupMenu(context!!, view)
         val items = arrayOf(
-//            getString(R.string.donate) to {
-//                navigate(MainFragmentDirections.actionMainFragmentToDonateFragment())
-//            },
+            getString(R.string.donate) to {
+                navigate(MainFragmentDirections.actionMainFragmentToDonateQuoteFragment())
+            },
             getString(R.string.settings) to {
                 navigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
             },

@@ -1,13 +1,14 @@
 package com.artemchep.literaryclock.ui.activities
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.messageLiveEvent
+import com.artemchep.literaryclock.models.MessageType
 import com.artemchep.literaryclock.startUpdateDatabaseJob
+import es.dmoral.toasty.Toasty
 
 /**
  * @author Artem Chepurnoy
@@ -23,7 +24,11 @@ class MainActivity : AppCompatActivity() {
         messageLiveEvent.observe(this, Observer {
             val context = this@MainActivity
             val text = it.text.invoke(context)
-            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+            when (it.type) {
+                MessageType.SUCCESS -> Toasty.success(context, text)
+                MessageType.NORMAL -> Toasty.normal(context, text)
+                MessageType.ERROR -> Toasty.error(context, text)
+            }
         })
 
         // Check the database for updates

@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_donateQuoteFragment"
+            app:destination="@id/donateQuoteFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -28,7 +31,11 @@
     <fragment
         android:id="@+id/donateFragment"
         android:name="com.artemchep.literaryclock.ui.fragments.DonateFragment"
-        android:label="DonateFragment" />
+        android:label="DonateFragment">
+        <action
+            android:id="@+id/action_donateFragment_to_donateQuoteFragment"
+            app:destination="@id/donateQuoteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/quoteFragment"
         android:name="com.artemchep.literaryclock.ui.fragments.QuoteFragment"
@@ -41,4 +48,8 @@
         android:id="@+id/settingsFragment"
         android:name="com.artemchep.literaryclock.ui.fragments.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/donateQuoteFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.DonateQuoteFragment"
+        android:label="DonateQuoteFragment" />
 </navigation>

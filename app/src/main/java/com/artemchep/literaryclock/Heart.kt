@@ -2,7 +2,6 @@ package com.artemchep.literaryclock
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.data.RepoImpl
@@ -18,6 +17,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.*
 import org.solovyev.android.checkout.Billing
+import java.text.DateFormat
 
 /**
  * @author Artem Chepurnoy
@@ -61,6 +61,8 @@ class Heart : Application(), KodeinAware {
         bind<LiveData<QuoteItem>>() with multiton { moment: LiveData<MomentItem> ->
             return@multiton QuoteLiveData(moment)
         }
+
+        bind<DateFormat>() with provider { android.text.format.DateFormat.getTimeFormat(this@Heart) }
     }
 
     val billing = Billing(this, object : Billing.DefaultConfiguration() {

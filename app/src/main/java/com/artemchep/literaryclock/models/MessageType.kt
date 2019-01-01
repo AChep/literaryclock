@@ -5,5 +5,6 @@ package com.artemchep.literaryclock.models
  */
 enum class MessageType {
     NORMAL,
+    SUCCESS,
     ERROR
 }

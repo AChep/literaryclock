@@ -84,6 +84,13 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
+    val grendergToasty = Dependency(
+        "Toasty",
+        GRENDERG_TOASTY_VERSION,
+        "com.github.GrenderG:Toasty:$GRENDERG_TOASTY_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+
     val androidxAppCompat = Dependency(
         "AndroidX AppCompat",
         ANDROIDX_APPCOMPAT_VERSION,
@@ -175,6 +182,7 @@ fun createDependencies(module: Module): List<Dependency> {
             hdodenhofCircleImageView,
             theblueallianceSpectrum,
             zhanghaiMaterialProgressBar,
+            grendergToasty,
             kodeinGenericJvm,
             kodeinAndroid,
             androidxAppCompat,

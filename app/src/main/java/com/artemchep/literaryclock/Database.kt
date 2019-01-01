@@ -49,3 +49,9 @@ object Batches : CollectionSegment("/quotes") {
     }
 
 }
+
+/**
+ * @author Artem Chepurnoy
+ */
+object Suggestions : CollectionSegment("/suggestions") {
+}

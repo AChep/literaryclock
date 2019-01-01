@@ -23,4 +23,6 @@
     <string name="notification_widget_update_service_text">Long click the notification, open app info and turn off the notifications to hide this notification.</string>
     <string name="notification_widget_update_service_channel">Update widget service notification</string>
 
+    <string name="error_sync_failed">Failed to sync the database of quotes</string>
+
 </resources>

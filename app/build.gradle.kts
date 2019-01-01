@@ -30,6 +30,11 @@ if (keystorePropertiesFile.exists()) {
 android {
     compileSdkVersion(Android.targetSdkVersion)
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         minSdkVersion(Android.minSdkVersion)
         targetSdkVersion(Android.targetSdkVersion)

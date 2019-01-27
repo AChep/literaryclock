@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:fontFamily="@font/robotoslab_regular"
+        android:lineSpacingMultiplier="0.9"
         android:shadowColor="#8000"
         android:shadowDy="4"
         android:shadowRadius="8"

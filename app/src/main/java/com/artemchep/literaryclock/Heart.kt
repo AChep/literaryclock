@@ -2,6 +2,7 @@ package com.artemchep.literaryclock
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import com.artemchep.config.Config
 import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.data.RepoImpl
@@ -12,7 +13,11 @@ import com.artemchep.literaryclock.logic.live.TimeLiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
+import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
 import io.realm.Realm
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.*
@@ -22,7 +27,7 @@ import java.text.DateFormat
 /**
  * @author Artem Chepurnoy
  */
-class Heart : Application(), KodeinAware {
+class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String> {
 
     companion object {
         const val UID_WIDGET_UPDATE_JOB = "job::widget_update"
@@ -77,11 +82,23 @@ class Heart : Application(), KodeinAware {
         super.onCreate()
         Realm.init(this)
         Cfg.init(this)
+        Cfg.observe(this)
         CfgInternal.init(this)
 
         // Check the database for updates
         // every day.
         startUpdateDatabaseJob(UID_DATABASE_UPDATE_JOB)
+    }
+
+    override fun onConfigChanged(keys: Set<String>) {
+        if (Cfg.KEY_WIDGET_TEXT_COLOR in keys ||
+            Cfg.KEY_WIDGET_UPDATE_SERVICE_ENABLED in keys
+        ) {
+            GlobalScope.launch(Dispatchers.Default) {
+                val context = this@Heart
+                LiteraryWidgetUpdater.updateLiteraryWidget(context)
+            }
+        }
     }
 
 }

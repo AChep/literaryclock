@@ -91,6 +91,13 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
+    val yarolegovichDiscreteScrollView = Dependency(
+        "Discrete ScrollView",
+        YAROLEGOVICH_DISCRETESCROLLVIEW_VERSION,
+        "com.yarolegovich:discrete-scrollview:$YAROLEGOVICH_DISCRETESCROLLVIEW_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+
     val androidxAppCompat = Dependency(
         "AndroidX AppCompat",
         ANDROIDX_APPCOMPAT_VERSION,
@@ -183,6 +190,7 @@ fun createDependencies(module: Module): List<Dependency> {
             theblueallianceSpectrum,
             zhanghaiMaterialProgressBar,
             grendergToasty,
+            yarolegovichDiscreteScrollView,
             kodeinGenericJvm,
             kodeinAndroid,
             androidxAppCompat,

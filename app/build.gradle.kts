@@ -12,7 +12,7 @@ plugins {
     id("realm-android")
 }
 
-val appVersionName = "0.0.1"
+val appVersionName = "0.0.2"
 val appDependencies = createDependencies(Module.APP)
 
 val keystoreProperties = Properties()
@@ -39,7 +39,7 @@ android {
         minSdkVersion(Android.minSdkVersion)
         targetSdkVersion(Android.targetSdkVersion)
 
-        versionCode = 1
+        versionCode = 2
         versionName = appVersionName
 
         setProperty("archivesBaseName", "literaryclock")

@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +18,7 @@ import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.ui.adapters.QuoteAdapter
+import com.artemchep.literaryclock.ui.setProgressBarShown
 import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.createTimeFormat
 import com.artemchep.literaryclock.utils.formatTime
@@ -117,23 +117,8 @@ class DonateQuoteFragment : Fragment(), View.OnClickListener {
         timeTextView.text = formatTime(time, timeFormat)
     }
 
-    private fun showDatabaseState(state: DatabaseState) {
-        progressBar.isVisible = true
-        progressBar.animate().cancel() // cancel previous animation
-        progressBar
-            .animate()
-            .apply {
-                when (state) {
-                    DatabaseState.UPDATING -> scaleY(1f).scaleX(1f).alpha(1f)
-                    DatabaseState.IDLE -> scaleY(0f)
-                        .scaleY(0f)
-                        .alpha(0f)
-                        .withEndAction {
-                            progressBar.isVisible = false
-                        }
-                }
-            }
-    }
+    private fun showDatabaseState(state: DatabaseState) =
+        progressBar.setProgressBarShown(state.isWorking)
 
     override fun onClick(view: View) {
         when (view.id) {

@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,6 +26,7 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.ui.adapters.QuoteAdapter
 import com.artemchep.literaryclock.ui.drawables.AnalogClockDrawable
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
+import com.artemchep.literaryclock.ui.setProgressBarShown
 import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.calculateHourHandRotation
 import com.artemchep.literaryclock.utils.calculateMinuteHandRotation
@@ -189,22 +189,8 @@ class MainFragment : Fragment(),
         }
     }
 
-    private fun showDatabaseState(state: DatabaseState) {
-        progressBar.isVisible = true
-        progressBar.animate().cancel() // cancel previous animation
-        progressBar
-            .animate()
-            .apply {
-                when (state) {
-                    DatabaseState.UPDATING -> scaleY(1f).alpha(1f)
-                    DatabaseState.IDLE -> scaleY(0f)
-                        .alpha(0f)
-                        .withEndAction {
-                            progressBar.isVisible = false
-                        }
-                }
-            }
-    }
+    private fun showDatabaseState(state: DatabaseState) =
+        progressBar.setProgressBarShown(state.isWorking)
 
     override fun onClick(view: View) {
         when (view.id) {

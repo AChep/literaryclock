@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.artemchep.config.Config
 import com.artemchep.literaryclock.*
 import com.artemchep.literaryclock.models.Time
+import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -44,7 +45,7 @@ class WidgetUpdateService : Service(), KodeinAware, Config.OnConfigChangedListen
     private val timeObserver = Observer<Time> {
         val powerManager = getSystemService<PowerManager>()!!
         if (powerManager.isInteractive) executor.execute {
-            if (BuildConfig.DEBUG) {
+            ifDebug {
                 Log.d(TAG, "Updating the widget...")
             }
 

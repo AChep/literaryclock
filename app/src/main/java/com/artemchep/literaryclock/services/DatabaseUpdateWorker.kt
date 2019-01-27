@@ -11,6 +11,7 @@ import com.artemchep.literaryclock.data.firestore.FirestoreQuoteModel
 import com.artemchep.literaryclock.data.realm.RealmMomentModel
 import com.artemchep.literaryclock.models.Message
 import com.artemchep.literaryclock.models.MessageType
+import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.utils.sendLocalBroadcastIntent
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
@@ -35,7 +36,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
     }
 
     override fun doWork(): Result {
-        if (BuildConfig.DEBUG) {
+        ifDebug {
             Log.d(TAG, "Updating the literary clock database...")
         }
 

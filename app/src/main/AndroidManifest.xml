@@ -31,13 +31,7 @@
                 android:resource="@xml/widget" />
         </receiver>
 
-        <receiver
-            android:name=".receivers.WidgetUpdateReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.artemchep.literaryclock.UPDATE_WIDGET" />
-            </intent-filter>
-        </receiver>
+        <receiver android:name=".receivers.WidgetUpdateReceiver" />
 
         <service android:name=".services.WidgetUpdateService" />
         <service

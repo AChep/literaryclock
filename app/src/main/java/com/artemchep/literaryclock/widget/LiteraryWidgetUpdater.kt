@@ -15,6 +15,7 @@ import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
+import com.artemchep.literaryclock.receivers.WidgetUpdateReceiver
 import com.artemchep.literaryclock.ui.activities.MainActivity
 import com.artemchep.literaryclock.utils.currentTime
 import org.kodein.di.android.closestKodein
@@ -96,7 +97,7 @@ object LiteraryWidgetUpdater {
         if (Cfg.isWidgetUpdateServiceEnabled) {
             //
         } else {
-            val intent = Intent(Heart.ACTION_UPDATE_WIDGET)
+            val intent = Intent(context, WidgetUpdateReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
                 Heart.PI_UPDATE_WIDGET,

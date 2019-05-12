@@ -17,7 +17,6 @@ class AboutViewModel(application: Application) : AndroidViewModel(application) {
         const val URL_AUTHOR_INSTAGRAM = "https://www.instagram.com/artemchep"
         const val URL_AUTHOR_TWITTER = "https://twitter.com/ArtemChep"
         const val URL_AUTHOR_LINKEDIN = "https://www.linkedin.com/in/artemchep"
-        const val URL_AUTHOR_GOOGLEPLUS = "https://plus.google.com/102696863054832206920"
         const val URL_APP_GITHUB = "https://github.com/AChep/literaryclock"
     }
 
@@ -32,9 +31,6 @@ class AboutViewModel(application: Application) : AndroidViewModel(application) {
 
     @UiThread
     fun openInstagram() = openUrl(URL_AUTHOR_INSTAGRAM)
-
-    @UiThread
-    fun openGooglePlus() = openUrl(URL_AUTHOR_GOOGLEPLUS)
 
     @UiThread
     fun openLinkedIn() = openUrl(URL_AUTHOR_LINKEDIN)

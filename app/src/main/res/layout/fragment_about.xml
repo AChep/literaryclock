@@ -175,19 +175,6 @@
                 app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
 
             <ImageButton
-                android:id="@+id/googlePlusBtn"
-                style="?borderlessButtonStyle"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_google_plus"
-                android:tint="#dd4b39"
-                app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
-                app:layout_constraintEnd_toStartOf="@id/linkedInBtn"
-                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
-
-            <ImageButton
                 android:id="@+id/linkedInBtn"
                 style="?borderlessButtonStyle"
                 android:layout_width="36dp"

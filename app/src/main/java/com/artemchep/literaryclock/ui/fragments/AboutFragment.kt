@@ -41,7 +41,6 @@ class AboutFragment : Fragment(), View.OnClickListener, OnItemClickListener<Depe
         super.onViewCreated(view, savedInstanceState)
         navUpBtn.setOnClickListener(this)
         appGithubBtn.setOnClickListener(this)
-        googlePlusBtn.setOnClickListener(this)
         linkedInBtn.setOnClickListener(this)
         instagramBtn.setOnClickListener(this)
         twitterBtn.setOnClickListener(this)
@@ -93,7 +92,6 @@ class AboutFragment : Fragment(), View.OnClickListener, OnItemClickListener<Depe
             R.id.twitterBtn -> aboutViewModel.openTwitter()
             R.id.instagramBtn -> aboutViewModel.openInstagram()
             R.id.linkedInBtn -> aboutViewModel.openLinkedIn()
-            R.id.googlePlusBtn -> aboutViewModel.openGooglePlus()
         }
     }
 

@@ -209,6 +209,9 @@ class MainFragment : Fragment(),
     private fun showMorePopUp(view: View) {
         val popup = PopupMenu(context!!, view)
         val items = arrayOf(
+            getString(R.string.donate_iap) to {
+                navigate(MainFragmentDirections.actionMainFragmentToDonateFragment())
+            },
             getString(R.string.donate) to {
                 navigate(MainFragmentDirections.actionMainFragmentToDonateQuoteFragment())
             },

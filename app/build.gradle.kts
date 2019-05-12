@@ -75,8 +75,10 @@ android {
         // Convert dependencies to java code, to
         // show them later in the app.
         val (bcFieldType, bcFieldValue) = appDependencies.toJavaField()
+        val licenseKeyValue = """"${keystoreProperties.getProperty("license_key") ?: "debug"}""""
         forEach { buildType ->
             buildType.buildConfigField(bcFieldType, "DEPENDENCIES", bcFieldValue)
+            buildType.buildConfigField("String", "LICENSE_KEY", licenseKeyValue)
         }
     }
 

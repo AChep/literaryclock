@@ -4,6 +4,8 @@
     <string name="app_share">Share Literary Clock</string>
 
     <string name="send">Send</string>
+    <string name="error">Oh, snap!</string>
+    <string name="purchased">Purchased</string>
 
     <string name="about">About</string>
     <string name="about_app_description">Literary Clock represents current time in a form of literature quotes. It serves as an example of material and architecture design principles.</string>
@@ -17,6 +19,7 @@
     <string name="donate_quote_disclaimer">Note that it takes a lot of time to accept/decline all of the suggestions.</string>
     <string name="donate_quote__sent">Your suggested quote has been sent</string>
     <string name="donate_quote__failed">Failed to send a quote</string>
+    <string name="donate_iap">Donate to me</string>
 
     <string name="settings">Settings</string>
     <string name="settings_widget">Widget</string>

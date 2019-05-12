@@ -98,6 +98,13 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
+    val mikepenzFastAdapter = Dependency(
+        "Fast Adapter",
+        MIKEPENZ_FASTADAPTER_VERSION,
+        "com.mikepenz:fastadapter:$MIKEPENZ_FASTADAPTER_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+
     val androidxAppCompat = Dependency(
         "AndroidX AppCompat",
         ANDROIDX_APPCOMPAT_VERSION,
@@ -191,6 +198,7 @@ fun createDependencies(module: Module): List<Dependency> {
             zhanghaiMaterialProgressBar,
             grendergToasty,
             yarolegovichDiscreteScrollView,
+            mikepenzFastAdapter,
             kodeinGenericJvm,
             kodeinAndroid,
             androidxAppCompat,

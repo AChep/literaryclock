@@ -1,9 +1,9 @@
 package com.artemchep.literaryclock
 
-const val SKU_10 = "coffee"
-const val SKU_20 = "zed"
-const val SKU_30 = "boo"
-const val SKU_40 = "myah"
-const val SKU_50 = "yeah"
+const val SKU_1 = "donation_1"
+const val SKU_2 = "donation_2"
+const val SKU_5 = "donation_5"
+const val SKU_10 = "donation_10"
+const val SKU_20 = "donation_20"
 
-fun listOfSkus() = listOf(SKU_10, SKU_20, SKU_30, SKU_40, SKU_50)
+fun listOfSkus() = listOf(SKU_1, SKU_2, SKU_5, SKU_10, SKU_20)

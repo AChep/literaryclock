@@ -73,7 +73,7 @@ class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String>
     val billing = Billing(this, object : Billing.DefaultConfiguration() {
 
         override fun getPublicKey(): String {
-            return "Your public key, don't forget about encryption"
+            return BuildConfig.LICENSE_KEY
         }
 
     })

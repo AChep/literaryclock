@@ -16,7 +16,7 @@ import org.solovyev.android.checkout.UiCheckout
  */
 class FlexCheckout(tag: Any, billing: Billing) : UiCheckout(tag, billing), IntentStarter {
 
-    private var intentStarter: IntentStarter? = null
+    var intentStarter: IntentStarter? = null
 
     /**
      * You should only call [UiCheckout] specific methods from

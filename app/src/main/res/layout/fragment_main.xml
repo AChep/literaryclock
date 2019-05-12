@@ -63,7 +63,7 @@
         android:letterSpacing="-0.03"
         android:text="10:24"
         android:textColor="?android:textColorPrimaryInverse"
-        android:textSize="62sp"
+        android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="@id/analogClock"
         app:layout_constraintStart_toEndOf="@id/toolbarBgTower"
         app:layout_constraintTop_toTopOf="@id/analogClock" />

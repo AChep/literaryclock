@@ -5,7 +5,7 @@
     <Transition
         app:constraintSetEnd="@id/collapsed"
         app:constraintSetStart="@id/expanded"
-        app:interpolator="easeInOut">
+        app:motionInterpolator="easeInOut">
 
         <OnSwipe
             app:dragDirection="dragUp"
@@ -15,14 +15,14 @@
         <KeyFrameSet>
             <KeyAttribute
                 app:framePosition="0"
-                app:target="@id/appName">
+                app:motionTarget="@id/appName">
                 <CustomAttribute
                     app:attributeName="alpha"
                     app:customFloatValue="1" />
             </KeyAttribute>
             <KeyAttribute
                 app:framePosition="50"
-                app:target="@id/appName">
+                app:motionTarget="@id/appName">
                 <CustomAttribute
                     app:attributeName="alpha"
                     app:customFloatValue="0" />

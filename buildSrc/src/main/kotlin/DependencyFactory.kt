@@ -138,25 +138,25 @@ fun createDependencies(module: Module): List<Dependency> {
     val androidArchNavigationFragment = Dependency(
         "Android Arch Navigation Fragment",
         ANDROIDARCH_NAVIGATION_VERSION,
-        "android.arch.navigation:navigation-fragment:$ANDROIDARCH_NAVIGATION_VERSION",
+        "androidx.navigation:navigation-fragment:$ANDROIDARCH_NAVIGATION_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val androidArchNavigationUi = Dependency(
         "Android Arch Navigation UI",
         ANDROIDARCH_NAVIGATION_VERSION,
-        "android.arch.navigation:navigation-ui:$ANDROIDARCH_NAVIGATION_VERSION",
+        "androidx.navigation:navigation-ui:$ANDROIDARCH_NAVIGATION_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val androidArchNavigationFragmentKtx = Dependency(
         "Android Arch Navigation Fragment KTX",
         ANDROIDARCH_NAVIGATION_VERSION,
-        "android.arch.navigation:navigation-fragment-ktx:$ANDROIDARCH_NAVIGATION_VERSION",
+        "androidx.navigation:navigation-fragment-ktx:$ANDROIDARCH_NAVIGATION_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val androidArchNavigationUiKtx = Dependency(
         "Android Arch Navigation UI KTX",
         ANDROIDARCH_NAVIGATION_VERSION,
-        "android.arch.navigation:navigation-ui-ktx:$ANDROIDARCH_NAVIGATION_VERSION",
+        "androidx.navigation:navigation-ui-ktx:$ANDROIDARCH_NAVIGATION_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val androidArchWork = Dependency(

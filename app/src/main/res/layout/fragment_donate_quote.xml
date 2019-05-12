@@ -26,7 +26,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/donate_quote"
-        android:textColor="?android:textColorPrimary"
+        android:textColor="@android:color/white"
         android:textSize="36sp"
         android:theme="@style/Theme.MaterialComponents"
         app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
@@ -203,10 +203,10 @@
                 android:paddingEnd="32dp"
                 android:text="@string/send"
                 android:textAllCaps="false"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 app:cornerRadius="28dp"
                 app:icon="@drawable/ic_send"
-                app:iconTint="@android:color/black"
+                app:iconTint="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/quoteInfoInputLayout" />
 

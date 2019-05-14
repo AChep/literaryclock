@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
-import com.artemchep.config.Config
+import androidx.lifecycle.ViewModelProviders
 import com.artemchep.literaryclock.*
+import com.artemchep.literaryclock.logic.viewmodels.ThemeViewModel
 import com.artemchep.literaryclock.models.MessageType
 import es.dmoral.toasty.Toasty
 
@@ -14,21 +15,15 @@ import es.dmoral.toasty.Toasty
  */
 class MainActivity : AppCompatActivity() {
 
-    private val cfgObserver = object : Config.OnConfigChangedListener<String> {
-        override fun onConfigChanged(keys: Set<String>) {
-            if (Cfg.KEY_APP_THEME in keys) {
-                delegate.localNightMode = getLocalNightModeFromCfg()
-            }
-        }
-    }
+    private lateinit var themeViewModel: ThemeViewModel
 
     override fun getDelegate(): AppCompatDelegate =
         super.getDelegate().apply {
-            localNightMode = getLocalNightModeFromCfg()
+            localNightMode = getLocalNightMode(Cfg.appTheme)
         }
 
-    private fun getLocalNightModeFromCfg() =
-        when (Cfg.appTheme) {
+    private fun getLocalNightMode(theme: String) =
+        when (theme) {
             Cfg.APP_THEME_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
             Cfg.APP_THEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
             else -> AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
@@ -54,12 +49,14 @@ class MainActivity : AppCompatActivity() {
         // every day.
         startUpdateDatabaseJob(Heart.UID_DATABASE_UPDATE_JOB)
 
-        Cfg.observe(cfgObserver)
+        themeViewModel = ViewModelProviders.of(this).get(ThemeViewModel::class.java)
+        themeViewModel.setup()
     }
 
-    override fun onDestroy() {
-        Cfg.removeObserver(cfgObserver)
-        super.onDestroy()
+    private fun ThemeViewModel.setup() {
+        themeLiveData.observe(this@MainActivity, Observer { theme ->
+            delegate.localNightMode = getLocalNightMode(Cfg.appTheme)
+        })
     }
 
 }

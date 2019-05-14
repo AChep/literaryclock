@@ -65,6 +65,33 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/themeLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/frame_margin_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.1"
+                android:text="@string/settings_theme"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/themeSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/frame_margin_horizontal__card"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/frame_margin_horizontal__card"
+                android:minHeight="56dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/themeLabel" />
+
+            <TextView
                 android:id="@+id/widgetLabelTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -77,12 +104,13 @@
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/themeSpinner" />
 
             <TextView
                 android:id="@+id/altWidgetUpdaterTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:background="?selectableItemBackground"
                 android:paddingStart="@dimen/frame_margin_horizontal"
                 android:paddingTop="12dp"

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.artemchep.config.Config
@@ -27,6 +29,47 @@ class SettingsFragment : Fragment(), View.OnClickListener, Config.OnConfigChange
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        themeSpinner.apply {
+            val themes = arrayOf(
+                getString(R.string.settings_theme_auto) to Cfg.APP_THEME_AUTO,
+                getString(R.string.settings_theme_dark) to Cfg.APP_THEME_DARK,
+                getString(R.string.settings_theme_light) to Cfg.APP_THEME_LIGHT
+            )
+
+            // Create adapter
+            val adapter = ArrayAdapter<String>(
+                context!!,
+                android.R.layout.simple_spinner_item,
+                themes.map { it.first }
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+            // Setup spinner
+            val selection = themes
+                .indexOfFirst { it.second == Cfg.appTheme }
+                .takeUnless { it == -1 }
+                // resort to a default theme
+                ?: themes.indexOfFirst { it.second == Cfg.APP_THEME_DEFAULT }
+            setAdapter(adapter)
+            setSelection(selection)
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Apply the selection
+                    Cfg.edit(context!!) {
+                        Cfg.appTheme = themes[position].second
+                    }
+                }
+            }
+        }
 
         navUpBtn.setOnClickListener(this)
         setupWidgetUpdaterPreference()

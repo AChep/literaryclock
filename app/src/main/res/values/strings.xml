@@ -25,6 +25,10 @@
     <string name="settings_widget">Widget</string>
     <string name="settings_widget_alt_service">Run a background service to update the home-screen widget every one minute</string>
     <string name="settings_widget_color">Primary color</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_auto">Auto</string>
 
     <string name="quote">Quote</string>
     <string name="quote_share">Share a quote</string>

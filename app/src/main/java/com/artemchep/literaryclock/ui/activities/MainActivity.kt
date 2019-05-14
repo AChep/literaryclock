@@ -2,18 +2,37 @@ package com.artemchep.literaryclock.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
-import com.artemchep.literaryclock.Heart
-import com.artemchep.literaryclock.R
-import com.artemchep.literaryclock.messageLiveEvent
+import com.artemchep.config.Config
+import com.artemchep.literaryclock.*
 import com.artemchep.literaryclock.models.MessageType
-import com.artemchep.literaryclock.startUpdateDatabaseJob
 import es.dmoral.toasty.Toasty
 
 /**
  * @author Artem Chepurnoy
  */
 class MainActivity : AppCompatActivity() {
+
+    private val cfgObserver = object : Config.OnConfigChangedListener<String> {
+        override fun onConfigChanged(keys: Set<String>) {
+            if (Cfg.KEY_APP_THEME in keys) {
+                delegate.localNightMode = getLocalNightModeFromCfg()
+            }
+        }
+    }
+
+    override fun getDelegate(): AppCompatDelegate =
+        super.getDelegate().apply {
+            localNightMode = getLocalNightModeFromCfg()
+        }
+
+    private fun getLocalNightModeFromCfg() =
+        when (Cfg.appTheme) {
+            Cfg.APP_THEME_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            Cfg.APP_THEME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +53,13 @@ class MainActivity : AppCompatActivity() {
         // Check the database for updates
         // every day.
         startUpdateDatabaseJob(Heart.UID_DATABASE_UPDATE_JOB)
+
+        Cfg.observe(cfgObserver)
+    }
+
+    override fun onDestroy() {
+        Cfg.removeObserver(cfgObserver)
+        super.onDestroy()
     }
 
 }

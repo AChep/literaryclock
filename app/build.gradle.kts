@@ -12,8 +12,8 @@ plugins {
     id("realm-android")
 }
 
-val appVersionName = "0.1.0"
-val appVersionCode = 4
+val appVersionName = "0.2.0"
+val appVersionCode = 5
 val appDependencies = createDependencies(Module.APP)
 
 val keystoreProperties = Properties()

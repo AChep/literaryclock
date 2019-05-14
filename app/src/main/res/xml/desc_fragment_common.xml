@@ -34,7 +34,7 @@
     <ConstraintSet android:id="@+id/expanded">
         <Constraint
             android:id="@id/titleTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
             app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
@@ -49,7 +49,7 @@
     <ConstraintSet android:id="@+id/collapsed">
         <Constraint
             android:id="@id/titleTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/barrier"
             app:layout_constraintEnd_toEndOf="parent"

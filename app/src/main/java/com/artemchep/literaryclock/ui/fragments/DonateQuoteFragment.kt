@@ -64,7 +64,10 @@ class DonateQuoteFragment : Fragment(), View.OnClickListener {
         })
 
         quotesRecyclerView.layoutManager = LinearLayoutManager(context!!)
-        quotesRecyclerView.adapter = QuoteAdapter()
+        quotesRecyclerView.adapter = QuoteAdapter(
+            isClickable = false,
+            isShareBtnVisible = false
+        )
             .also(::adapter::set)
 
         donateQuoteViewModel = ViewModelProviders.of(this).get(DonateQuoteViewModel::class.java)

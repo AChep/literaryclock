@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
@@ -11,12 +12,15 @@ import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
 /**
  * @author Artem Chepurnoy
  */
-class QuoteAdapter : AdapterBase<QuoteItem, QuoteAdapter.ViewHolder>() {
+class QuoteAdapter(
+    private val isClickable: Boolean = true,
+    private val isShareBtnVisible: Boolean = true
+) : AdapterBase<QuoteItem, QuoteAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_quote, parent, false)
-        return ViewHolder(view, this)
+        return ViewHolder(view, if (isClickable) this else null, isShareBtnVisible)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,7 +37,8 @@ class QuoteAdapter : AdapterBase<QuoteItem, QuoteAdapter.ViewHolder>() {
      */
     class ViewHolder(
         view: View,
-        listener: OnItemClickListener<Int>
+        listener: OnItemClickListener<Int>?,
+        isShareBtnVisible: Boolean
     ) : AdapterBase.ViewHolderBase(view, listener) {
         val quoteTextView: TextView = view.findViewById(R.id.quoteTextView)
         val titleTextView: TextView = view.findViewById(R.id.titleTextView)
@@ -41,8 +46,14 @@ class QuoteAdapter : AdapterBase<QuoteItem, QuoteAdapter.ViewHolder>() {
         val shareBtn: View = view.findViewById(R.id.shareBtn)
 
         init {
-            view.setOnClickListener(this)
-            shareBtn.setOnClickListener(this)
+            // Bind listener only if we want to observe
+            // on item click events.
+            if (listener != null) {
+                view.setOnClickListener(this)
+                shareBtn.setOnClickListener(this)
+            }
+
+            shareBtn.isVisible = isShareBtnVisible
         }
     }
 

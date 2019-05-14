@@ -42,6 +42,7 @@
         app:layout_constraintEnd_toStartOf="@id/shareBtn"
         app:layout_constraintStart_toEndOf="@id/quoteDividerView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="16dp"
         tools:text="At one minute to twelve, she was sure of it, and cursed herself for even thinking for a moment the cat-creature would help her escape." />
 
     <TextView
@@ -58,6 +59,7 @@
         app:layout_constraintEnd_toStartOf="@id/shareBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quoteTextView"
+        app:layout_goneMarginEnd="16dp"
         tools:text="Clariel" />
 
     <TextView
@@ -74,6 +76,7 @@
         app:layout_constraintEnd_toStartOf="@id/shareBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_goneMarginEnd="16dp"
         tools:text="Garth Nix" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

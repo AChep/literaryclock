@@ -40,13 +40,13 @@ abstract class AdapterBase<M, H : RecyclerView.ViewHolder>(
      */
     open class ViewHolderBase(
         itemView: View,
-        private val listener: OnItemClickListener<Int>
+        private val listener: OnItemClickListener<Int>?
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         override fun onClick(view: View) {
             val position = adapterPosition
             if (position >= 0) {
-                listener.onItemClick(view, position, position)
+                listener?.onItemClick(view, position, position)
             }
         }
 

@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.artemchep.literaryclock.R
 import kotlinx.android.synthetic.main.fragment_quote.*
 
 /**
  * @author Artem Chepurnoy
  */
-class QuoteFragment : Fragment() {
+class QuoteFragment : BaseFragment() {
 
     val args by lazy { QuoteFragmentArgs.fromBundle(arguments!!) }
 

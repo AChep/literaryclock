@@ -3,22 +3,25 @@ package com.artemchep.literaryclock.logic.viewmodels
 import android.app.Application
 import android.content.Intent
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.artemchep.literaryclock.analytics.AnalyticsDonate
 import com.artemchep.literaryclock.checkout.FlexCheckout
 import com.artemchep.literaryclock.logic.live.CheckoutLiveData
 import com.artemchep.literaryclock.logic.live.ProductLiveData
+import org.kodein.di.generic.instance
 import org.solovyev.android.checkout.*
 
 /**
  * @author Artem Chepurnoy
  */
-class DonateViewModel(application: Application) : AndroidViewModel(application) {
+class DonateViewModel(application: Application) : BaseViewModel(application) {
 
     companion object {
         const val TAG = "DonateViewModel"
     }
+
+    private val analytics by instance<AnalyticsDonate>()
 
     private val requestListener = object : RequestListener<Purchase> {
         override fun onSuccess(result: Purchase) {
@@ -83,6 +86,8 @@ class DonateViewModel(application: Application) : AndroidViewModel(application) 
                 requests.purchase(sku, null, checkout.purchaseFlow)
             }
         })
+
+        analytics.logDonateSkuOpen(sku)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.artemchep.literaryclock.ui.activities
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -9,11 +10,20 @@ import com.artemchep.literaryclock.*
 import com.artemchep.literaryclock.logic.viewmodels.ThemeViewModel
 import com.artemchep.literaryclock.models.MessageType
 import es.dmoral.toasty.Toasty
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.KodeinContext
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.kcontext
 
 /**
  * @author Artem Chepurnoy
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), KodeinAware {
+
+    override val kodein: Kodein by closestKodein()
+
+    override val kodeinContext: KodeinContext<Context> = kcontext(this)
 
     private lateinit var themeViewModel: ThemeViewModel
 

@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
@@ -40,7 +39,7 @@ import kotlin.math.sin
 /**
  * @author Artem Chepurnoy
  */
-class MainFragment : Fragment(),
+class MainFragment : BaseFragment(),
     View.OnClickListener,
     OnItemClickListener<QuoteItem> {
 

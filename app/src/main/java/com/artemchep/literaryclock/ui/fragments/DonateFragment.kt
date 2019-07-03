@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -24,7 +23,7 @@ import org.solovyev.android.checkout.Inventory
 /**
  * @author Artem Chepurnoy
  */
-class DonateFragment : Fragment(), View.OnClickListener {
+class DonateFragment : BaseFragment(), View.OnClickListener {
 
     private lateinit var donateViewModel: DonateViewModel
 

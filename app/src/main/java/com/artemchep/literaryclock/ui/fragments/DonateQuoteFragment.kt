@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -27,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_donate_quote.*
 /**
  * @author Artem Chepurnoy
  */
-class DonateQuoteFragment : Fragment(), View.OnClickListener {
+class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
 
     private lateinit var donateQuoteViewModel: DonateQuoteViewModel
 

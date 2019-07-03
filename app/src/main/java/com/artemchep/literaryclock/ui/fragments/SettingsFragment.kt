@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.artemchep.config.Config
 import com.artemchep.literaryclock.Cfg
@@ -17,7 +16,9 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 /**
  * @author Artem Chepurnoy
  */
-class SettingsFragment : Fragment(), View.OnClickListener, Config.OnConfigChangedListener<String> {
+class SettingsFragment : BaseFragment(),
+    View.OnClickListener,
+    Config.OnConfigChangedListener<String> {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +50,7 @@ class SettingsFragment : Fragment(), View.OnClickListener, Config.OnConfigChange
             val selection = themes
                 .indexOfFirst { it.second == Cfg.appTheme }
                 .takeUnless { it == -1 }
-                // resort to a default theme
+            // resort to a default theme
                 ?: themes.indexOfFirst { it.second == Cfg.APP_THEME_DEFAULT }
             setAdapter(adapter)
             setSelection(selection)

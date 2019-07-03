@@ -1,8 +1,15 @@
 package com.artemchep.literaryclock
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.artemchep.config.Config
+import com.artemchep.literaryclock.analytics.AnalyticsAbout
+import com.artemchep.literaryclock.analytics.AnalyticsDonate
+import com.artemchep.literaryclock.analytics.AnalyticsMain
+import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsAbout
+import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsDonate
+import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsMain
 import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.data.RepoImpl
@@ -14,12 +21,14 @@ import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.realm.Realm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
+import org.kodein.di.bindings.WeakContextScope
 import org.kodein.di.generic.*
 import org.solovyev.android.checkout.Billing
 import java.text.DateFormat
@@ -68,6 +77,25 @@ class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String>
         }
 
         bind<DateFormat>() with provider { android.text.format.DateFormat.getTimeFormat(this@Heart) }
+
+        bind<FirebaseAnalytics>() with scoped(WeakContextScope.of<Context>()).singleton {
+            FirebaseAnalytics.getInstance(context)
+        }
+
+        bind<AnalyticsMain>() with scoped(WeakContextScope.of<Context>()).singleton {
+            val firebaseAnalytics by kodein.instance<FirebaseAnalytics>()
+            FirebaseAnalyticsMain(firebaseAnalytics)
+        }
+
+        bind<AnalyticsDonate>() with scoped(WeakContextScope.of<Context>()).singleton {
+            val firebaseAnalytics by kodein.instance<FirebaseAnalytics>()
+            FirebaseAnalyticsDonate(firebaseAnalytics)
+        }
+
+        bind<AnalyticsAbout>() with scoped(WeakContextScope.of<Context>()).singleton {
+            val firebaseAnalytics by kodein.instance<FirebaseAnalytics>()
+            FirebaseAnalyticsAbout(firebaseAnalytics)
+        }
     }
 
     val billing = Billing(this, object : Billing.DefaultConfiguration() {

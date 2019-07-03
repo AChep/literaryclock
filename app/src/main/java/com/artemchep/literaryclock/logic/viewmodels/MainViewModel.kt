@@ -2,22 +2,25 @@ package com.artemchep.literaryclock.logic.viewmodels
 
 import android.app.Application
 import androidx.annotation.UiThread
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.logic.SingleLiveEvent
 import com.artemchep.literaryclock.logic.live.DatabaseStateLiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.utils.ext.observeOnce
-import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
 /**
  * @author Artem Chepurnoy
  */
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application) : BaseViewModel(application) {
 
-    private val kodein by closestKodein(application)
+    private val analytics by instance<AnalyticsMain>()
 
     val shareQuoteEvent = SingleLiveEvent<QuoteItem>()
 
@@ -25,7 +28,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val openUrlEvent = SingleLiveEvent<String>()
 
-    private val currentTimeLiveData by kodein.instance<LiveData<Time>>()
+    private val currentTimeLiveData by instance<LiveData<Time>>()
 
     val customTimeLiveData = MutableLiveData<Time>()
 
@@ -44,7 +47,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
 
-    val momentLiveData by kodein.instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
+    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
 
     /**
      * Sets the custom time if the time is not equal to the [current time][currentTimeLiveData],
@@ -63,11 +66,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     @UiThread
     fun openQuote(quote: QuoteItem) {
         "http://www.amazon.com/dp/${quote.asin}".let(openUrlEvent::setValue)
+        analytics.logQuoteOpen(quote)
     }
 
     @UiThread
     fun shareQuote(quote: QuoteItem) {
         quote.let(shareQuoteEvent::setValue)
+        analytics.logQuoteShare(quote)
     }
 
 }

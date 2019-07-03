@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -23,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_about.*
 /**
  * @author Artem Chepurnoy
  */
-class AboutFragment : Fragment(), View.OnClickListener, OnItemClickListener<DependencyItem> {
+class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<DependencyItem> {
 
     private lateinit var aboutViewModel: AboutViewModel
 

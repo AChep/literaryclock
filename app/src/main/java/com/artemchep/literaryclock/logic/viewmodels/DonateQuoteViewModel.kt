@@ -2,7 +2,6 @@ package com.artemchep.literaryclock.logic.viewmodels
 
 import android.app.Application
 import androidx.annotation.UiThread
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.artemchep.literaryclock.R
@@ -14,19 +13,16 @@ import com.artemchep.literaryclock.messageLiveEvent
 import com.artemchep.literaryclock.models.*
 import com.artemchep.literaryclock.utils.currentTime
 import com.artemchep.literaryclock.utils.ext.observeOnce
-import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
 /**
  * @author Artem Chepurnoy
  */
-class DonateQuoteViewModel(application: Application) : AndroidViewModel(application) {
+class DonateQuoteViewModel(application: Application) : BaseViewModel(application) {
 
     companion object {
         const val TAG = "DonateQuoteViewModel"
     }
-
-    private val kodein by closestKodein(application)
 
     val popEvent = SingleLiveEvent<Unit>()
 
@@ -41,9 +37,9 @@ class DonateQuoteViewModel(application: Application) : AndroidViewModel(applicat
 
     val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
 
-    val momentLiveData by kodein.instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
+    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
 
-    val quoteLiveData by kodein.instance<LiveData<MomentItem>, LiveData<QuoteItem>>(arg = momentLiveData)
+    val quoteLiveData by instance<LiveData<MomentItem>, LiveData<QuoteItem>>(arg = momentLiveData)
 
     @UiThread
     fun postText(text: String) {

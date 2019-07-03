@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 import java.io.FileInputStream
 import java.util.*
 
@@ -94,9 +92,7 @@ android {
 androidExtensions {
     // See the issue at:
     // https://github.com/gradle/kotlin-dsl/issues/644
-    configure(delegateClosureOf<AndroidExtensionsExtension> {
-        isExperimental = true
-    })
+    isExperimental = true
 }
 
 realm {

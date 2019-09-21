@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.*
 
@@ -93,6 +94,10 @@ androidExtensions {
     // See the issue at:
     // https://github.com/gradle/kotlin-dsl/issues/644
     isExperimental = true
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
 }
 
 realm {

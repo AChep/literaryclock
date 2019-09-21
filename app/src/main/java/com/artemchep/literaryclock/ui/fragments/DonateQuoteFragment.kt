@@ -6,8 +6,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_donate_quote.*
  */
 class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
 
-    private lateinit var donateQuoteViewModel: DonateQuoteViewModel
+    private val donateQuoteViewModel: DonateQuoteViewModel by viewModels()
 
     private lateinit var adapter: QuoteAdapter
 
@@ -69,7 +69,6 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
         )
             .also(::adapter::set)
 
-        donateQuoteViewModel = ViewModelProviders.of(this).get(DonateQuoteViewModel::class.java)
         donateQuoteViewModel.setup()
     }
 

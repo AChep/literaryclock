@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.net.toUri
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +47,7 @@ class MainFragment : BaseFragment(),
         const val ANALOG_CLOCK_ANIM_DURATION = 1200L
     }
 
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var adapter: QuoteAdapter
 
@@ -86,7 +86,6 @@ class MainFragment : BaseFragment(),
                 onItemClickListener = this@MainFragment
             }
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         mainViewModel.setup()
     }
 

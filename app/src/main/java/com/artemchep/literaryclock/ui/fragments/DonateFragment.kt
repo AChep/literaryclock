@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
@@ -15,7 +15,9 @@ import com.artemchep.literaryclock.checkout.intentstarters.FragmentIntentStarter
 import com.artemchep.literaryclock.logic.viewmodels.DonateViewModel
 import com.artemchep.literaryclock.models.Loader
 import com.artemchep.literaryclock.ui.items.SkuItem
+import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_donate.*
 import org.solovyev.android.checkout.Inventory
@@ -25,7 +27,7 @@ import org.solovyev.android.checkout.Inventory
  */
 class DonateFragment : BaseFragment(), View.OnClickListener {
 
-    private lateinit var donateViewModel: DonateViewModel
+    private val donateViewModel: DonateViewModel by viewModels()
 
     private val itemAdapter by lazy { ItemAdapter<SkuItem>() }
 
@@ -43,16 +45,23 @@ class DonateFragment : BaseFragment(), View.OnClickListener {
         navUpBtn.setOnClickListener(this)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = FastAdapter.with<SkuItem, ItemAdapter<*>>(itemAdapter)
-            .withOnClickListener { _, _, item, _ ->
-                val intentStarter = FragmentIntentStarter(this)
-                donateViewModel.purchase(intentStarter, item.sku)
+        recyclerView.adapter = FastAdapter.with(itemAdapter).apply {
+            onClickListener = object : ClickListener<SkuItem> {
+                override fun invoke(
+                    v: View?,
+                    adapter: IAdapter<SkuItem>,
+                    item: SkuItem,
+                    position: Int
+                ): Boolean {
+                    val intentStarter = FragmentIntentStarter(this@DonateFragment)
+                    donateViewModel.purchase(intentStarter, item.sku)
 
-                // We handled the click
-                true
+                    // We handled the click
+                    return true
+                }
             }
+        }
 
-        donateViewModel = ViewModelProviders.of(this).get(DonateViewModel::class.java)
         donateViewModel.setup()
     }
 

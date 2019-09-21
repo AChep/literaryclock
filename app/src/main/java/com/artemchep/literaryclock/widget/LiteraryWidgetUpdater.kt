@@ -18,7 +18,7 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.receivers.WidgetUpdateReceiver
 import com.artemchep.literaryclock.ui.activities.MainActivity
 import com.artemchep.literaryclock.utils.currentTime
-import org.kodein.di.android.closestKodein
+import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 
 /**
@@ -52,7 +52,7 @@ object LiteraryWidgetUpdater {
                 // everything is good.
                 quotes
             } else {
-                val kodein by closestKodein(context)
+                val kodein by kodein(context)
                 val repo by kodein.instance<Repo>()
 
                 range = currentTime..Time(currentTime.time + RANGE_SIZE)

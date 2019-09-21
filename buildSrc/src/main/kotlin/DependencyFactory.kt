@@ -162,7 +162,13 @@ fun createDependencies(module: Module): List<Dependency> {
     val androidArchWork = Dependency(
         "Android Arch Work",
         ANDROIDARCH_WORK_VERSION,
-        "android.arch.work:work-runtime-ktx:$ANDROIDARCH_WORK_VERSION",
+        "androidx.work:work-runtime-ktx:$ANDROIDARCH_WORK_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val androidArchWorkGcm = Dependency(
+        "Android Arch Work [GCMNetworkManager support]",
+        ANDROIDARCH_WORK_VERSION,
+        "androidx.work:work-gcm:$ANDROIDARCH_WORK_VERSION",
         DependencyType.IMPLEMENTATION
     )
 
@@ -211,6 +217,7 @@ fun createDependencies(module: Module): List<Dependency> {
             androidArchNavigationFragmentKtx,
             androidArchNavigationUiKtx,
             androidArchWork,
+            androidArchWorkGcm,
             googleMaterial,
             googleFirebaseCore,
             googleFirebaseFirestore,

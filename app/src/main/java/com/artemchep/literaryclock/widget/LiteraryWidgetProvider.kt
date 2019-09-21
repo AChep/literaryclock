@@ -14,7 +14,7 @@ class LiteraryWidgetProvider : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
-        startUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
+        context.startUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
     }
 
     override fun onUpdate(
@@ -24,16 +24,16 @@ class LiteraryWidgetProvider : AppWidgetProvider() {
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         LiteraryWidgetUpdater.updateLiteraryWidget(context)
-        startUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
+        context.startUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
     }
 
     override fun onDisabled(context: Context) {
         super.onDisabled(context)
-        cancelUpdateWidgetJob()
+        context.cancelUpdateWidgetJob()
     }
 
-    private fun cancelUpdateWidgetJob() {
-        WorkManager.getInstance().cancelUniqueWork(Heart.UID_WIDGET_UPDATE_JOB)
+    private fun Context.cancelUpdateWidgetJob() {
+        WorkManager.getInstance(this).cancelUniqueWork(Heart.UID_WIDGET_UPDATE_JOB)
     }
 
 }

@@ -16,11 +16,12 @@ import org.solovyev.android.checkout.Sku
 class SkuItem(
     val sku: Sku,
     val isPurchased: Boolean
-) : AbstractItem<SkuItem, SkuItem.ViewHolder>() {
+) : AbstractItem<SkuItem.ViewHolder>() {
+    override val layoutRes: Int
+        get() = R.layout.item_donation
 
-    override fun getType(): Int = 0
-
-    override fun getLayoutRes(): Int = R.layout.item_donation
+    override val type: Int
+        get() = 0
 
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.KodeinContext
-import org.kodein.di.android.closestKodein
+import org.kodein.di.android.kodein
 import org.kodein.di.generic.kcontext
 
 /**
@@ -15,7 +15,7 @@ import org.kodein.di.generic.kcontext
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
     KodeinAware {
 
-    override val kodein: Kodein by closestKodein(application)
+    override val kodein: Kodein by kodein(application)
 
     override val kodeinContext: KodeinContext<Context> = kcontext(application)
 

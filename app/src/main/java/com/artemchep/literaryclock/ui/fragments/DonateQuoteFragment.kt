@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,7 +21,9 @@ import com.artemchep.literaryclock.ui.adapters.QuoteAdapter
 import com.artemchep.literaryclock.ui.setProgressBarShown
 import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.createTimeFormat
+import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
 import com.artemchep.literaryclock.utils.formatTime
+import com.artemchep.literaryclock.utils.wrapInStatusBarView
 import kotlinx.android.synthetic.main.fragment_donate_quote.*
 
 /**
@@ -41,10 +44,31 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_donate_quote, container, false)
+            .let {
+                wrapInStatusBarView(it)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOnApplyWindowInsetsListener { insets ->
+            scrollView.updatePadding(
+                bottom = insets.systemWindowInsetBottom,
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+            navUpBtnContainer.updatePadding(
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+
+            view.findViewById<View>(R.id.statusBarBg).apply {
+                layoutParams.height = insets.systemWindowInsetTop
+                requestLayout()
+            }
+
+            insets.consumeSystemWindowInsets()
+        }
 
         navUpBtn.setOnClickListener(this)
         btn.setOnClickListener(this)

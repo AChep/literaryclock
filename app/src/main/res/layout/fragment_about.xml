@@ -34,17 +34,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/toolbarBg" />
 
-    <ImageView
-        android:id="@+id/navUpBtn"
-        style="?actionButtonStyle"
+    <FrameLayout
+        android:id="@+id/navUpBtnContainer"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/app_bar_height__collapsed"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:elevation="4dp"
-        android:src="@drawable/ic_arrow_left"
-        android:theme="@style/Theme.MaterialComponents"
-        android:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/navUpBtn"
+            style="?actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_bar_height__collapsed"
+            android:elevation="4dp"
+            android:src="@drawable/ic_arrow_left"
+            android:theme="@style/Theme.MaterialComponents"
+            android:tint="@android:color/white" />
+
+    </FrameLayout>
 
     <Space
         android:id="@+id/barrier"
@@ -56,6 +66,7 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

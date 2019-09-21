@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import com.artemchep.config.Config
 import com.artemchep.literaryclock.Cfg
 import com.artemchep.literaryclock.R
+import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
+import com.artemchep.literaryclock.utils.wrapInStatusBarView
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**
@@ -26,10 +29,31 @@ class SettingsFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_settings, container, false)
+            .let {
+                wrapInStatusBarView(it)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOnApplyWindowInsetsListener { insets ->
+            scrollView.updatePadding(
+                bottom = insets.systemWindowInsetBottom,
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+            navUpBtnContainer.updatePadding(
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+
+            view.findViewById<View>(R.id.statusBarBg).apply {
+                layoutParams.height = insets.systemWindowInsetTop
+                requestLayout()
+            }
+
+            insets.consumeSystemWindowInsets()
+        }
 
         themeSpinner.apply {
             val themes = arrayOf(

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,8 @@ import com.artemchep.literaryclock.checkout.intentstarters.FragmentIntentStarter
 import com.artemchep.literaryclock.logic.viewmodels.DonateViewModel
 import com.artemchep.literaryclock.models.Loader
 import com.artemchep.literaryclock.ui.items.SkuItem
+import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
+import com.artemchep.literaryclock.utils.wrapInStatusBarView
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
@@ -37,10 +40,31 @@ class DonateFragment : BaseFragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_donate, container, false)
+            .let {
+                wrapInStatusBarView(it)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOnApplyWindowInsetsListener { insets ->
+            scrollView.updatePadding(
+                bottom = insets.systemWindowInsetBottom,
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+            navUpBtnContainer.updatePadding(
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+
+            view.findViewById<View>(R.id.statusBarBg).apply {
+                layoutParams.height = insets.systemWindowInsetTop
+                requestLayout()
+            }
+
+            insets.consumeSystemWindowInsets()
+        }
 
         navUpBtn.setOnClickListener(this)
 

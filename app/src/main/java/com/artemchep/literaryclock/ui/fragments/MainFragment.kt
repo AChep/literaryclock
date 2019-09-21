@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.net.toUri
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavDirections
@@ -27,13 +28,12 @@ import com.artemchep.literaryclock.ui.drawables.AnalogClockDrawable
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
 import com.artemchep.literaryclock.ui.setProgressBarShown
 import com.artemchep.literaryclock.ui.showTimePickerDialog
-import com.artemchep.literaryclock.utils.calculateHourHandRotation
-import com.artemchep.literaryclock.utils.calculateMinuteHandRotation
-import com.artemchep.literaryclock.utils.createTimeFormat
+import com.artemchep.literaryclock.utils.*
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
-import com.artemchep.literaryclock.utils.formatTime
+import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlin.math.PI
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 /**
@@ -68,10 +68,39 @@ class MainFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
+            .let {
+                wrapInStatusBarView(it)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOnApplyWindowInsetsListener { insets ->
+            fun Float.asPixelsPlusInsetBottom() =
+                insets.systemWindowInsetBottom +
+                        (this * resources.displayMetrics.densityDpi).roundToInt()
+
+            recyclerView.updatePadding(
+                bottom = 72.0f.asPixelsPlusInsetBottom(),
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+            moreBtnContainer.updatePadding(right = insets.systemWindowInsetRight)
+            btnContainer.updatePadding(
+                bottom = insets.systemWindowInsetBottom,
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+            clearContainer.updatePadding(bottom = insets.systemWindowInsetBottom)
+
+            view.findViewById<View>(R.id.statusBarBg).apply {
+                layoutParams.height = insets.systemWindowInsetTop
+                requestLayout()
+            }
+
+            insets.consumeSystemWindowInsets()
+        }
+
         moreBtn.setOnClickListener(this)
         btn.setOnClickListener(this)
         clear.setOnClickListener(this)

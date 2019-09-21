@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,8 @@ import com.artemchep.literaryclock.models.DependencyItem
 import com.artemchep.literaryclock.ui.adapters.DependencyAdapter
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
+import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
+import com.artemchep.literaryclock.utils.wrapInStatusBarView
 import kotlinx.android.synthetic.main.fragment_about.*
 
 /**
@@ -34,10 +37,32 @@ class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_about, container, false)
+            .let {
+                wrapInStatusBarView(it)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOnApplyWindowInsetsListener { insets ->
+            scrollView.updatePadding(
+                bottom = insets.systemWindowInsetBottom,
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+            navUpBtnContainer.updatePadding(
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
+
+            view.findViewById<View>(R.id.statusBarBg).apply {
+                layoutParams.height = insets.systemWindowInsetTop
+                requestLayout()
+            }
+
+            insets.consumeSystemWindowInsets()
+        }
+
         navUpBtn.setOnClickListener(this)
         appGithubBtn.setOnClickListener(this)
         linkedInBtn.setOnClickListener(this)

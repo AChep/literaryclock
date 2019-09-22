@@ -85,13 +85,15 @@ class MainFragment : BaseFragment(),
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            moreBtnContainer.updatePadding(right = insets.systemWindowInsetRight)
+            moreBtnContainer.updatePadding(
+                right = insets.systemWindowInsetRight,
+                left = insets.systemWindowInsetLeft
+            )
             btnContainer.updatePadding(
                 bottom = insets.systemWindowInsetBottom,
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            clearContainer.updatePadding(bottom = insets.systemWindowInsetBottom)
 
             view.findViewById<View>(R.id.statusBarBg).apply {
                 layoutParams.height = insets.systemWindowInsetTop
@@ -103,7 +105,6 @@ class MainFragment : BaseFragment(),
 
         moreBtn.setOnClickListener(this)
         btn.setOnClickListener(this)
-        clear.setOnClickListener(this)
 
         analogClock.foreground = analogClockDrawable
 

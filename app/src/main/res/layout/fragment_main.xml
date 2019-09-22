@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/desc_fragment_main"
+    app:layout_optimizationLevel="none"
     tools:showPaths="true">
 
     <View
@@ -100,7 +101,6 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingTop="@dimen/frame_margin_vertical"
-        android:paddingBottom="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +128,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/clearContainer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -145,33 +145,6 @@
             android:textColor="@android:color/white"
             app:cornerRadius="28dp"
             app:iconTint="@android:color/white" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/clearContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnContainer">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/clear"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="sans-serif-light"
-            android:text="10:54"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            android:visibility="gone"
-            app:cornerRadius="28dp" />
-
     </FrameLayout>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

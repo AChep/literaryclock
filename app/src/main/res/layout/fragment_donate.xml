@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/desc_fragment_common">
+    app:layoutDescription="@xml/desc_fragment_common"
+    app:layout_optimizationLevel="none">
 
     <View
         android:id="@+id/toolbarBg"
@@ -49,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/app_bar_height__collapsed"
             android:elevation="4dp"
+            android:rotationY="@dimen/autorotate_rotation_y"
             android:src="@drawable/ic_arrow_left"
             android:theme="@style/Theme.MaterialComponents"
             android:tint="@android:color/white" />

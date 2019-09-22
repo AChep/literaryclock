@@ -7,4 +7,6 @@
     <dimen name="app_bar_height__expanded">280dp</dimen>
     <dimen name="app_bar_height__collapsed">72dp</dimen>
 
+    <dimen name="autorotate_rotation_y">0.0</dimen>
+
 </resources>

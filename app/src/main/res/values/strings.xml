@@ -8,7 +8,7 @@
     <string name="purchased">Purchased</string>
 
     <string name="about">About</string>
-    <string name="about_app_description">Literary Clock represents current time in a form of literature quotes. It serves as an example of material and architecture design principles.</string>
+    <string name="about_app_description">Literary Clock represents current time in a form of literature quotes. It serves as an example of material and architecture design principles.\n\nThis app could not be possible without help of the author of http://www.literaryclock.com website. Thanks!</string>
     <string name="about_app_version__template">version %s</string>
     <string name="about_author">Written by:</string>
     <string name="about_dependencies">Open source libraries</string>

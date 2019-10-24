@@ -2,6 +2,7 @@ package com.artemchep.literaryclock.utils
 
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
@@ -26,6 +27,11 @@ fun Fragment.wrapInStatusBarView(child: View): View {
         }
 
         addView(statusBarView)
-        addView(child)
+        addView(
+            child, ViewGroup.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        )
     }
 }

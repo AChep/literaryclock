@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/desc_fragment_main"
-    app:layout_optimizationLevel="none"
     tools:showPaths="true">
 
     <View

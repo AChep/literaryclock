@@ -78,7 +78,7 @@ class MainFragment : BaseFragment(),
         setOnApplyWindowInsetsListener { insets ->
             fun Float.asPixelsPlusInsetBottom() =
                 insets.systemWindowInsetBottom +
-                        (this * resources.displayMetrics.densityDpi).roundToInt()
+                        (this * resources.displayMetrics.density).roundToInt()
 
             recyclerView.updatePadding(
                 bottom = 72.0f.asPixelsPlusInsetBottom(),

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/desc_fragment_common"
-    app:layout_optimizationLevel="none">
+    app:layoutDescription="@xml/desc_fragment_common">
 
     <View
         android:id="@+id/toolbarBg"

@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#404756</color>
     <color name="colorAccent">#f4ff81</color>
 
+    <color name="colorNavigationBarPreQ">#B3FFFFFF</color>
+
     <color name="white_88">#88ffffff</color>
 
     <color name="green">#4caf50</color>

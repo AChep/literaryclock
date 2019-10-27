@@ -3,5 +3,5 @@
  */
 object Android {
     const val minSdkVersion = 26
-    const val targetSdkVersion = 28
+    const val targetSdkVersion = 29
 }

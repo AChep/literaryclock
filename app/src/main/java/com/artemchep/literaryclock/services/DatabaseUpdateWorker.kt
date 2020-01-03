@@ -16,6 +16,7 @@ import com.artemchep.literaryclock.utils.sendLocalBroadcastIntent
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Source
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -120,7 +121,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
                 FirestoreBatchModel::timestamp.name,
                 Timestamp(Date(CfgInternal.syncTimestamp))
             )
-            .get()
+            .get(Source.SERVER)
     )
 
     private fun setState(isRunning: Boolean) {

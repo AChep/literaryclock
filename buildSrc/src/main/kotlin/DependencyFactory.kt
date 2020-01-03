@@ -180,9 +180,9 @@ fun createDependencies(module: Module): List<Dependency> {
     )
 
     val googleFirebaseCore = Dependency(
-        "Firebase Core",
-        GOOGLE_FIREBASE_CORE,
-        "com.google.firebase:firebase-core:$GOOGLE_FIREBASE_CORE",
+        "Firebase Analytics",
+        GOOGLE_FIREBASE_ANALYTICS,
+        "com.google.firebase:firebase-analytics:$GOOGLE_FIREBASE_ANALYTICS",
         DependencyType.IMPLEMENTATION
     )
     val googleFirebaseFirestore = Dependency(

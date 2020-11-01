@@ -18,8 +18,8 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.receivers.WidgetUpdateReceiver
 import com.artemchep.literaryclock.ui.activities.MainActivity
 import com.artemchep.literaryclock.utils.currentTime
-import org.kodein.di.android.kodein
-import org.kodein.di.generic.instance
+import org.kodein.di.android.closestDI
+import org.kodein.di.instance
 
 /**
  * @author Artem Chepurnoy
@@ -52,7 +52,7 @@ object LiteraryWidgetUpdater {
                 // everything is good.
                 quotes
             } else {
-                val kodein by kodein(context)
+                val kodein by closestDI(context)
                 val repo by kodein.instance<Repo>()
 
                 range = currentTime..Time(currentTime.time + RANGE_SIZE)

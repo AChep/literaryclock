@@ -64,7 +64,7 @@ class SettingsFragment : BaseFragment(),
 
             // Create adapter
             val adapter = ArrayAdapter<String>(
-                context!!,
+                requireContext(),
                 android.R.layout.simple_spinner_item,
                 themes.map { it.first }
             )
@@ -89,7 +89,7 @@ class SettingsFragment : BaseFragment(),
                     id: Long
                 ) {
                     // Apply the selection
-                    Cfg.edit(context!!) {
+                    Cfg.edit(requireContext()) {
                         Cfg.appTheme = themes[position].second
                     }
                 }
@@ -112,7 +112,7 @@ class SettingsFragment : BaseFragment(),
 
             isBroadcasting = true
 
-            Cfg.edit(context!!) {
+            Cfg.edit(requireContext()) {
                 Cfg.isWidgetUpdateServiceEnabled = isChecked
             }
 
@@ -133,7 +133,7 @@ class SettingsFragment : BaseFragment(),
 
             isBroadcasting = true
 
-            Cfg.edit(context!!) {
+            Cfg.edit(requireContext()) {
                 Cfg.widgetTextColor = color
             }
 

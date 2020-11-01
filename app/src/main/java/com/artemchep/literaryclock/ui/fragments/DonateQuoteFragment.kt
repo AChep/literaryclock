@@ -36,7 +36,7 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
     private lateinit var adapter: QuoteAdapter
 
     /** The format of a digital clock used system-wide */
-    private val timeFormat by lazy { createTimeFormat(context!!) }
+    private val timeFormat by lazy { createTimeFormat(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,7 +86,7 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
             }
         })
 
-        quotesRecyclerView.layoutManager = LinearLayoutManager(context!!)
+        quotesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         quotesRecyclerView.adapter = QuoteAdapter(
             isClickable = false,
             isShareBtnVisible = false
@@ -102,7 +102,7 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
         })
 
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
-            context!!.showTimePickerDialog(time, donateQuoteViewModel::postTime)
+            requireContext().showTimePickerDialog(time, donateQuoteViewModel::postTime)
         })
 
         textLiveData.observe(viewLifecycleOwner, Observer(::showText))

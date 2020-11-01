@@ -5,12 +5,6 @@ fun createDependencies(module: Module): List<Dependency> {
         "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION",
         DependencyType.IMPLEMENTATION
     )
-    val kotlinCoroutinesCore = Dependency(
-        "Kotlin Coroutines Core",
-        KOTLIN_COROUTINES_VERSION,
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
     val kotlinCoroutinesAndroid = Dependency(
         "Kotlin Coroutines Android",
         KOTLIN_COROUTINES_VERSION,
@@ -37,13 +31,13 @@ fun createDependencies(module: Module): List<Dependency> {
     )
 
     val kodeinGenericJvm = Dependency(
-        "Kodein Generic JVM",
+        "Kodein DI",
         KODEIN_VERSION,
-        "org.kodein.di:kodein-di-generic-jvm:$KODEIN_VERSION",
+        "org.kodein.di:kodein-di:$KODEIN_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val kodeinAndroid = Dependency(
-        "Kodein Android",
+        "Kodein DI Android",
         KODEIN_VERSION,
         "org.kodein.di:kodein-di-framework-android-x:$KODEIN_VERSION",
         DependencyType.IMPLEMENTATION
@@ -195,7 +189,6 @@ fun createDependencies(module: Module): List<Dependency> {
     return when (module) {
         Module.APP -> listOf(
             kotlinStdlib,
-            kotlinCoroutinesCore,
             kotlinCoroutinesAndroid,
             artemchepConfig,
             solovyevCheckout,

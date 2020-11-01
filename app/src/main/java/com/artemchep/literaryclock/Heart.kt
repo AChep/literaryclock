@@ -26,17 +26,15 @@ import io.realm.Realm
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
+import org.kodein.di.*
 import org.kodein.di.bindings.WeakContextScope
-import org.kodein.di.generic.*
 import org.solovyev.android.checkout.Billing
 import java.text.DateFormat
 
 /**
  * @author Artem Chepurnoy
  */
-class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String> {
+class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
 
     companion object {
         const val UID_WIDGET_UPDATE_JOB = "job::widget_update"
@@ -51,7 +49,7 @@ class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String>
             "$ACTION_PREFIX.UPDATE_DATABASE_STATE_CHANGED"
     }
 
-    override val kodein = Kodein.lazy {
+    override val di = DI.lazy {
         bind<Repo>() with provider { RepoImpl() }
 
         /*
@@ -67,8 +65,8 @@ class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String>
          * the moment of a current time.
          */
         bind<LiveData<MomentItem>>() with multiton { time: LiveData<Time> ->
-            val repo by kodein.instance<Repo>()
-            val db by kodein.instance<LiveData<DatabaseState>>()
+            val repo by di.instance<Repo>()
+            val db by di.instance<LiveData<DatabaseState>>()
             return@multiton MomentLiveData(repo, db, time)
         }
 
@@ -83,17 +81,17 @@ class Heart : Application(), KodeinAware, Config.OnConfigChangedListener<String>
         }
 
         bind<AnalyticsMain>() with scoped(WeakContextScope.of<Context>()).singleton {
-            val firebaseAnalytics by kodein.instance<FirebaseAnalytics>()
+            val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsMain(firebaseAnalytics)
         }
 
         bind<AnalyticsDonate>() with scoped(WeakContextScope.of<Context>()).singleton {
-            val firebaseAnalytics by kodein.instance<FirebaseAnalytics>()
+            val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsDonate(firebaseAnalytics)
         }
 
         bind<AnalyticsAbout>() with scoped(WeakContextScope.of<Context>()).singleton {
-            val firebaseAnalytics by kodein.instance<FirebaseAnalytics>()
+            val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsAbout(firebaseAnalytics)
         }
     }

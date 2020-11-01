@@ -13,7 +13,7 @@ import com.artemchep.literaryclock.messageLiveEvent
 import com.artemchep.literaryclock.models.*
 import com.artemchep.literaryclock.utils.currentTime
 import com.artemchep.literaryclock.utils.ext.observeOnce
-import org.kodein.di.generic.instance
+import org.kodein.di.instance
 
 /**
  * @author Artem Chepurnoy

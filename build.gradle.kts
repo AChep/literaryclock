@@ -5,9 +5,9 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:4.2.0-alpha04")
-        classpath("io.realm:realm-gradle-plugin:6.0.2")
-        classpath("com.google.gms:google-services:4.3.3")
+        classpath("com.android.tools.build:gradle:4.2.0-alpha15")
+        classpath("io.realm:realm-gradle-plugin:10.0.0")
+        classpath("com.google.gms:google-services:4.3.4")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$ANDROIDARCH_NAVIGATION_VERSION")
         classpath(kotlin("gradle-plugin", version = KOTLIN_VERSION))
 

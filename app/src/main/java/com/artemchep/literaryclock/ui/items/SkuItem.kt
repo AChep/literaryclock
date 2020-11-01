@@ -30,7 +30,7 @@ class SkuItem(
         override val containerView: View?
             get() = itemView
 
-        override fun bindView(item: SkuItem, payloads: MutableList<Any>) {
+        override fun bindView(item: SkuItem, payloads: List<Any>) {
             priceTextView.text = item.sku.price
             priceTextView.isGone = item.isPurchased
             purchasedTextView.isVisible = item.isPurchased

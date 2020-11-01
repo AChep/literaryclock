@@ -6,7 +6,7 @@ import com.artemchep.literaryclock.analytics.AnalyticsAbout
 import com.artemchep.literaryclock.logic.SingleLiveEvent
 import com.artemchep.literaryclock.logic.live.AppDependencyLiveData
 import com.artemchep.literaryclock.logic.live.AppVersionLiveData
-import org.kodein.di.generic.instance
+import org.kodein.di.instance
 
 /**
  * @author Artem Chepurnoy

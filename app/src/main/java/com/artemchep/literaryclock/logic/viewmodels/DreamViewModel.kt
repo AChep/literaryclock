@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
-import org.kodein.di.generic.instance
+import org.kodein.di.instance
 
 /**
  * @author Artem Chepurnoy

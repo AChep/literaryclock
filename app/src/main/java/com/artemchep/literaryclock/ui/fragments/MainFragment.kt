@@ -60,7 +60,7 @@ class MainFragment : BaseFragment(),
     private var analogClockAnimator: ValueAnimator? = null
 
     /** The format of a digital clock used system-wide */
-    private val timeFormat by lazy { createTimeFormat(context!!) }
+    private val timeFormat by lazy { createTimeFormat(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,7 +108,7 @@ class MainFragment : BaseFragment(),
 
         analogClock.foreground = analogClockDrawable
 
-        recyclerView.layoutManager = LinearLayoutManager(context!!)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = QuoteAdapter()
             .also(::adapter::set)
             .apply {
@@ -135,7 +135,7 @@ class MainFragment : BaseFragment(),
             }
         })
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
-            context!!.showTimePickerDialog(time, mainViewModel::postTime)
+            requireContext().showTimePickerDialog(time, mainViewModel::postTime)
         })
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
@@ -235,7 +235,7 @@ class MainFragment : BaseFragment(),
     }
 
     private fun showMorePopUp(view: View) {
-        val popup = PopupMenu(context!!, view)
+        val popup = PopupMenu(requireContext(), view)
         val items = arrayOf(
             getString(R.string.donate_iap) to {
                 navigate(MainFragmentDirections.actionMainFragmentToDonateFragment())

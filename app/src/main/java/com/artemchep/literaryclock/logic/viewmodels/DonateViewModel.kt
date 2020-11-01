@@ -9,7 +9,7 @@ import com.artemchep.literaryclock.analytics.AnalyticsDonate
 import com.artemchep.literaryclock.checkout.FlexCheckout
 import com.artemchep.literaryclock.logic.live.CheckoutLiveData
 import com.artemchep.literaryclock.logic.live.ProductLiveData
-import org.kodein.di.generic.instance
+import org.kodein.di.instance
 import org.solovyev.android.checkout.*
 
 /**

@@ -1,13 +1,12 @@
 package com.artemchep.literaryclock.ui.fragments
 
 import androidx.fragment.app.Fragment
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
+import org.kodein.di.DIAware
+import org.kodein.di.android.x.closestDI
 
 /**
  * @author Artem Chepurnoy
  */
-abstract class BaseFragment : Fragment(), KodeinAware {
-    override val kodein: Kodein by kodein()
+abstract class BaseFragment : Fragment(), DIAware {
+    override val di by closestDI()
 }

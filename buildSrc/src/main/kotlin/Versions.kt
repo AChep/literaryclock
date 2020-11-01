@@ -1,17 +1,17 @@
-const val KOTLIN_VERSION = "1.3.72"
+const val KOTLIN_VERSION = "1.4.0"
 
 // https://github.com/Kotlin/kotlinx.coroutines
-const val KOTLIN_COROUTINES_VERSION = "1.3.8"
+const val KOTLIN_COROUTINES_VERSION = "1.4.0"
 
 // https://github.com/nhaarman/mockito-kotlin
 const val KOTLIN_MOCKITO_VERSION = "2.2.0"
 // https://github.com/MarkusAmshove/Kluent
-const val KLUENT_VERSION = "1.55"
+const val KLUENT_VERSION = "1.63"
 // https://mvnrepository.com/artifact/junit/junit
-const val JUNIT_VERSION = "4.12"
+const val JUNIT_VERSION = "4.13.1"
 
 // https://kodein.org/
-const val KODEIN_VERSION = "6.5.0"
+const val KODEIN_VERSION = "7.1.0"
 
 // https://github.com/AChep/config
 const val ARTEMCHEP_CONFIG_VERSION = "2.2.0"
@@ -35,23 +35,23 @@ const val GRENDERG_TOASTY_VERSION = "1.4.2"
 const val YAROLEGOVICH_DISCRETESCROLLVIEW_VERSION = "1.4.9"
 
 // https://github.com/mikepenz/FastAdapter
-const val MIKEPENZ_FASTADAPTER_VERSION = "4.1.0-b02"
+const val MIKEPENZ_FASTADAPTER_VERSION = "5.2.4"
 
 // https://developer.android.com/kotlin/ktx
-const val ANDROIDX_KTX_VERSION = "1.3.0"
+const val ANDROIDX_KTX_VERSION = "1.3.2"
 
 // https://developer.android.com/jetpack/androidx/versions
-const val ANDROIDX_APPCOMPAT_VERSION = "1.3.0-alpha01"
+const val ANDROIDX_APPCOMPAT_VERSION = "1.3.0-alpha02"
 const val ANDROIDX_BROWSER_VERSION = "1.3.0-alpha04"
 const val ANDROIDX_LIFECYCLE_VERSION = "2.2.0"
-const val ANDROIDX_CONSTRAINTLAYOUT_VERSION = "2.0.0-beta8"
-const val ANDROIDARCH_NAVIGATION_VERSION = "2.3.0"
-const val ANDROIDARCH_WORK_VERSION = "2.4.0-rc01"
+const val ANDROIDX_CONSTRAINTLAYOUT_VERSION = "2.0.4"
+const val ANDROIDARCH_NAVIGATION_VERSION = "2.3.1"
+const val ANDROIDARCH_WORK_VERSION = "2.5.0-beta01"
 
 // https://mvnrepository.com/artifact/com.google.android.material/material
-const val GOOGLE_MATERIAL_VERSION = "1.3.0-alpha01"
+const val GOOGLE_MATERIAL_VERSION = "1.3.0-alpha03"
 
 // https://firebase.google.com/support/release-notes/android
-const val GOOGLE_FIREBASE_ANALYTICS = "17.4.4"
-const val GOOGLE_FIREBASE_FIRESTORE = "21.5.0"
+const val GOOGLE_FIREBASE_ANALYTICS = "18.0.0"
+const val GOOGLE_FIREBASE_FIRESTORE = "22.0.0"
 

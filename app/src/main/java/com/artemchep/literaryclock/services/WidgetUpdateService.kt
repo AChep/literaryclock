@@ -17,22 +17,22 @@ import com.artemchep.literaryclock.*
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.generic.instance
+import org.kodein.di.DI
+import org.kodein.di.DIAware
+import org.kodein.di.instance
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 /**
  * @author Artem Chepurnoy
  */
-class WidgetUpdateService : Service(), KodeinAware, Config.OnConfigChangedListener<String> {
+class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<String> {
 
     companion object {
         const val TAG = "WidgetUpdateService"
     }
 
-    override lateinit var kodein: Kodein
+    override lateinit var di: DI
 
     /**
      * Executor service to update
@@ -65,7 +65,7 @@ class WidgetUpdateService : Service(), KodeinAware, Config.OnConfigChangedListen
         // Start service foreground and post the notification
         startForeground(NOTIFICATION_UID_WIDGET_UPDATE_SERVICE, notification)
 
-        kodein = (applicationContext as Heart).kodein
+        di = (applicationContext as Heart).di
         executor = Executors.newSingleThreadExecutor()
 
         // Observe the current time

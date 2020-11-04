@@ -85,7 +85,7 @@ android {
 
     productFlavors {
         maybeCreate("prod").apply {
-            setDimension("common")
+            dimension = "common"
         }
     }
 }

@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.*
+import kotlin.math.pow
 
 plugins {
     id("com.android.application")
@@ -11,8 +12,6 @@ plugins {
     id("realm-android")
 }
 
-val appVersionName = "0.3.8"
-val appVersionCode = 14
 val appDependencies = createDependencies(Module.APP)
 
 val keystoreProperties = Properties()
@@ -39,8 +38,26 @@ android {
         minSdkVersion(Android.minSdkVersion)
         targetSdkVersion(Android.targetSdkVersion)
 
-        versionCode = appVersionCode
-        versionName = appVersionName
+        val versionNamePartsCount = 4
+        val releaseTag = System.getenv("MEDIABOX_RELEASE_TAG")
+            ?.takeIf { it.isNotEmpty() }
+            ?: "0.1.0-0"
+        val releaseTagRegex = Regex("[^0-9]+")
+        val versionParts = releaseTag
+            .split(releaseTagRegex)
+            .mapNotNull { it.toIntOrNull() }
+            .run {
+                // make sure the list is at least N digit long
+                this + List(versionNamePartsCount) { 0 }
+            }
+            .take(versionNamePartsCount)
+        versionCode = versionParts
+            .mapIndexed { index, v ->
+                val reverseIndex = versionParts.size - index - 1
+                v * 100.toDouble().pow(reverseIndex).toInt()
+            }
+            .sum()
+        versionName = versionParts.joinToString(separator = ".")
 
         setProperty("archivesBaseName", "literaryclock")
     }

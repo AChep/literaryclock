@@ -39,7 +39,7 @@ android {
         targetSdkVersion(Android.targetSdkVersion)
 
         val versionNamePartsCount = 4
-        val releaseTag = System.getenv("MEDIABOX_RELEASE_TAG")
+        val releaseTag = System.getenv("LITERARY_CLOCK_RELEASE_TAG")
             ?.takeIf { it.isNotEmpty() }
             ?: "0.1.0-0"
         val releaseTagRegex = Regex("[^0-9]+")

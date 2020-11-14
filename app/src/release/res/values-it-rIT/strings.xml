@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Literary Clock</string>
+    <string name="app_share">Share Literary Clock</string>
+
+    <string name="send">Send</string>
+    <string name="error">Oh, snap!</string>
+    <string name="purchased">Purchased</string>
+
+    <string name="about">About</string>
+    <string name="about_app_description">Literary Clock represents current time in a form of literature quotes. It serves as an example of material and architecture design principles.\n\nThis app could not be possible without help of the author of http://www.literaryclock.com website. Thanks!</string>
+    <string name="about_app_version__template">version %s</string>
+    <string name="about_author">Written by:</string>
+    <string name="about_dependencies">Open source libraries</string>
+
+    <string name="donate">Contribute</string>
+    <string name="donate_quote">Suggest a quote</string>
+    <string name="donate_quote_field_hint">Quote info</string>
+    <string name="donate_quote_disclaimer">Note that it takes a lot of time to accept/decline all of the suggestions.</string>
+    <string name="donate_quote__sent">Your suggested quote has been sent</string>
+    <string name="donate_quote__failed">Failed to send a quote</string>
+    <string name="donate_iap">Donate to me</string>
+
+    <string name="settings">Settings</string>
+    <string name="settings_widget">Widget</string>
+    <string name="settings_widget_alt_service">Run a background service to update the home-screen widget every one minute</string>
+    <string name="settings_widget_color">Primary color</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_auto">Auto</string>
+
+    <string name="quote">Quote</string>
+    <string name="quote_share">Share a quote</string>
+
+    <string name="notification_widget_update_service_title" translatable="false">Literary Clock</string>
+    <string name="notification_widget_update_service_text">Long click the notification, open app info and turn off the notifications to hide this notification.</string>
+    <string name="notification_widget_update_service_channel">Update widget service notification</string>
+
+    <string name="error_quote_empty">Quote info can\'t be empty</string>
+    <string name="error_sync_failed">Failed to sync the database of quotes</string>
+
+</resources>

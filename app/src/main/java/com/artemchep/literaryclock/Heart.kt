@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.*
+import org.kodein.di.android.x.androidXModule
 import org.kodein.di.bindings.WeakContextScope
 import org.solovyev.android.checkout.Billing
 import java.text.DateFormat
@@ -50,6 +51,8 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
     }
 
     override val di = DI.lazy {
+        import(androidXModule(this@Heart))
+
         bind<Repo>() with provider { RepoImpl() }
 
         /*

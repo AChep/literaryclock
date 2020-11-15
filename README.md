@@ -12,7 +12,7 @@ Literary Clock
 
 Literary Clock represents current time in a form of literature quotes. It serves as an example of material design principles.
 
- - **[Help us to translate it](https://crowdin.com/project/pocketmode)** _(even a short look would be helpful)_
+ - **[Help us to translate it](https://crowdin.com/project/literaryclock)** _(even a short look would be helpful)_
  
 <a href="https://play.google.com/store/apps/details?id=com.artemchep.literaryclock">
   <img alt="Get Literary Clock on Google Play" vspace="20"

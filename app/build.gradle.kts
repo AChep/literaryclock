@@ -115,6 +115,9 @@ androidExtensions {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    kotlinOptions.freeCompilerArgs = listOf(
+        "-Xinline-classes"
+    )
 }
 
 realm {

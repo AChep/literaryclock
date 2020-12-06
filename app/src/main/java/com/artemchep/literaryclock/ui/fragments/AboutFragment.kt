@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.app.SearchManager
 import androidx.core.net.toUri
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
@@ -119,6 +120,13 @@ class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<
     }
 
     override fun onItemClick(view: View, data: DependencyItem, position: Int) {
+        try {
+            val i = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                putExtra(SearchManager.QUERY, data.name)
+            }
+            startActivity(i)
+        } catch (e: ActivityNotFoundException) {
+        }
     }
 
 }

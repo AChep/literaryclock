@@ -1,18 +1,21 @@
 package com.artemchep.literaryclock.ui
 
-import android.app.TimePickerDialog
-import android.content.Context
-import android.text.format.DateFormat
+import androidx.fragment.app.FragmentManager
 import com.artemchep.literaryclock.models.Time
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 
-fun Context.showTimePickerDialog(time: Time = Time(0), onTimePick: (Time) -> Unit) {
-    val innerCallback = TimePickerDialog.OnTimeSetListener { _, hours, minutes ->
-        val new = hours * 60 + minutes
-        onTimePick.invoke(Time(new))
-    }
-
+fun FragmentManager.showTimePickerDialog(time: Time = Time(0), onTimePick: (Time) -> Unit) {
     val h = time.time / 60
     val m = time.time % 60
-    TimePickerDialog(this, innerCallback, h, m, DateFormat.is24HourFormat(this))
-        .show()
+    val picker = MaterialTimePicker.Builder()
+        .setTimeFormat(TimeFormat.CLOCK_24H)
+        .setHour(h)
+        .setMinute(m)
+        .build()
+    picker.addOnPositiveButtonClickListener {
+        val new = picker.hour * 60 + picker.minute
+        onTimePick.invoke(Time(new))
+    }
+    picker.show(this, null)
 }

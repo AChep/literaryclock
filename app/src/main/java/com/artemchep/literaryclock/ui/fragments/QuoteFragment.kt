@@ -4,27 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.artemchep.literaryclock.R
-import kotlinx.android.synthetic.main.fragment_quote.*
+import com.artemchep.literaryclock.databinding.FragmentQuoteBinding
+import com.artemchep.literaryclock.utils.wrapInStatusBarView
 
 /**
  * @author Artem Chepurnoy
  */
-class QuoteFragment : BaseFragment() {
+class QuoteFragment : BaseFragment<FragmentQuoteBinding>() {
 
-    val args by lazy { QuoteFragmentArgs.fromBundle(arguments!!) }
+    override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentQuoteBinding
+        get() = FragmentQuoteBinding::inflate
+
+    val args by lazy { QuoteFragmentArgs.fromBundle(requireArguments()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_quote, container, false)
-    }
+    ): View = super.onCreateView(inflater, container, savedInstanceState)
+        .let {
+            wrapInStatusBarView(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        quoteTextView.text = args.quote.quote
+        viewBinding.quoteTextView.text = args.quote.quote
     }
 
 }

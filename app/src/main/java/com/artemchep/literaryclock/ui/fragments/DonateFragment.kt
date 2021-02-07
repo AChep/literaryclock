@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.checkout.intentstarters.FragmentIntentStarter
+import com.artemchep.literaryclock.databinding.FragmentDonateBinding
 import com.artemchep.literaryclock.logic.viewmodels.DonateViewModel
 import com.artemchep.literaryclock.models.Loader
 import com.artemchep.literaryclock.ui.items.SkuItem
@@ -22,13 +23,15 @@ import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.fragment_donate.*
 import org.solovyev.android.checkout.Inventory
 
 /**
  * @author Artem Chepurnoy
  */
-class DonateFragment : BaseFragment(), View.OnClickListener {
+class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListener {
+
+    override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDonateBinding
+        get() = FragmentDonateBinding::inflate
 
     private val donateViewModel: DonateViewModel by viewModels()
 
@@ -38,22 +41,20 @@ class DonateFragment : BaseFragment(), View.OnClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_donate, container, false)
-            .let {
-                wrapInStatusBarView(it)
-            }
-    }
+    ): View = super.onCreateView(inflater, container, savedInstanceState)
+        .let {
+            wrapInStatusBarView(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnApplyWindowInsetsListener { insets ->
-            scrollView.updatePadding(
+            viewBinding.scrollView.updatePadding(
                 bottom = insets.systemWindowInsetBottom,
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            navUpBtnContainer.updatePadding(
+            viewBinding.navUpBtnContainer.updatePadding(
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
@@ -66,10 +67,10 @@ class DonateFragment : BaseFragment(), View.OnClickListener {
             insets.consumeSystemWindowInsets()
         }
 
-        navUpBtn.setOnClickListener(this)
+        viewBinding.navUpBtn.setOnClickListener(this)
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = FastAdapter.with(itemAdapter).apply {
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
+        viewBinding.recyclerView.adapter = FastAdapter.with(itemAdapter).apply {
             onClickListener = object : ClickListener<SkuItem> {
                 override fun invoke(
                     v: View?,
@@ -96,9 +97,9 @@ class DonateFragment : BaseFragment(), View.OnClickListener {
     private fun showProducts(products: Loader<Inventory.Products>) {
         when(products) {
             is Loader.Ok -> {
-                errorView.isVisible = false
-                progressView.isVisible = false
-                recyclerView.isVisible = true
+                viewBinding.errorView.isVisible = false
+                viewBinding.progressView.isVisible = false
+                viewBinding.recyclerView.isVisible = true
 
                 // Bind products to recycler view.
                 val items = products.value
@@ -116,14 +117,14 @@ class DonateFragment : BaseFragment(), View.OnClickListener {
                 itemAdapter.setNewList(items)
             }
             is Loader.Loading -> {
-                errorView.isVisible = false
-                progressView.isVisible = true
-                recyclerView.isVisible = false
+                viewBinding.errorView.isVisible = false
+                viewBinding.progressView.isVisible = true
+                viewBinding.recyclerView.isVisible = false
             }
             is Loader.Error -> {
-                errorView.isVisible = true
-                progressView.isVisible = false
-                recyclerView.isVisible = false
+                viewBinding.errorView.isVisible = true
+                viewBinding.progressView.isVisible = false
+                viewBinding.recyclerView.isVisible = false
             }
         }
     }

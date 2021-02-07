@@ -12,37 +12,38 @@ import androidx.navigation.fragment.findNavController
 import com.artemchep.config.Config
 import com.artemchep.literaryclock.Cfg
 import com.artemchep.literaryclock.R
+import com.artemchep.literaryclock.databinding.FragmentSettingsBinding
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
 import com.artemchep.literaryclock.utils.wrapInStatusBarView
-import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**
  * @author Artem Chepurnoy
  */
-class SettingsFragment : BaseFragment(),
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
     View.OnClickListener,
     Config.OnConfigChangedListener<String> {
+
+    override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingsBinding
+        get() = FragmentSettingsBinding::inflate
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
-            .let {
-                wrapInStatusBarView(it)
-            }
-    }
+    ): View = super.onCreateView(inflater, container, savedInstanceState)
+        .let {
+            wrapInStatusBarView(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnApplyWindowInsetsListener { insets ->
-            scrollView.updatePadding(
+            viewBinding.scrollView.updatePadding(
                 bottom = insets.systemWindowInsetBottom,
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            navUpBtnContainer.updatePadding(
+            viewBinding.navUpBtnContainer.updatePadding(
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
@@ -55,7 +56,7 @@ class SettingsFragment : BaseFragment(),
             insets.consumeSystemWindowInsets()
         }
 
-        themeSpinner.apply {
+        viewBinding.themeSpinner.apply {
             val themes = arrayOf(
                 getString(R.string.settings_theme_auto) to Cfg.APP_THEME_AUTO,
                 getString(R.string.settings_theme_dark) to Cfg.APP_THEME_DARK,
@@ -96,7 +97,7 @@ class SettingsFragment : BaseFragment(),
             }
         }
 
-        navUpBtn.setOnClickListener(this)
+        viewBinding.navUpBtn.setOnClickListener(this)
         setupWidgetUpdaterPreference()
         setupWidgetColorPreference()
     }
@@ -104,8 +105,8 @@ class SettingsFragment : BaseFragment(),
     private fun setupWidgetUpdaterPreference() {
         var isBroadcasting = false
 
-        altWidgetUpdaterTextView.setOnClickListener(this)
-        altWidgetUpdaterSwitch.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding.altWidgetUpdaterTextView.setOnClickListener(this)
+        viewBinding.altWidgetUpdaterSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isBroadcasting) {
                 return@setOnCheckedChangeListener
             }
@@ -124,9 +125,9 @@ class SettingsFragment : BaseFragment(),
         var isBroadcasting = false
 
         val colors = arrayOf(Color.WHITE, Color.BLACK).toIntArray()
-        palette.setFixedColumnCount(colors.size)
-        palette.setColors(colors)
-        palette.setOnColorSelectedListener { color ->
+        viewBinding.palette.setFixedColumnCount(colors.size)
+        viewBinding.palette.setColors(colors)
+        viewBinding.palette.setOnColorSelectedListener { color ->
             if (isBroadcasting) {
                 return@setOnColorSelectedListener
             }
@@ -162,20 +163,20 @@ class SettingsFragment : BaseFragment(),
     }
 
     private fun updateWidgetUpdateServiceEnabledPref() {
-        altWidgetUpdaterSwitch.isChecked = Cfg.isWidgetUpdateServiceEnabled
+        viewBinding.altWidgetUpdaterSwitch.isChecked = Cfg.isWidgetUpdateServiceEnabled
     }
 
     private fun updateWidgetColorPref() {
         try {
-            palette.setSelectedColor(Cfg.widgetTextColor)
+            viewBinding.palette.setSelectedColor(Cfg.widgetTextColor)
         } catch (_: Exception) {
-            palette.setSelectedColor(Color.WHITE)
+            viewBinding.palette.setSelectedColor(Color.WHITE)
         }
     }
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.altWidgetUpdaterTextView -> altWidgetUpdaterSwitch.toggle()
+            R.id.altWidgetUpdaterTextView -> viewBinding.altWidgetUpdaterSwitch.toggle()
             R.id.navUpBtn -> findNavController().navigateUp()
         }
     }

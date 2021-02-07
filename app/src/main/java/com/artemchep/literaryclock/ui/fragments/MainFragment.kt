@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.data.DatabaseState
+import com.artemchep.literaryclock.databinding.FragmentMainBinding
 import com.artemchep.literaryclock.logic.viewmodels.MainViewModel
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
@@ -31,7 +32,6 @@ import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.*
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
-import kotlinx.android.synthetic.main.fragment_main.*
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -39,9 +39,12 @@ import kotlin.math.sin
 /**
  * @author Artem Chepurnoy
  */
-class MainFragment : BaseFragment(),
+class MainFragment : BaseFragment<FragmentMainBinding>(),
     View.OnClickListener,
     OnItemClickListener<QuoteItem> {
+
+    override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMainBinding
+        get() = FragmentMainBinding::inflate
 
     companion object {
         const val ANALOG_CLOCK_ANIM_DURATION = 1200L
@@ -66,12 +69,10 @@ class MainFragment : BaseFragment(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-            .let {
-                wrapInStatusBarView(it)
-            }
-    }
+    ): View = super.onCreateView(inflater, container, savedInstanceState)
+        .let {
+            wrapInStatusBarView(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,16 +81,16 @@ class MainFragment : BaseFragment(),
                 insets.systemWindowInsetBottom +
                         (this * resources.displayMetrics.density).roundToInt()
 
-            recyclerView.updatePadding(
+            viewBinding.recyclerView.updatePadding(
                 bottom = 72.0f.asPixelsPlusInsetBottom(),
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            moreBtnContainer.updatePadding(
+            viewBinding.moreBtnContainer.updatePadding(
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            btnContainer.updatePadding(
+            viewBinding.btnContainer.updatePadding(
                 bottom = insets.systemWindowInsetBottom,
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
@@ -103,13 +104,13 @@ class MainFragment : BaseFragment(),
             insets.consumeSystemWindowInsets()
         }
 
-        moreBtn.setOnClickListener(this)
-        btn.setOnClickListener(this)
+        viewBinding.moreBtn.setOnClickListener(this)
+        viewBinding.btn.setOnClickListener(this)
 
-        analogClock.foreground = analogClockDrawable
+        viewBinding.analogClock.foreground = analogClockDrawable
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = QuoteAdapter()
+        viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.recyclerView.adapter = QuoteAdapter()
             .also(::adapter::set)
             .apply {
                 // Listen to the on click events
@@ -135,7 +136,7 @@ class MainFragment : BaseFragment(),
             }
         })
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
-            requireContext().showTimePickerDialog(time, mainViewModel::postTime)
+            parentFragmentManager.showTimePickerDialog(time, mainViewModel::postTime)
         })
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
@@ -143,7 +144,7 @@ class MainFragment : BaseFragment(),
         databaseIsUpdatingLiveData.observe(viewLifecycleOwner, Observer(::showDatabaseState))
     }
 
-    private fun showUrl(url: String) = url.toUri().launchInCustomTabs(activity!!)
+    private fun showUrl(url: String) = url.toUri().launchInCustomTabs(requireActivity())
 
     private fun showMoment(moment: MomentItem) {
         adapter.apply {
@@ -162,7 +163,7 @@ class MainFragment : BaseFragment(),
     }
 
     private fun showDigitalTime(time: Time) {
-        digitalClock.text = formatTime(time, timeFormat)
+        viewBinding.digitalClock.text = formatTime(time, timeFormat)
     }
 
     private fun showAnalogTime(time: Time) {
@@ -173,7 +174,7 @@ class MainFragment : BaseFragment(),
         val hourHandRotationNew = calculateHourHandRotation(time.time)
         val minuteHandRotationNew = calculateMinuteHandRotation(time.time)
 
-        if (analogClock.isLaidOut) {
+        if (viewBinding.analogClock.isLaidOut) {
             fun rotationDelta(new: Float, old: Float) =
                 (new - old).let { dt ->
                     if (dt < 360f - dt) {
@@ -218,7 +219,7 @@ class MainFragment : BaseFragment(),
     }
 
     private fun showDatabaseState(state: DatabaseState) =
-        progressBar.setProgressBarShown(state.isWorking)
+        viewBinding.progressBar.setProgressBarShown(state.isWorking)
 
     override fun onClick(view: View) {
         when (view.id) {

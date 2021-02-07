@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
+import com.artemchep.literaryclock.databinding.FragmentAboutBinding
 import com.artemchep.literaryclock.logic.viewmodels.AboutViewModel
 import com.artemchep.literaryclock.models.DependencyItem
 import com.artemchep.literaryclock.ui.adapters.DependencyAdapter
@@ -21,12 +22,15 @@ import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
 import com.artemchep.literaryclock.utils.wrapInStatusBarView
-import kotlinx.android.synthetic.main.fragment_about.*
 
 /**
  * @author Artem Chepurnoy
  */
-class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<DependencyItem> {
+class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener,
+    OnItemClickListener<DependencyItem> {
+
+    override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAboutBinding
+        get() = FragmentAboutBinding::inflate
 
     private val aboutViewModel: AboutViewModel by viewModels()
 
@@ -36,22 +40,20 @@ class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_about, container, false)
-            .let {
-                wrapInStatusBarView(it)
-            }
-    }
+    ): View = super.onCreateView(inflater, container, savedInstanceState)
+        .let {
+            wrapInStatusBarView(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnApplyWindowInsetsListener { insets ->
-            scrollView.updatePadding(
+            viewBinding.scrollView.updatePadding(
                 bottom = insets.systemWindowInsetBottom,
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            navUpBtnContainer.updatePadding(
+            viewBinding.navUpBtnContainer.updatePadding(
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
@@ -64,15 +66,15 @@ class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<
             insets.consumeSystemWindowInsets()
         }
 
-        navUpBtn.setOnClickListener(this)
-        appGithubBtn.setOnClickListener(this)
-        linkedInBtn.setOnClickListener(this)
-        instagramBtn.setOnClickListener(this)
-        twitterBtn.setOnClickListener(this)
-        appShareBtn.setOnClickListener(this)
+        viewBinding.navUpBtn.setOnClickListener(this)
+        viewBinding.appGithubBtn.setOnClickListener(this)
+        viewBinding.linkedInBtn.setOnClickListener(this)
+        viewBinding.instagramBtn.setOnClickListener(this)
+        viewBinding.twitterBtn.setOnClickListener(this)
+        viewBinding.appShareBtn.setOnClickListener(this)
 
-        depsRecyclerView.layoutManager = LinearLayoutManager(activity!!)
-        depsRecyclerView.adapter = DependencyAdapter()
+        viewBinding.depsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.depsRecyclerView.adapter = DependencyAdapter()
             .also(::adapter::set)
             .apply {
                 // Listen to the on click events
@@ -89,7 +91,7 @@ class AboutFragment : BaseFragment(), View.OnClickListener, OnItemClickListener<
         })
         versionLiveData.observe(viewLifecycleOwner, Observer {
             val appVersion = getString(R.string.about_app_version__template, it.versionName)
-            appVersionTextView.text = appVersion
+            viewBinding.appVersionTextView.text = appVersion
         })
     }
 

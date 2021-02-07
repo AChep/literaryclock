@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.data.DatabaseState
+import com.artemchep.literaryclock.databinding.FragmentDonateQuoteBinding
 import com.artemchep.literaryclock.logic.viewmodels.DonateQuoteViewModel
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
@@ -24,12 +25,14 @@ import com.artemchep.literaryclock.utils.createTimeFormat
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
 import com.artemchep.literaryclock.utils.formatTime
 import com.artemchep.literaryclock.utils.wrapInStatusBarView
-import kotlinx.android.synthetic.main.fragment_donate_quote.*
 
 /**
  * @author Artem Chepurnoy
  */
-class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
+class DonateQuoteFragment : BaseFragment<FragmentDonateQuoteBinding>(), View.OnClickListener {
+
+    override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDonateQuoteBinding
+        get() = FragmentDonateQuoteBinding::inflate
 
     private val donateQuoteViewModel: DonateQuoteViewModel by viewModels()
 
@@ -42,22 +45,20 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_donate_quote, container, false)
-            .let {
-                wrapInStatusBarView(it)
-            }
-    }
+    ): View = super.onCreateView(inflater, container, savedInstanceState)
+        .let {
+            wrapInStatusBarView(it)
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnApplyWindowInsetsListener { insets ->
-            scrollView.updatePadding(
+            viewBinding.scrollView.updatePadding(
                 bottom = insets.systemWindowInsetBottom,
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
-            navUpBtnContainer.updatePadding(
+            viewBinding.navUpBtnContainer.updatePadding(
                 right = insets.systemWindowInsetRight,
                 left = insets.systemWindowInsetLeft
             )
@@ -70,11 +71,11 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
             insets.consumeSystemWindowInsets()
         }
 
-        navUpBtn.setOnClickListener(this)
-        btn.setOnClickListener(this)
-        timeTextView.setOnClickListener(this)
+        viewBinding.navUpBtn.setOnClickListener(this)
+        viewBinding.btn.setOnClickListener(this)
+        viewBinding.timeTextView.setOnClickListener(this)
 
-        quoteInfoInputEditText.addTextChangedListener(object : TextWatcher {
+        viewBinding.quoteInfoInputEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -86,8 +87,8 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
             }
         })
 
-        quotesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        quotesRecyclerView.adapter = QuoteAdapter(
+        viewBinding.quotesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.quotesRecyclerView.adapter = QuoteAdapter(
             isClickable = false,
             isShareBtnVisible = false
         )
@@ -102,7 +103,7 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
         })
 
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
-            requireContext().showTimePickerDialog(time, donateQuoteViewModel::postTime)
+            parentFragmentManager.showTimePickerDialog(time, donateQuoteViewModel::postTime)
         })
 
         textLiveData.observe(viewLifecycleOwner, Observer(::showText))
@@ -113,7 +114,7 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun showQuote(quote: QuoteItem) {
-        quoteExampleTextView.text = """
+        viewBinding.quoteExampleTextView.text = """
             ${quote.quote}
 
             ${quote.title}
@@ -133,17 +134,17 @@ class DonateQuoteFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun showText(text: String) {
-        if (quoteInfoInputEditText.text?.length ?: 0 != text.length) {
-            quoteInfoInputEditText.setText(text)
+        if (viewBinding.quoteInfoInputEditText.text?.length ?: 0 != text.length) {
+            viewBinding.quoteInfoInputEditText.setText(text)
         }
     }
 
     private fun showTime(time: Time) {
-        timeTextView.text = formatTime(time, timeFormat)
+        viewBinding.timeTextView.text = formatTime(time, timeFormat)
     }
 
     private fun showDatabaseState(state: DatabaseState) =
-        progressBar.setProgressBarShown(state.isWorking)
+        viewBinding.progressBar.setProgressBarShown(state.isWorking)
 
     override fun onClick(view: View) {
         when (view.id) {

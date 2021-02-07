@@ -6,7 +6,7 @@ import kotlin.math.pow
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
+    id("kotlin-parcelize")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("realm-android")
@@ -32,6 +32,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     defaultConfig {
@@ -105,12 +109,6 @@ android {
             dimension = "common"
         }
     }
-}
-
-androidExtensions {
-    // See the issue at:
-    // https://github.com/gradle/kotlin-dsl/issues/644
-    isExperimental = true
 }
 
 tasks.withType<KotlinCompile> {

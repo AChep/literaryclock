@@ -71,13 +71,6 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
-    val zhanghaiMaterialProgressBar = Dependency(
-        "Material Progress Bar",
-        ZHANGHAI_MPB_VERSION,
-        "me.zhanghai.android.materialprogressbar:library:$ZHANGHAI_MPB_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
-
     val grendergToasty = Dependency(
         "Toasty",
         GRENDERG_TOASTY_VERSION,
@@ -194,7 +187,6 @@ fun createDependencies(module: Module): List<Dependency> {
             solovyevCheckout,
             hdodenhofCircleImageView,
             theblueallianceSpectrum,
-            zhanghaiMaterialProgressBar,
             grendergToasty,
             yarolegovichDiscreteScrollView,
             mikepenzFastAdapter,

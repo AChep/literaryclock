@@ -9,25 +9,8 @@
 
         <OnSwipe
             app:dragDirection="dragUp"
-            app:touchAnchorId="@id/scrollView"
-            app:touchAnchorSide="top" />
-
-        <KeyFrameSet>
-            <KeyAttribute
-                app:framePosition="0"
-                app:motionTarget="@id/titleTextView">
-                <CustomAttribute
-                    app:attributeName="textSize"
-                    app:customFloatValue="40" />
-            </KeyAttribute>
-            <KeyAttribute
-                app:framePosition="100"
-                app:motionTarget="@id/titleTextView">
-                <CustomAttribute
-                    app:attributeName="textSize"
-                    app:customFloatValue="24" />
-            </KeyAttribute>
-        </KeyFrameSet>
+            app:touchAnchorId="@id/toolbarBg"
+            app:touchAnchorSide="bottom" />
 
     </Transition>
 
@@ -52,6 +35,8 @@
             android:id="@id/titleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             app:layout_constraintBottom_toBottomOf="@id/barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

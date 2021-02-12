@@ -9,8 +9,8 @@
 
         <OnSwipe
             app:dragDirection="dragUp"
-            app:touchAnchorId="@id/recyclerView"
-            app:touchAnchorSide="top" />
+            app:touchAnchorId="@id/toolbarBg"
+            app:touchAnchorSide="bottom" />
 
         <KeyFrameSet>
             <KeyAttribute

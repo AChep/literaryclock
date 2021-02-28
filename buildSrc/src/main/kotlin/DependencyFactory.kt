@@ -179,6 +179,13 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
+    val acraHttpSender = Dependency(
+        "ACRA HTTP sender",
+        ACRA_VERSION,
+        "ch.acra:acra-http:$ACRA_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+
     return when (module) {
         Module.APP -> listOf(
             kotlinStdlib,
@@ -206,6 +213,7 @@ fun createDependencies(module: Module): List<Dependency> {
             googleMaterial,
             googleFirebaseCore,
             googleFirebaseFirestore,
+            acraHttpSender,
             junit,
             kotlinMockito,
             kluent

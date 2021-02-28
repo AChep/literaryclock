@@ -75,6 +75,10 @@ android {
         }
     }
 
+    val acraUri = System.getenv("ACRA_URI").orEmpty()
+    val acraUsername = System.getenv("ACRA_USERNAME").orEmpty()
+    val acraPassword = System.getenv("ACRA_PASSWORD").orEmpty()
+
     buildTypes {
         getByName("release").apply {
             signingConfig = signingConfigs.getByName("release")
@@ -99,6 +103,9 @@ android {
         forEach { buildType ->
             buildType.buildConfigField(bcFieldType, "DEPENDENCIES", bcFieldValue)
             buildType.buildConfigField("String", "LICENSE_KEY", licenseKeyValue)
+            buildType.buildConfigField("String", "ACRA_URI", """"$acraUri"""")
+            buildType.buildConfigField("String", "ACRA_USERNAME", """"$acraUsername"""")
+            buildType.buildConfigField("String", "ACRA_PASSWORD", """"$acraPassword"""")
         }
     }
 

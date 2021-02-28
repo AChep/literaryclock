@@ -31,6 +31,9 @@ jobs:
       - id: env
         run: |
           echo "LITERARY_CLOCK_RELEASE_TAG=${{ steps.vars.outputs.tag }}" >> $GITHUB_ENV
+          echo "ACRA_URI=${{ secrets.ACRA_URI }}" >> $GITHUB_ENV
+          echo "ACRA_USERNAME=${{ secrets.ACRA_USERNAME }}" >> $GITHUB_ENV
+          echo "ACRA_PASSWORD=${{ secrets.ACRA_PASSWORD }}" >> $GITHUB_ENV
       - name: copy secrets
         run: |
           echo ${{ secrets.GOOGLE_SERVICES }} | base64 -d | zcat >> app/google-services.json

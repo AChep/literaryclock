@@ -48,6 +48,9 @@ const val ANDROIDARCH_WORK_VERSION = "2.5.0"
 // https://mvnrepository.com/artifact/com.google.android.material/material
 const val GOOGLE_MATERIAL_VERSION = "1.3.0"
 
+// https://github.com/ACRA/acra
+const val ACRA_VERSION = "5.7.0"
+
 // https://firebase.google.com/support/release-notes/android
 const val GOOGLE_FIREBASE_ANALYTICS = "18.0.2"
 const val GOOGLE_FIREBASE_FIRESTORE = "22.0.2"

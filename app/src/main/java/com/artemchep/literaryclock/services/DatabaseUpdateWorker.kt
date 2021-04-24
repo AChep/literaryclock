@@ -99,7 +99,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
             batches.documents
                 .mapNotNull { it.toObject(FirestoreBatchModel::class.java) }
                 .map { it.timestamp?.toDate()?.time ?: 0L }
-                .max()
+                .maxOrNull()
                 // Save new time to local
                 // storage
                 ?.let { new ->

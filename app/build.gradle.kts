@@ -27,7 +27,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion(Android.targetSdkVersion)
+    compileSdk = Android.targetSdkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -39,8 +39,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion(Android.minSdkVersion)
-        targetSdkVersion(Android.targetSdkVersion)
+        minSdk = Android.minSdkVersion
+        targetSdk = Android.targetSdkVersion
 
         val versionNamePartsCount = 4
         val releaseTag = System.getenv("LITERARY_CLOCK_RELEASE_TAG")
@@ -109,7 +109,7 @@ android {
         }
     }
 
-    flavorDimensions("common")
+    flavorDimensions.add("common")
 
     productFlavors {
         maybeCreate("prod").apply {

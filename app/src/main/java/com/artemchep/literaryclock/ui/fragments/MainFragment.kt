@@ -2,7 +2,6 @@ package com.artemchep.literaryclock.ui.fragments
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -32,6 +31,7 @@ import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.*
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
+import com.artemchep.literaryclock.utils.ext.startActivityIfExists
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -125,15 +125,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
         shareQuoteEvent.observe(viewLifecycleOwner, Observer { quote ->
             val subject = getString(R.string.app_name)
             val text = quote.quote
-            try {
-                val i = Intent(Intent.ACTION_SEND).apply {
-                    type = "description/plain"
-                    putExtra(Intent.EXTRA_SUBJECT, subject)
-                    putExtra(Intent.EXTRA_TEXT, text)
-                }
-                startActivity(Intent.createChooser(i, getString(R.string.quote_share)))
-            } catch (e: ActivityNotFoundException) {
+            val i = Intent(Intent.ACTION_SEND).apply {
+                type = "description/plain"
+                putExtra(Intent.EXTRA_SUBJECT, subject)
+                putExtra(Intent.EXTRA_TEXT, text)
             }
+            startActivityIfExists(Intent.createChooser(i, getString(R.string.quote_share)))
         })
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
             parentFragmentManager.showTimePickerDialog(time, mainViewModel::postTime)

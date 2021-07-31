@@ -39,5 +39,6 @@
 
     <string name="error_quote_empty">Quote info can\'t be empty</string>
     <string name="error_sync_failed">Failed to sync the database of quotes</string>
+    <string name="error_activity_not_found">No app can perform this action</string>
 
 </resources>

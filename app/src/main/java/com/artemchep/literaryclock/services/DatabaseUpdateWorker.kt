@@ -3,6 +3,7 @@ package com.artemchep.literaryclock.services
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.work.CoroutineWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.artemchep.literaryclock.*
@@ -22,10 +23,11 @@ import io.realm.RealmList
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.coroutines.EmptyCoroutineContext
 
-class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     companion object {
         const val TAG = "LiteraryUpdateWorker"
@@ -36,7 +38,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
         var isRunning = false
     }
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         ifDebug {
             Log.d(TAG, "Updating the literary clock database...")
         }
@@ -44,7 +46,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
         setState(true)
 
         val context = EmptyCoroutineContext +
-                CoroutineExceptionHandler { context, throwable ->
+                CoroutineExceptionHandler { _, throwable ->
                     Log.e(TAG, "The database update went wrong.")
                     throwable.printStackTrace()
 
@@ -57,7 +59,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Worker(
                     messageLiveEvent.postValue(message)
                 }
 
-        runBlocking(context) {
+        withContext(context) {
             val batches = loadNewBatches()
 
             // Load all new quotes and add them to

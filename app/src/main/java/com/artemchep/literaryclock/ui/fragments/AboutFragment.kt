@@ -1,12 +1,11 @@
 package com.artemchep.literaryclock.ui.fragments
 
-import android.content.ActivityNotFoundException
+import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.app.SearchManager
 import androidx.core.net.toUri
 import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
@@ -21,6 +20,7 @@ import com.artemchep.literaryclock.ui.adapters.DependencyAdapter
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
+import com.artemchep.literaryclock.utils.ext.startActivityIfExists
 import com.artemchep.literaryclock.utils.wrapInStatusBarView
 
 /**
@@ -105,15 +105,12 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
                 val subject = getString(R.string.app_name)
                 val text = "Literary Clock represents time in a form of literature qoutes. " +
                         "Check it out: https://play.google.com/store/apps/details?id=com.artemchep.literaryclock"
-                try {
-                    val i = Intent(Intent.ACTION_SEND).apply {
-                        type = "description/plain"
-                        putExtra(Intent.EXTRA_SUBJECT, subject)
-                        putExtra(Intent.EXTRA_TEXT, text)
-                    }
-                    startActivity(Intent.createChooser(i, getString(R.string.app_share)))
-                } catch (e: ActivityNotFoundException) {
+                val i = Intent(Intent.ACTION_SEND).apply {
+                    type = "description/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, subject)
+                    putExtra(Intent.EXTRA_TEXT, text)
                 }
+                startActivityIfExists(Intent.createChooser(i, getString(R.string.app_share)))
             }
             R.id.twitterBtn -> aboutViewModel.openTwitter()
             R.id.instagramBtn -> aboutViewModel.openInstagram()
@@ -122,13 +119,10 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
     }
 
     override fun onItemClick(view: View, data: DependencyItem, position: Int) {
-        try {
-            val i = Intent(Intent.ACTION_WEB_SEARCH).apply {
-                putExtra(SearchManager.QUERY, data.name)
-            }
-            startActivity(i)
-        } catch (e: ActivityNotFoundException) {
+        val i = Intent(Intent.ACTION_WEB_SEARCH).apply {
+            putExtra(SearchManager.QUERY, data.name)
         }
+        startActivityIfExists(i)
     }
 
 }

@@ -104,10 +104,22 @@ fun createDependencies(module: Module): List<Dependency> {
         "androidx.core:core-ktx:$ANDROIDX_KTX_VERSION",
         DependencyType.IMPLEMENTATION
     )
-    val androidxLifecycleExt = Dependency(
-        "AndroidX Lifecycle Ext",
+    val androidxLifecycleViewModel = Dependency(
+        "AndroidX Lifecycle ViewModel",
         ANDROIDX_LIFECYCLE_VERSION,
-        "androidx.lifecycle:lifecycle-extensions:$ANDROIDX_LIFECYCLE_VERSION",
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:$ANDROIDX_LIFECYCLE_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val androidxLifecycleLiveData = Dependency(
+        "AndroidX Lifecycle LiveData",
+        ANDROIDX_LIFECYCLE_VERSION,
+        "androidx.lifecycle:lifecycle-livedata-ktx:$ANDROIDX_LIFECYCLE_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val androidxLifecycleRuntime = Dependency(
+        "AndroidX Lifecycle Runtime",
+        ANDROIDX_LIFECYCLE_VERSION,
+        "androidx.lifecycle:lifecycle-runtime-ktx:$ANDROIDX_LIFECYCLE_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val androidxBrowser = Dependency(
@@ -201,7 +213,9 @@ fun createDependencies(module: Module): List<Dependency> {
             kodeinAndroid,
             androidxAppCompat,
             androidxKtx,
-            androidxLifecycleExt,
+            androidxLifecycleLiveData,
+            androidxLifecycleViewModel,
+            androidxLifecycleRuntime,
             androidxBrowser,
             androidxConstraintLayout,
             androidArchNavigationFragment,

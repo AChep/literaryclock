@@ -122,7 +122,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
 
     private fun MainViewModel.setup() {
         openUrlEvent.observe(viewLifecycleOwner, Observer(::showUrl))
-        shareQuoteEvent.observe(viewLifecycleOwner, Observer { quote ->
+        shareQuoteEvent.observe(viewLifecycleOwner) { quote ->
             val subject = getString(R.string.app_name)
             val text = quote.quote
             val i = Intent(Intent.ACTION_SEND).apply {
@@ -131,10 +131,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
                 putExtra(Intent.EXTRA_TEXT, text)
             }
             startActivityIfExists(Intent.createChooser(i, getString(R.string.quote_share)))
-        })
-        editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
+        }
+        editTimeEvent.observe(viewLifecycleOwner) { time ->
             parentFragmentManager.showTimePickerDialog(time, mainViewModel::postTime)
-        })
+        }
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
         momentLiveData.observe(viewLifecycleOwner, Observer(::showMoment))

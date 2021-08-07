@@ -11,7 +11,7 @@ const val KLUENT_VERSION = "1.63"
 const val JUNIT_VERSION = "4.13.1"
 
 // https://kodein.org/
-const val KODEIN_VERSION = "7.5.1"
+const val KODEIN_VERSION = "7.6.0"
 
 // https://github.com/AChep/config
 const val ARTEMCHEP_CONFIG_VERSION = "2.2.0"
@@ -40,7 +40,7 @@ const val ANDROIDX_KTX_VERSION = "1.6.0"
 // https://developer.android.com/jetpack/androidx/versions
 const val ANDROIDX_APPCOMPAT_VERSION = "1.4.0-alpha03"
 const val ANDROIDX_BROWSER_VERSION = "1.3.0"
-const val ANDROIDX_LIFECYCLE_VERSION = "2.2.0"
+const val ANDROIDX_LIFECYCLE_VERSION = "2.4.0-alpha03"
 const val ANDROIDX_CONSTRAINTLAYOUT_VERSION = "2.1.0"
 const val ANDROIDARCH_NAVIGATION_VERSION = "2.3.5"
 const val ANDROIDARCH_WORK_VERSION = "2.5.0"

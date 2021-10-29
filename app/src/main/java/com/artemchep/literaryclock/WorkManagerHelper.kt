@@ -1,10 +1,7 @@
 package com.artemchep.literaryclock
 
 import android.content.Context
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.artemchep.literaryclock.services.DatabaseUpdateWorker
 import com.artemchep.literaryclock.services.WidgetUpdateWorker
 import java.time.Duration
@@ -30,6 +27,7 @@ fun Context.startUpdateDatabaseJob(key: String) {
     val request = PeriodicWorkRequestBuilder<DatabaseUpdateWorker>(duration)
         .setConstraints(
             Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
                 .setRequiresCharging(true)
                 .build()
@@ -39,4 +37,13 @@ fun Context.startUpdateDatabaseJob(key: String) {
     // Enqueue the periodic work of updating the
     // database.
     WorkManager.getInstance(this).enqueueUniquePeriodicWork(key, policy, request)
+}
+
+fun Context.startUpdateDatabaseImmediateJob() {
+    val request = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
+        .build()
+
+    // Enqueue the periodic work of updating the
+    // database.
+    WorkManager.getInstance(this).enqueue(request)
 }

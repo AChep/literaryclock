@@ -55,9 +55,8 @@ class MainActivity : AppCompatActivity(), DIAware {
             }
         })
 
-        // Check the database for updates
-        // every day.
         startUpdateDatabaseJob(Heart.UID_DATABASE_UPDATE_JOB)
+        startUpdateDatabaseImmediateJob()
 
         themeViewModel.setup()
     }

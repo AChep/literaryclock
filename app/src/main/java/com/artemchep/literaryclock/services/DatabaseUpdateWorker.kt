@@ -61,6 +61,9 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Corouti
 
         withContext(context) {
             val batches = loadNewBatches()
+            ifDebug {
+                Log.d(TAG, "${batches}")
+            }
 
             // Load all new quotes and add them to
             // database.

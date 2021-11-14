@@ -1,10 +1,13 @@
 package com.artemchep.literaryclock.ui.activities
 
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.graphics.luminance
 import androidx.lifecycle.Observer
 import com.artemchep.literaryclock.*
 import com.artemchep.literaryclock.logic.viewmodels.ThemeViewModel
@@ -42,6 +45,16 @@ class MainActivity : AppCompatActivity(), DIAware {
         window.decorView.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimaryContainer, typedValue, true)
+        if (typedValue.data.luminance > 0.5f) {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
 
         // Show all the messages as
         // toasts.

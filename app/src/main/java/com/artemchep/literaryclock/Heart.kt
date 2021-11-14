@@ -21,6 +21,7 @@ import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
+import com.google.android.material.color.DynamicColors
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.realm.Realm
 import kotlinx.coroutines.Dispatchers
@@ -132,6 +133,8 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
         // don't schedule anything in crash reporter process
         if (ACRA.isACRASenderServiceProcess())
             return
+
+        DynamicColors.applyToActivitiesIfAvailable(this)
 
         Realm.init(this)
         Cfg.init(this)

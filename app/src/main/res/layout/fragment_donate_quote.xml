@@ -10,7 +10,7 @@
         android:id="@+id/toolbarBg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?colorPrimary"
+        android:background="?colorPrimaryContainer"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,9 +26,8 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/donate_quote"
-        android:textColor="@android:color/white"
+        android:textColor="?colorOnPrimaryContainer"
         android:textSize="36sp"
-        android:theme="@style/Theme.MaterialComponents"
         app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,8 +51,7 @@
             android:elevation="4dp"
             android:rotationY="@dimen/autorotate_rotation_y"
             android:src="@drawable/ic_arrow_left"
-            android:theme="@style/Theme.MaterialComponents"
-            android:tint="@android:color/white" />
+            android:tint="?colorOnPrimaryContainer" />
 
     </FrameLayout>
 
@@ -183,7 +181,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/quoteInfoInputLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/frame_margin_horizontal"
@@ -195,7 +193,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/quoteInfoInputEditText"
-                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/donate_quote_field_hint"
@@ -206,7 +204,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_marginStart="@dimen/frame_margin_horizontal"
@@ -216,10 +214,8 @@
                 android:paddingEnd="32dp"
                 android:text="@string/send"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
                 app:cornerRadius="28dp"
                 app:icon="@drawable/ic_send"
-                app:iconTint="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/quoteInfoInputLayout" />
 

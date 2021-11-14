@@ -6,7 +6,8 @@
 
     <color name="colorNavigationBarPreQ">#B3FFFFFF</color>
 
-    <color name="white_88">#88ffffff</color>
+    <color name="white_88">#88000000</color>
+    <color name="white_ff">#FF000000</color>
 
     <color name="green">#4caf50</color>
 </resources>

@@ -3,8 +3,8 @@ package com.artemchep.literaryclock.ui.fragments
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +36,7 @@ import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
+
 /**
  * @author Artem Chepurnoy
  */
@@ -56,7 +57,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
 
     private val analogClockDrawable by lazy {
         AnalogClockDrawable().apply {
-            color = Color.WHITE
+            val typedValue = TypedValue()
+            val theme = requireContext().theme
+            theme.resolveAttribute(R.attr.colorOnPrimaryContainer, typedValue, true)
+            color = typedValue.data
         }
     }
 

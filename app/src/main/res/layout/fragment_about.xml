@@ -10,7 +10,7 @@
         android:id="@+id/toolbarBg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?colorPrimary"
+        android:background="?colorPrimaryContainer"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,9 +26,8 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/about"
-        android:textColor="@android:color/white"
+        android:textColor="?colorOnPrimaryContainer"
         android:textSize="36sp"
-        android:theme="@style/Theme.MaterialComponents"
         app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,8 +51,7 @@
             android:elevation="4dp"
             android:rotationY="@dimen/autorotate_rotation_y"
             android:src="@drawable/ic_arrow_left"
-            android:theme="@style/Theme.MaterialComponents"
-            android:tint="@android:color/white" />
+            android:tint="?colorOnPrimaryContainer" />
 
     </FrameLayout>
 
@@ -123,7 +121,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/appGithubBtn"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="64dp"
@@ -132,7 +130,6 @@
                 android:paddingEnd="16dp"
                 android:text="GitHub"
                 android:textAllCaps="false"
-                android:textColor="?android:textColorPrimary"
                 app:cornerRadius="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appBarrier"
@@ -140,7 +137,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/appShareBtn"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -149,7 +146,6 @@
                 android:paddingEnd="16dp"
                 android:text="Share"
                 android:textAllCaps="false"
-                android:textColor="?android:textColorPrimary"
                 app:cornerRadius="32dp"
                 app:layout_constraintStart_toEndOf="@id/appGithubBtn"
                 app:layout_constraintTop_toBottomOf="@id/appBarrier"

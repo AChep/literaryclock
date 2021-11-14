@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white_88">#88ffffff</color>
+    <color name="white_ff">#FFffffff</color>
     <color name="colorNavigationBarPreQ">#B3000000</color>
 </resources>

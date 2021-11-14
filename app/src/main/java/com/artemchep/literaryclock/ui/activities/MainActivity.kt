@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), DIAware {
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
         val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorPrimaryContainer, typedValue, true)
+        theme.resolveAttribute(R.attr.colorSecondaryContainer, typedValue, true)
         if (typedValue.data.luminance > 0.5f) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

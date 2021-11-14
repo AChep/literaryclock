@@ -7,7 +7,7 @@
     <style name="AppTheme" parent="AppTheme_Base">
         <item name="android:statusBarColor">@android:color/transparent</item>
 
-        <item name="colorPrimaryDark">?colorPrimaryContainer</item>
+        <item name="colorPrimaryDark">?colorSecondaryContainer</item>
     </style>
 
 </resources>

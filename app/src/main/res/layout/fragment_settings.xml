@@ -9,7 +9,7 @@
         android:id="@+id/toolbarBg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?colorPrimaryContainer"
+        android:background="?colorSecondaryContainer"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/settings"
-        android:textColor="?colorOnPrimaryContainer"
+        android:textColor="?colorOnSecondaryContainer"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
             android:elevation="4dp"
             android:rotationY="@dimen/autorotate_rotation_y"
             android:src="@drawable/ic_arrow_left"
-            android:tint="?colorOnPrimaryContainer" />
+            android:tint="?colorOnSecondaryContainer" />
 
     </FrameLayout>
 

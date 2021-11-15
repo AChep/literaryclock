@@ -40,7 +40,7 @@ jobs:
           echo ${{ secrets.KEYSTORE_B64 }} | base64 -d | zcat >> app/literaryclock-release.keystore
           echo ${{ secrets.KEYSTORE_PROPS_B64 }} | base64 -d | zcat >> app/literaryclock-release.properties
       - name: "./gradlew clean bundleProdRelease assembleProdRelease"
-        uses: eskatos/gradle-command-action@v1
+        uses: eskatos/gradle-command-action@v2
         env:
           JAVA_HOME: ${{ steps.setup-java.outputs.path }}
         with:

@@ -1,75 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutDescription="@xml/desc_fragment_common">
+    android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/toolbarBg"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?colorSecondaryContainer"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:elevation="4dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="@string/donate_quote"
-        android:textColor="?colorOnSecondaryContainer"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@id/toolbarBg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbarBg" />
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true">
 
-    <FrameLayout
-        android:id="@+id/navUpBtnContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:elevation="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            style="?attr/collapsingToolbarLayoutLargeStyle"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-        <ImageView
-            android:id="@+id/navUpBtn"
-            style="?actionButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/app_bar_height__collapsed"
-            android:elevation="4dp"
-            android:rotationY="@dimen/autorotate_rotation_y"
-            android:src="@drawable/ic_arrow_left"
-            android:tint="?colorOnSecondaryContainer" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_left"
+                app:title="@string/donate_quote" />
 
-    </FrameLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    <Space
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/app_bar_height__expanded"
-        app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -81,13 +46,12 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/frame_margin_vertical"
                 android:background="?selectableItemBackground"
-                android:drawableStart="@drawable/ic_time"
                 android:drawablePadding="24dp"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/frame_margin_horizontal"
                 android:paddingEnd="@dimen/frame_margin_horizontal"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="16sp"
+                android:textAppearance="?textAppearanceBodyLarge"
+                app:drawableStartCompat="@drawable/ic_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -100,6 +64,7 @@
                 android:layout_marginTop="16dp"
                 android:background="?dividerHorizontal"
                 app:layout_constraintTop_toBottomOf="@id/timeTextView" />
+
 
             <LinearLayout
                 android:id="@+id/timeQuotesContainer"
@@ -123,10 +88,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/frame_margin_horizontal"
                         android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                        android:fontFamily="sans-serif-medium"
-                        android:letterSpacing="0.1"
                         android:text="Existing quotes:"
-                        android:textSize="13sp"
+                        android:textAppearance="?textAppearanceLabelMedium"
+                        android:textColor="?colorTertiary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/appDescTextView" />
@@ -161,6 +125,7 @@
                 android:layout_marginTop="@dimen/frame_margin_vertical"
                 android:layout_marginEnd="@dimen/frame_margin_horizontal"
                 android:text="Make sure your quote is not in the list. A sample of a quote:"
+                android:textAppearance="?textAppearanceBodyMedium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timeQuotesContainer" />
@@ -172,8 +137,8 @@
                 android:layout_marginStart="@dimen/frame_margin_horizontal"
                 android:layout_marginTop="@dimen/frame_margin_vertical"
                 android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="?android:textColorPrimary"
+                android:fontFamily="@font/robotoslab_regular"
+                android:textAppearance="?textAppearanceBodyLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timeQuotesAlertTextView"
@@ -181,7 +146,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/quoteInfoInputLayout"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/frame_margin_horizontal"
@@ -227,8 +192,7 @@
                 android:layout_marginTop="@dimen/frame_margin_vertical"
                 android:layout_marginEnd="@dimen/frame_margin_horizontal"
                 android:text="@string/donate_quote_disclaimer"
-                android:textColor="?android:textColorHint"
-                android:textSize="13sp"
+                android:textAppearance="?textAppearanceLabelSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn" />
@@ -243,4 +207,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,36 +26,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
     override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSettingsBinding
         get() = FragmentSettingsBinding::inflate
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = super.onCreateView(inflater, container, savedInstanceState)
-        .let {
-            wrapInStatusBarView(it)
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnApplyWindowInsetsListener { insets ->
-            viewBinding.scrollView.updatePadding(
-                bottom = insets.systemWindowInsetBottom,
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-            viewBinding.navUpBtnContainer.updatePadding(
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-
-            view.findViewById<View>(R.id.statusBarBg).apply {
-                layoutParams.height = insets.systemWindowInsetTop
-                requestLayout()
-            }
-
-            insets.consumeSystemWindowInsets()
+        viewBinding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
-
         viewBinding.themeSpinner.apply {
             val themes = arrayOf(
                 getString(R.string.settings_theme_auto) to Cfg.APP_THEME_AUTO,
@@ -97,7 +72,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
             }
         }
 
-        viewBinding.navUpBtn.setOnClickListener(this)
         setupWidgetUpdaterPreference()
         setupWidgetColorPreference()
     }
@@ -177,7 +151,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
     override fun onClick(view: View) {
         when (view.id) {
             R.id.altWidgetUpdaterTextView -> viewBinding.altWidgetUpdaterSwitch.toggle()
-            R.id.navUpBtn -> findNavController().navigateUp()
         }
     }
 

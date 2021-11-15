@@ -10,12 +10,12 @@
     android:paddingBottom="12dp"
     android:transitionName="test">
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/shareBtn"
-        style="?actionButtonStyle"
+        style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_share"
+        app:icon="@drawable/ic_share"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,8 +37,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/robotoslab_regular"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="16sp"
+        android:textAppearance="?textAppearanceBodyLarge"
         app:layout_constraintEnd_toStartOf="@id/shareBtn"
         app:layout_constraintStart_toEndOf="@id/quoteDividerView"
         app:layout_constraintTop_toTopOf="parent"
@@ -54,8 +53,8 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/robotoslab_regular"
         android:gravity="end"
+        android:textAppearance="?textAppearanceLabelMedium"
         android:textColor="?android:textColorSecondary"
-        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@id/shareBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quoteTextView"
@@ -70,8 +69,8 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/robotoslab_regular"
         android:gravity="end"
+        android:textAppearance="?textAppearanceLabelMedium"
         android:textColor="?android:textColorSecondary"
-        android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@id/shareBtn"
         app:layout_constraintStart_toStartOf="parent"

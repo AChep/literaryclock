@@ -36,37 +36,11 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
 
     private lateinit var adapter: DependencyAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = super.onCreateView(inflater, container, savedInstanceState)
-        .let {
-            wrapInStatusBarView(it)
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnApplyWindowInsetsListener { insets ->
-            viewBinding.scrollView.updatePadding(
-                bottom = insets.systemWindowInsetBottom,
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-            viewBinding.navUpBtnContainer.updatePadding(
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-
-            view.findViewById<View>(R.id.statusBarBg).apply {
-                layoutParams.height = insets.systemWindowInsetTop
-                requestLayout()
-            }
-
-            insets.consumeSystemWindowInsets()
+        viewBinding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
-
-        viewBinding.navUpBtn.setOnClickListener(this)
         viewBinding.appGithubBtn.setOnClickListener(this)
         viewBinding.linkedInBtn.setOnClickListener(this)
         viewBinding.instagramBtn.setOnClickListener(this)
@@ -99,11 +73,10 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.navUpBtn -> findNavController().navigateUp()
             R.id.appGithubBtn -> aboutViewModel.openGitHub()
             R.id.appShareBtn -> {
                 val subject = getString(R.string.app_name)
-                val text = "Literary Clock represents time in a form of literature qoutes. " +
+                val text = "Literary Clock represents time in a form of literature quotes. " +
                         "Check it out: https://play.google.com/store/apps/details?id=com.artemchep.literaryclock"
                 val i = Intent(Intent.ACTION_SEND).apply {
                     type = "description/plain"

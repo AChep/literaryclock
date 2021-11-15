@@ -41,37 +41,11 @@ class DonateQuoteFragment : BaseFragment<FragmentDonateQuoteBinding>(), View.OnC
     /** The format of a digital clock used system-wide */
     private val timeFormat by lazy { createTimeFormat(requireContext()) }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = super.onCreateView(inflater, container, savedInstanceState)
-        .let {
-            wrapInStatusBarView(it)
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnApplyWindowInsetsListener { insets ->
-            viewBinding.scrollView.updatePadding(
-                bottom = insets.systemWindowInsetBottom,
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-            viewBinding.navUpBtnContainer.updatePadding(
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-
-            view.findViewById<View>(R.id.statusBarBg).apply {
-                layoutParams.height = insets.systemWindowInsetTop
-                requestLayout()
-            }
-
-            insets.consumeSystemWindowInsets()
+        viewBinding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
-
-        viewBinding.navUpBtn.setOnClickListener(this)
         viewBinding.btn.setOnClickListener(this)
         viewBinding.timeTextView.setOnClickListener(this)
 
@@ -148,7 +122,6 @@ class DonateQuoteFragment : BaseFragment<FragmentDonateQuoteBinding>(), View.OnC
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.navUpBtn -> navigateUp()
             R.id.btn -> donateQuoteViewModel.send()
             R.id.timeTextView -> donateQuoteViewModel.editTime()
         }

@@ -37,38 +37,11 @@ class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListen
 
     private val itemAdapter by lazy { ItemAdapter<SkuItem>() }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = super.onCreateView(inflater, container, savedInstanceState)
-        .let {
-            wrapInStatusBarView(it)
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnApplyWindowInsetsListener { insets ->
-            viewBinding.scrollView.updatePadding(
-                bottom = insets.systemWindowInsetBottom,
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-            viewBinding.navUpBtnContainer.updatePadding(
-                right = insets.systemWindowInsetRight,
-                left = insets.systemWindowInsetLeft
-            )
-
-            view.findViewById<View>(R.id.statusBarBg).apply {
-                layoutParams.height = insets.systemWindowInsetTop
-                requestLayout()
-            }
-
-            insets.consumeSystemWindowInsets()
+        viewBinding.topAppBar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
-
-        viewBinding.navUpBtn.setOnClickListener(this)
-
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(context)
         viewBinding.recyclerView.adapter = FastAdapter.with(itemAdapter).apply {
             onClickListener = object : ClickListener<SkuItem> {
@@ -135,9 +108,6 @@ class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListen
     }
 
     override fun onClick(view: View) {
-        when (view.id) {
-            R.id.navUpBtn -> findNavController().navigateUp()
-        }
     }
 
 }

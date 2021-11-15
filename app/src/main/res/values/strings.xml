@@ -3,6 +3,7 @@
     <string name="app_name">Literary Clock</string>
     <string name="app_share">Share Literary Clock</string>
 
+    <string name="share">Share</string>
     <string name="send">Send</string>
     <string name="error">Oh, snap!</string>
     <string name="purchased">Purchased</string>

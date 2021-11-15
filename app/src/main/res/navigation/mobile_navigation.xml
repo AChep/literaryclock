@@ -23,13 +23,6 @@
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/donateFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_quoteFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/quoteFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -55,14 +48,6 @@
         <action
             android:id="@+id/action_donateFragment_to_donateQuoteFragment"
             app:destination="@id/donateQuoteFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/quoteFragment"
-        android:name="com.artemchep.literaryclock.ui.fragments.QuoteFragment"
-        android:label="QuoteFragment" >
-        <argument
-            android:name="quote"
-            app:argType="com.artemchep.literaryclock.models.QuoteItem" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

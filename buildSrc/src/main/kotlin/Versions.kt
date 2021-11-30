@@ -46,7 +46,7 @@ const val ANDROIDARCH_NAVIGATION_VERSION = "2.3.5"
 const val ANDROIDARCH_WORK_VERSION = "2.7.0"
 
 // https://mvnrepository.com/artifact/com.google.android.material/material
-const val GOOGLE_MATERIAL_VERSION = "1.5.0-beta01"
+const val GOOGLE_MATERIAL_VERSION = "1.6.0-alpha01"
 
 // https://github.com/ACRA/acra
 const val ACRA_VERSION = "5.7.0"

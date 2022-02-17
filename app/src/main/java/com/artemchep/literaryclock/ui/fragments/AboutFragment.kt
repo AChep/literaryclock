@@ -69,7 +69,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
         })
     }
 
-    private fun showUrl(url: String) = url.toUri().launchInCustomTabs(activity!!)
+    private fun showUrl(url: String) = url.toUri().launchInCustomTabs(requireActivity())
 
     override fun onClick(view: View) {
         when (view.id) {

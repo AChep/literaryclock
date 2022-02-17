@@ -102,7 +102,7 @@ object LiteraryWidgetUpdater {
                 context,
                 Heart.PI_UPDATE_WIDGET,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
             setViewVisibility(R.id.refreshBtn, View.VISIBLE)
@@ -115,7 +115,7 @@ object LiteraryWidgetUpdater {
             context,
             Heart.PI_OPEN_MAIN_SCREEN,
             intent,
-            PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         setOnClickPendingIntent(R.id.quoteTextView, pendingIntent)
     }

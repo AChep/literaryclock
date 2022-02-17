@@ -161,7 +161,7 @@
                 android:layout_marginTop="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="Contibute on GitHub"
+                android:text="Contribute on GitHub"
                 android:textAllCaps="false"
                 app:cornerRadius="32dp"
                 app:layout_constraintStart_toStartOf="parent"

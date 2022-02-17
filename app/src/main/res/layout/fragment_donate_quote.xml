@@ -51,11 +51,11 @@
                 android:paddingStart="@dimen/frame_margin_horizontal"
                 android:paddingEnd="@dimen/frame_margin_horizontal"
                 android:textAppearance="?textAppearanceBodyLarge"
-                app:drawableStartCompat="@drawable/ic_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="10:15" />
+                tools:text="10:15"
+                app:drawableStartCompat="@drawable/ic_time" />
 
             <View
                 android:id="@+id/timeDivider"

@@ -88,6 +88,7 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Corouti
                         quotes = it.value.mapTo(RealmList(), FirestoreQuoteModel::toRealmModel)
                     }
                 }
+                .toList()
                 .also { entries ->
                     // Insert new quotes to our
                     // database.

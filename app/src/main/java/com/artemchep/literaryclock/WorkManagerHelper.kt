@@ -23,7 +23,7 @@ fun Context.startUpdateWidgetJob(key: String) {
 
 fun Context.startUpdateDatabaseJob(key: String) {
     val policy = ExistingPeriodicWorkPolicy.REPLACE
-    val duration = Duration.ofDays(5)
+    val duration = Duration.ofDays(20)
     val request = PeriodicWorkRequestBuilder<DatabaseUpdateWorker>(duration)
         .setConstraints(
             Constraints.Builder()

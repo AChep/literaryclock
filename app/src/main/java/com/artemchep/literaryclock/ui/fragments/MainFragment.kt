@@ -110,6 +110,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
 
         viewBinding.moreBtn.setOnClickListener(this)
         viewBinding.btn.setOnClickListener(this)
+        viewBinding.warLearnMoreBtn.setOnClickListener(this)
 
         viewBinding.analogClock.foreground = analogClockDrawable
 
@@ -226,6 +227,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
         when (view.id) {
             R.id.btn -> mainViewModel.editTime()
             R.id.moreBtn -> showMorePopUp(view)
+            R.id.warLearnMoreBtn -> mainViewModel.openLearnAboutWar()
         }
     }
 

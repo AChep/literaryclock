@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.logic.SingleLiveEvent
 import com.artemchep.literaryclock.logic.live.DatabaseStateLiveData
@@ -67,6 +68,12 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun openQuote(quote: QuoteItem) {
         "http://www.amazon.com/dp/${quote.asin}".let(openUrlEvent::setValue)
         analytics.logQuoteOpen(quote)
+    }
+
+    @UiThread
+    fun openLearnAboutWar() {
+        val url = getApplication<Application>().getString(R.string.war_learn_more_url)
+        url.let(openUrlEvent::setValue)
     }
 
     @UiThread

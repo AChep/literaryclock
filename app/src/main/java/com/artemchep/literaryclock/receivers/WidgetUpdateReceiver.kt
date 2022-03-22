@@ -17,6 +17,8 @@ class WidgetUpdateReceiver : BroadcastReceiver() {
         GlobalScope.launch(Dispatchers.Default) {
             LiteraryWidgetUpdater.updateLiteraryWidget(context)
         }
+
+        goAsync()
     }
 
 }

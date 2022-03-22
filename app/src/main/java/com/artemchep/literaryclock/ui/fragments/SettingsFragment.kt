@@ -73,7 +73,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
         }
 
         setupWidgetUpdaterPreference()
-        setupWidgetColorPreference()
     }
 
     private fun setupWidgetUpdaterPreference() {
@@ -95,32 +94,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
         }
     }
 
-    private fun setupWidgetColorPreference() {
-        var isBroadcasting = false
-
-        val colors = arrayOf(Color.WHITE, Color.BLACK).toIntArray()
-        viewBinding.palette.setFixedColumnCount(colors.size)
-        viewBinding.palette.setColors(colors)
-        viewBinding.palette.setOnColorSelectedListener { color ->
-            if (isBroadcasting) {
-                return@setOnColorSelectedListener
-            }
-
-            isBroadcasting = true
-
-            Cfg.edit(requireContext()) {
-                Cfg.widgetTextColor = color
-            }
-
-            isBroadcasting = false
-        }
-    }
-
     override fun onStart() {
         super.onStart()
         Cfg.observe(this)
         updateWidgetUpdateServiceEnabledPref()
-        updateWidgetColorPref()
     }
 
     override fun onStop() {
@@ -131,21 +108,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
     override fun onConfigChanged(keys: Set<String>) {
         if (Cfg.KEY_WIDGET_UPDATE_SERVICE_ENABLED in keys) {
             updateWidgetUpdateServiceEnabledPref()
-        } else if (Cfg.KEY_WIDGET_TEXT_COLOR in keys) {
-            updateWidgetColorPref()
         }
     }
 
     private fun updateWidgetUpdateServiceEnabledPref() {
         viewBinding.altWidgetUpdaterSwitch.isChecked = Cfg.isWidgetUpdateServiceEnabled
-    }
-
-    private fun updateWidgetColorPref() {
-        try {
-            viewBinding.palette.setSelectedColor(Cfg.widgetTextColor)
-        } catch (_: Exception) {
-            viewBinding.palette.setSelectedColor(Color.WHITE)
-        }
     }
 
     override fun onClick(view: View) {

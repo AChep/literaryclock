@@ -3,6 +3,8 @@ package com.artemchep.literaryclock
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.artemchep.config.Config
 import com.artemchep.literaryclock.analytics.AnalyticsAbout
 import com.artemchep.literaryclock.analytics.AnalyticsDonate
@@ -20,13 +22,11 @@ import com.artemchep.literaryclock.logic.live.TimeLiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
+import com.artemchep.literaryclock.services.WidgetUpdateService
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
 import com.google.android.material.color.DynamicColors
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.realm.Realm
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.acra.ACRA
 import org.acra.annotation.AcraCore
 import org.acra.annotation.AcraHttpSender
@@ -141,19 +141,24 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
         Cfg.observe(this)
         CfgInternal.init(this)
 
+        // Wait till the app is in the
+        // foreground and start the update service.
+        ProcessLifecycleOwner.get().lifecycleScope.launchWhenStarted {
+            WidgetUpdateService.tryStartOrStop(this@Heart)
+        }
+
         // Check the database for updates
         // every day.
         startUpdateDatabaseJob(UID_DATABASE_UPDATE_JOB)
     }
 
     override fun onConfigChanged(keys: Set<String>) {
-        if (Cfg.KEY_WIDGET_TEXT_COLOR in keys ||
-            Cfg.KEY_WIDGET_UPDATE_SERVICE_ENABLED in keys
-        ) {
-            GlobalScope.launch(Dispatchers.Default) {
-                val context = this@Heart
-                LiteraryWidgetUpdater.updateLiteraryWidget(context)
-            }
+        if (Cfg.KEY_WIDGET_UPDATE_SERVICE_ENABLED in keys) {
+            val context = this@Heart
+            LiteraryWidgetUpdater.updateLiteraryWidget(context)
+
+            // Try to restart the update service.
+            WidgetUpdateService.tryStartOrStop(this)
         }
     }
 

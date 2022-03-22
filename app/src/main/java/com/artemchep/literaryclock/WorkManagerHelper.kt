@@ -21,6 +21,10 @@ fun Context.startUpdateWidgetJob(key: String) {
     WorkManager.getInstance(this).enqueueUniquePeriodicWork(key, policy, request)
 }
 
+fun Context.cancelUpdateWidgetJob(key: String) {
+    WorkManager.getInstance(this).cancelUniqueWork(key)
+}
+
 fun Context.startUpdateDatabaseJob(key: String) {
     val policy = ExistingPeriodicWorkPolicy.REPLACE
     val duration = Duration.ofDays(20)

@@ -4,6 +4,9 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.os.PowerManager
@@ -16,6 +19,7 @@ import com.artemchep.config.Config
 import com.artemchep.literaryclock.*
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.utils.ext.ifDebug
+import com.artemchep.literaryclock.widget.LiteraryWidgetProvider
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -30,6 +34,36 @@ class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<S
 
     companion object {
         const val TAG = "WidgetUpdateService"
+
+        fun tryStartOrStop(context: Context) {
+            val hasActiveWidget = kotlin.run {
+                val componentName = ComponentName(context, LiteraryWidgetProvider::class.java)
+                val appIds = AppWidgetManager
+                    .getInstance(context)
+                    .getAppWidgetIds(componentName)
+                appIds?.any { it != AppWidgetManager.INVALID_APPWIDGET_ID } == true
+            }
+
+            val intent = Intent(context, WidgetUpdateService::class.java)
+            if (hasActiveWidget) {
+                if (Cfg.isWidgetUpdateServiceEnabled) {
+                    // WHEN YOU ADD A WIDGET, THE APP IS NOT FOREGROUND!
+                    val e = kotlin.runCatching {
+                        context.startForegroundService(intent)
+                    }.exceptionOrNull()
+                    if (e != null) context.startUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
+                } else {
+                    context.startUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
+                }
+            } else {
+                context.cancelUpdateWidgetJob(Heart.UID_WIDGET_UPDATE_JOB)
+                // Try to stop currently running update service,
+                // if there is any.
+                kotlin.runCatching {
+                    context.stopService(intent)
+                }
+            }
+        }
     }
 
     override lateinit var di: DI
@@ -55,15 +89,7 @@ class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<S
 
     override fun onCreate() {
         super.onCreate()
-        val notification = createNotification()
-        val notificationChannel = createNotificationChannel()
-
-        // Create notification channel
-        val nm = getSystemService<NotificationManager>()!!
-        nm.createNotificationChannel(notificationChannel)
-
-        // Start service foreground and post the notification
-        startForeground(NOTIFICATION_UID_WIDGET_UPDATE_SERVICE, notification)
+        startForeground()
 
         di = (applicationContext as Heart).di
         executor = Executors.newSingleThreadExecutor()
@@ -78,7 +104,20 @@ class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<S
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForeground()
         return Service.START_STICKY
+    }
+
+    private fun startForeground() {
+        val notification = createNotification()
+        val notificationChannel = createNotificationChannel()
+
+        // Create notification channel
+        val nm = getSystemService<NotificationManager>()!!
+        nm.createNotificationChannel(notificationChannel)
+
+        // Start service foreground and post the notification
+        startForeground(NOTIFICATION_UID_WIDGET_UPDATE_SERVICE, notification)
     }
 
     private fun createNotificationChannel(): NotificationChannel {

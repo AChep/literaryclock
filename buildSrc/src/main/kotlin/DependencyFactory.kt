@@ -122,6 +122,12 @@ fun createDependencies(module: Module): List<Dependency> {
         "androidx.lifecycle:lifecycle-runtime-ktx:$ANDROIDX_LIFECYCLE_VERSION",
         DependencyType.IMPLEMENTATION
     )
+    val androidxLifecycleProcess = Dependency(
+        "AndroidX Lifecycle Process",
+        ANDROIDX_LIFECYCLE_VERSION,
+        "androidx.lifecycle:lifecycle-process:$ANDROIDX_LIFECYCLE_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
     val androidxBrowser = Dependency(
         "AndroidX Browser",
         ANDROIDX_BROWSER_VERSION,
@@ -216,6 +222,7 @@ fun createDependencies(module: Module): List<Dependency> {
             androidxLifecycleLiveData,
             androidxLifecycleViewModel,
             androidxLifecycleRuntime,
+            androidxLifecycleProcess,
             androidxBrowser,
             androidxConstraintLayout,
             androidArchNavigationFragment,

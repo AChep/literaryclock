@@ -20,6 +20,7 @@
         android:autoSizeTextType="uniform"
         android:ellipsize="end"
         android:fontFamily="@font/robotoslab_regular"
+        android:text="@string/preview_quote"
         android:textColor="?android:textColorPrimary"
         android:textSize="18sp"
         tools:text="At one minute to twelve, she was sure of it, and cursed herself for even thinking for a moment the cat-creature would help her escape." />
@@ -45,6 +46,7 @@
         android:layout_toEndOf="@id/refreshBtn"
         android:fontFamily="@font/robotoslab_regular"
         android:gravity="end"
+        android:text="@string/preview_title"
         android:textColor="?android:textColorSecondary"
         android:textSize="14sp"
         tools:text="Clariel" />
@@ -58,6 +60,7 @@
         android:layout_toEndOf="@id/refreshBtn"
         android:fontFamily="@font/robotoslab_regular"
         android:gravity="end"
+        android:text="@string/preview_author"
         android:textColor="?android:textColorSecondary"
         android:textSize="14sp"
         android:textStyle="italic"

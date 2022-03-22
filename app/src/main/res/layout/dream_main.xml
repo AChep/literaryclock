@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/robotoslab_regular"
             android:lineSpacingMultiplier="0.9"
-            android:textColor="?android:textColorPrimaryInverse"
+            android:textColor="?android:textColorPrimary"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

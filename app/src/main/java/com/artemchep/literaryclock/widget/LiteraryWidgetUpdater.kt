@@ -18,6 +18,9 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.receivers.WidgetUpdateReceiver
 import com.artemchep.literaryclock.ui.activities.MainActivity
 import com.artemchep.literaryclock.utils.currentTime
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.kodein.di.android.closestDI
 import org.kodein.di.instance
 
@@ -70,7 +73,11 @@ object LiteraryWidgetUpdater {
             }
         }
 
-        updateLiteraryWidget(context, quote)
+        try {
+            updateLiteraryWidget(context, quote)
+        } catch (e: Exception) {
+            // Do nothing
+        }
     }
 
     private fun updateLiteraryWidget(context: Context, quote: QuoteItem) {
@@ -89,15 +96,12 @@ object LiteraryWidgetUpdater {
         setTextViewText(R.id.titleTextView, quote.title)
         setTextViewText(R.id.authorTextView, quote.author)
 
-        val colorPrimary = Cfg.widgetTextColor
-        setTextColor(R.id.quoteTextView, colorPrimary)
-        setTextColor(R.id.titleTextView, colorPrimary)
-        setTextColor(R.id.authorTextView, colorPrimary)
-
         if (Cfg.isWidgetUpdateServiceEnabled) {
-            //
+            setViewVisibility(R.id.refreshBtn, View.GONE)
         } else {
-            val intent = Intent(context, WidgetUpdateReceiver::class.java)
+            val intent = Intent(context, WidgetUpdateReceiver::class.java).apply {
+                addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+            }
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
                 Heart.PI_UPDATE_WIDGET,

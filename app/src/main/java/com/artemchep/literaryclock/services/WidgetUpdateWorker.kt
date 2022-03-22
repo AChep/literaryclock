@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.artemchep.literaryclock.Cfg
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
 
@@ -12,7 +13,6 @@ import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
  * @author Artem Chepurnoy
  */
 class WidgetUpdateWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-
     companion object {
         const val TAG = "WidgetUpdateWorker"
     }
@@ -22,10 +22,11 @@ class WidgetUpdateWorker(context: Context, params: WorkerParameters) : Worker(co
             Log.d(TAG, "Updating the widget...")
         }
 
-        try {
-            val intent = Intent(applicationContext, WidgetUpdateService::class.java)
+        // Try to restart the foreground service,
+        // if that's possible... fuck these 'awesome' limitations.
+        val intent = Intent(applicationContext, WidgetUpdateService::class.java)
+        if (Cfg.isWidgetUpdateServiceEnabled) kotlin.runCatching {
             applicationContext.startForegroundService(intent)
-        } catch (e: Exception) {
         }
 
         LiteraryWidgetUpdater.updateLiteraryWidget(applicationContext)

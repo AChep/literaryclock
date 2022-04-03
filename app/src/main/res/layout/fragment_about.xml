@@ -95,10 +95,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Artem Chepurnoy \uD83C\uDDFA\uD83C\uDDE6"
+                android:text="Artem Chepurnyi"
                 android:textAppearance="?textAppearanceTitleMedium"
                 app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
                 app:layout_constraintStart_toEndOf="@id/authorAvatarImageView"
+                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
+
+            <TextView
+                android:id="@+id/authorFlag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="\uD83C\uDDFA\uD83C\uDDE6"
+                android:textAppearance="?textAppearanceTitleMedium"
+                app:layout_constraintStart_toStartOf="@id/authorAvatarImageView"
                 app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
 
             <ImageButton

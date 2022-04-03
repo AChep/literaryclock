@@ -12,7 +12,7 @@ const val KLUENT_VERSION = "1.63"
 const val JUNIT_VERSION = "4.13.1"
 
 // https://kodein.org/
-const val KODEIN_VERSION = "7.10.0"
+const val KODEIN_VERSION = "7.11.0"
 
 // https://github.com/AChep/config
 const val ARTEMCHEP_CONFIG_VERSION = "2.2.0"
@@ -47,11 +47,11 @@ const val ANDROIDARCH_NAVIGATION_VERSION = "2.4.1"
 const val ANDROIDARCH_WORK_VERSION = "2.7.1"
 
 // https://mvnrepository.com/artifact/com.google.android.material/material
-const val GOOGLE_MATERIAL_VERSION = "1.5.0"
+const val GOOGLE_MATERIAL_VERSION = "1.6.0-beta01"
 
 // https://github.com/ACRA/acra
 const val ACRA_VERSION = "5.7.0"
 
 // https://firebase.google.com/support/release-notes/android
-const val GOOGLE_FIREBASE_ANALYTICS = "20.1.0"
-const val GOOGLE_FIREBASE_FIRESTORE = "24.0.1"
+const val GOOGLE_FIREBASE_ANALYTICS = "20.1.2"
+const val GOOGLE_FIREBASE_FIRESTORE = "24.1.0"

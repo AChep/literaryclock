@@ -23,7 +23,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_left"
-                app:title="@string/about" />
+                app:title="@string/settings" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

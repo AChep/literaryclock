@@ -1,5 +1,6 @@
 package com.artemchep.literaryclock.ui.fragments
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
@@ -46,6 +47,8 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
         viewBinding.instagramBtn.setOnClickListener(this)
         viewBinding.twitterBtn.setOnClickListener(this)
         viewBinding.appShareBtn.setOnClickListener(this)
+        @SuppressLint("SetTextI18n")
+        viewBinding.authorFlag.text = "\uD83C\uDDFA\uD83C\uDDE6"
 
         viewBinding.depsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.depsRecyclerView.adapter = DependencyAdapter()

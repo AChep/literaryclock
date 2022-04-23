@@ -12,7 +12,7 @@
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutLargeStyle"
+            style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -23,7 +23,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_left"
-                app:title="@string/about" />
+                app:title="@string/about"
+                app:titleCentered="@bool/titleCentered" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -38,187 +39,198 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/appDescTextView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:autoLink="web"
-                android:text="@string/about_app_description"
-                android:textAppearance="?textAppearanceBodyMedium"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/sheetMaxWidth">
 
-            <TextView
-                android:id="@+id/appVersionTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="16dp"
-                android:textAppearance="?textAppearanceLabelSmall"
-                app:layout_constraintEnd_toEndOf="@id/appDescTextView"
-                app:layout_constraintStart_toStartOf="@id/appDescTextView"
-                app:layout_constraintTop_toBottomOf="@id/appDescTextView"
-                tools:text="version 1.3" />
+                <TextView
+                    android:id="@+id/appDescTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:autoLink="web"
+                    android:text="@string/about_app_description"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/appBarrier"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="appVersionTextView" />
+                <TextView
+                    android:id="@+id/appVersionTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:textAppearance="?textAppearanceLabelSmall"
+                    app:layout_constraintEnd_toEndOf="@id/appDescTextView"
+                    app:layout_constraintStart_toStartOf="@id/appDescTextView"
+                    app:layout_constraintTop_toBottomOf="@id/appDescTextView"
+                    tools:text="version 1.3" />
 
-            <View
-                android:id="@+id/appDivider"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appBarrier" />
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/appBarrier"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="appVersionTextView" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/authorAvatarImageView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/img_author"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appDivider" />
+                <View
+                    android:id="@+id/appDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appBarrier" />
 
-            <TextView
-                android:id="@+id/authorNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Artem Chepurnyi"
-                android:textAppearance="?textAppearanceTitleMedium"
-                app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
-                app:layout_constraintStart_toEndOf="@id/authorAvatarImageView"
-                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/authorAvatarImageView"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/img_author"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appDivider" />
 
-            <TextView
-                android:id="@+id/authorFlag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="\uD83C\uDDFA\uD83C\uDDE6"
-                android:textAppearance="?textAppearanceTitleMedium"
-                app:layout_constraintStart_toStartOf="@id/authorAvatarImageView"
-                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
+                <TextView
+                    android:id="@+id/authorNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Artem Chepurnyi"
+                    android:textAppearance="?textAppearanceTitleMedium"
+                    app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
+                    app:layout_constraintStart_toEndOf="@id/authorAvatarImageView"
+                    app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
 
-            <ImageButton
-                android:id="@+id/linkedInBtn"
-                style="?borderlessButtonStyle"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_linkedin"
-                app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
-                app:layout_constraintEnd_toStartOf="@id/twitterBtn"
-                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView"
-                app:tint="#0077b5" />
+                <TextView
+                    android:id="@+id/authorFlag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="\uD83C\uDDFA\uD83C\uDDE6"
+                    android:textAppearance="?textAppearanceTitleMedium"
+                    app:layout_constraintStart_toStartOf="@id/authorAvatarImageView"
+                    app:layout_constraintTop_toTopOf="@id/authorAvatarImageView" />
 
-            <ImageButton
-                android:id="@+id/twitterBtn"
-                style="?borderlessButtonStyle"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_twitter"
-                app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
-                app:layout_constraintEnd_toStartOf="@id/instagramBtn"
-                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView"
-                app:tint="#1da1f2" />
+                <ImageButton
+                    android:id="@+id/linkedInBtn"
+                    style="?borderlessButtonStyle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_linkedin"
+                    app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
+                    app:layout_constraintEnd_toStartOf="@id/twitterBtn"
+                    app:layout_constraintTop_toTopOf="@id/authorAvatarImageView"
+                    app:tint="#0077b5" />
 
-            <ImageButton
-                android:id="@+id/instagramBtn"
-                style="?borderlessButtonStyle"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_instagram"
-                app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/authorAvatarImageView"
-                app:tint="#405de6" />
+                <ImageButton
+                    android:id="@+id/twitterBtn"
+                    style="?borderlessButtonStyle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_twitter"
+                    app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
+                    app:layout_constraintEnd_toStartOf="@id/instagramBtn"
+                    app:layout_constraintTop_toTopOf="@id/authorAvatarImageView"
+                    app:tint="#1da1f2" />
 
-            <View
-                android:id="@+id/authorDivider"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorAvatarImageView" />
+                <ImageButton
+                    android:id="@+id/instagramBtn"
+                    style="?borderlessButtonStyle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_instagram"
+                    app:layout_constraintBottom_toBottomOf="@id/authorAvatarImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/authorAvatarImageView"
+                    app:tint="#405de6" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/appGithubBtn"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="Contribute on GitHub"
-                android:textAllCaps="false"
-                app:cornerRadius="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/authorDivider"
-                app:strokeColor="#4888" />
+                <View
+                    android:id="@+id/authorDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/authorAvatarImageView" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/appShareBtn"
-                style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/share"
-                android:textAllCaps="false"
-                app:cornerRadius="32dp"
-                app:icon="@drawable/ic_share"
-                app:layout_constraintStart_toEndOf="@id/appGithubBtn"
-                app:layout_constraintTop_toBottomOf="@id/authorDivider"
-                app:strokeColor="#4888" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/appGithubBtn"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="Contribute on GitHub"
+                    android:textAllCaps="false"
+                    app:cornerRadius="32dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/authorDivider"
+                    app:strokeColor="#4888" />
 
-            <TextView
-                android:id="@+id/depsLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:text="@string/about_dependencies"
-                android:textAppearance="?textAppearanceLabelMedium"
-                android:textColor="?colorTertiary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appGithubBtn" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/appShareBtn"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/share"
+                    android:textAllCaps="false"
+                    app:cornerRadius="32dp"
+                    app:icon="@drawable/ic_share"
+                    app:layout_constraintStart_toEndOf="@id/appGithubBtn"
+                    app:layout_constraintTop_toBottomOf="@id/authorDivider"
+                    app:strokeColor="#4888" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/depsRecyclerView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/depsLabelTextView" />
+                <TextView
+                    android:id="@+id/depsLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:text="@string/about_dependencies"
+                    android:textAppearance="?textAppearanceLabelMedium"
+                    android:textColor="?colorTertiary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appGithubBtn" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/depsRecyclerView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/depsLabelTextView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

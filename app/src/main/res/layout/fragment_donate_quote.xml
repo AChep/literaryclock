@@ -12,7 +12,7 @@
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutLargeStyle"
+            style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -23,7 +23,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_left"
-                app:title="@string/donate_quote" />
+                app:title="@string/donate_quote"
+                app:titleCentered="@bool/titleCentered" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -38,170 +39,181 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/timeTextView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_marginTop="@dimen/frame_margin_vertical"
-                android:background="?selectableItemBackground"
-                android:drawablePadding="24dp"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/frame_margin_horizontal"
-                android:paddingEnd="@dimen/frame_margin_horizontal"
-                android:textAppearance="?textAppearanceBodyLarge"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="10:15"
-                app:drawableStartCompat="@drawable/ic_time" />
+                app:layout_constraintWidth_max="@dimen/sheetMaxWidth">
 
-            <View
-                android:id="@+id/timeDivider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?dividerHorizontal"
-                app:layout_constraintTop_toBottomOf="@id/timeTextView" />
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="@dimen/frame_margin_vertical"
+                    android:background="?selectableItemBackground"
+                    android:drawablePadding="24dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/frame_margin_horizontal"
+                    android:paddingEnd="@dimen/frame_margin_horizontal"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    app:drawableStartCompat="@drawable/ic_time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="10:15" />
 
+                <View
+                    android:id="@+id/timeDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?dividerHorizontal"
+                    app:layout_constraintTop_toBottomOf="@id/timeTextView" />
 
-            <LinearLayout
-                android:id="@+id/timeQuotesContainer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="#2888"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/timeDivider">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/timeQuotesContainer"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/frame_margin_vertical"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:background="#2888"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/timeDivider">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/frame_margin_horizontal"
-                        android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                        android:text="Existing quotes:"
-                        android:textAppearance="?textAppearanceLabelMedium"
-                        android:textColor="?colorTertiary"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/appDescTextView" />
+                        android:layout_marginTop="@dimen/frame_margin_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        style="?android:progressBarStyleSmall"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/frame_margin_horizontal"
+                            android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                            android:text="Existing quotes:"
+                            android:textAppearance="?textAppearanceLabelMedium"
+                            android:textColor="?colorTertiary"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/appDescTextView" />
+
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            style="?android:progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:indeterminateTint="?colorPrimary" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/quotesRecyclerView"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:indeterminateTint="?colorPrimary" />
+                        android:layout_marginTop="16dp"
+                        android:nestedScrollingEnabled="false" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/frame_margin_vertical" />
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/quotesRecyclerView"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/timeQuotesAlertTextView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="@dimen/frame_margin_vertical"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:text="Make sure your quote is not in the list. A sample of a quote:"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/timeQuotesContainer" />
+
+                <TextView
+                    android:id="@+id/quoteExampleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="@dimen/frame_margin_vertical"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:fontFamily="@font/robotoslab_regular"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/timeQuotesAlertTextView"
+                    tools:text="Coding is easy" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/quoteInfoInputLayout"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
                     android:layout_marginTop="16dp"
-                    android:nestedScrollingEnabled="false" />
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/quoteExampleTextView">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/quoteInfoInputEditText"
+                        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/donate_quote_field_hint"
+                        android:inputType="textMultiLine"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:text="@string/send"
+                    android:textAllCaps="false"
+                    app:cornerRadius="28dp"
+                    app:icon="@drawable/ic_send"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/quoteInfoInputLayout" />
+
+                <TextView
+                    android:id="@+id/disclaimerTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="@dimen/frame_margin_vertical"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:text="@string/donate_quote_disclaimer"
+                    android:textAppearance="?textAppearanceLabelSmall"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btn" />
 
                 <Space
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/frame_margin_vertical" />
+                    android:layout_height="@dimen/frame_margin_vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/disclaimerTextView" />
 
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/timeQuotesAlertTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="@dimen/frame_margin_vertical"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:text="Make sure your quote is not in the list. A sample of a quote:"
-                android:textAppearance="?textAppearanceBodyMedium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/timeQuotesContainer" />
-
-            <TextView
-                android:id="@+id/quoteExampleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="@dimen/frame_margin_vertical"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:fontFamily="@font/robotoslab_regular"
-                android:textAppearance="?textAppearanceBodyLarge"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/timeQuotesAlertTextView"
-                tools:text="Coding is easy" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/quoteInfoInputLayout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/quoteExampleTextView">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/quoteInfoInputEditText"
-                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/donate_quote_field_hint"
-                    android:inputType="textMultiLine"
-                    android:textSize="14sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="56dp"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:text="@string/send"
-                android:textAllCaps="false"
-                app:cornerRadius="28dp"
-                app:icon="@drawable/ic_send"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/quoteInfoInputLayout" />
-
-            <TextView
-                android:id="@+id/disclaimerTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="@dimen/frame_margin_vertical"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:text="@string/donate_quote_disclaimer"
-                android:textAppearance="?textAppearanceLabelSmall"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/frame_margin_vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/disclaimerTextView" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

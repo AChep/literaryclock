@@ -30,4 +30,11 @@
         <item name="android:background">@drawable/bg_widget</item>
     </style>
 
+    <style name="ToolbarStyle" parent="Widget.Material3.CollapsingToolbar.Large">
+        <item name="collapsedTitleGravity">start|center_vertical</item>
+        <item name="expandedTitleGravity">start|bottom</item>
+    </style>
+
+    <item name="titleCentered" type="bool">false</item>
+
 </resources>

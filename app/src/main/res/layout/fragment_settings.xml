@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +11,7 @@
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutLargeStyle"
+            style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -23,7 +22,8 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_left"
-                app:title="@string/settings" />
+                app:title="@string/settings"
+                app:titleCentered="@bool/titleCentered" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -38,72 +38,83 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/themeLabel"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:text="@string/settings_theme"
-                android:textAppearance="?textAppearanceLabelMedium"
-                android:textColor="?colorTertiary"
+                android:clipToPadding="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/sheetMaxWidth">
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/themeSpinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal__card"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal__card"
-                android:minHeight="56dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/themeLabel" />
+                <TextView
+                    android:id="@+id/themeLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:text="@string/settings_theme"
+                    android:textAppearance="?textAppearanceLabelMedium"
+                    android:textColor="?colorTertiary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/widgetLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/frame_margin_horizontal"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                android:text="@string/settings_widget"
-                android:textAppearance="?textAppearanceLabelMedium"
-                android:textColor="?colorTertiary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/themeSpinner" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/themeSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal__card"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal__card"
+                    android:minHeight="56dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/themeLabel" />
 
-            <TextView
-                android:id="@+id/altWidgetUpdaterTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="?selectableItemBackground"
-                android:paddingStart="@dimen/frame_margin_horizontal"
-                android:paddingTop="12dp"
-                android:paddingEnd="72dp"
-                android:paddingBottom="12dp"
-                android:text="@string/settings_widget_alt_service"
-                android:textAppearance="?textAppearanceBodyLarge"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/widgetLabelTextView" />
+                <TextView
+                    android:id="@+id/widgetLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:text="@string/settings_widget"
+                    android:textAppearance="?textAppearanceLabelMedium"
+                    android:textColor="?colorTertiary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/themeSpinner" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/altWidgetUpdaterSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/frame_margin_horizontal"
-                app:layout_constraintBottom_toBottomOf="@id/altWidgetUpdaterTextView"
-                app:layout_constraintEnd_toEndOf="@id/altWidgetUpdaterTextView"
-                app:layout_constraintTop_toTopOf="@id/altWidgetUpdaterTextView" />
+                <TextView
+                    android:id="@+id/altWidgetUpdaterTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="?selectableItemBackground"
+                    android:paddingStart="@dimen/frame_margin_horizontal"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="72dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/settings_widget_alt_service"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/widgetLabelTextView" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/altWidgetUpdaterSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/altWidgetUpdaterTextView"
+                    app:layout_constraintEnd_toEndOf="@id/altWidgetUpdaterTextView"
+                    app:layout_constraintTop_toTopOf="@id/altWidgetUpdaterTextView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

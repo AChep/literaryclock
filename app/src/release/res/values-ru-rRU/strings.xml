@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Литературные часы</string>
     <string name="app_share">Поделиться Литературными часами</string>
-
+    <string name="share">Share</string>
     <string name="send">Отправить</string>
     <string name="error">Ой, блин!</string>
     <string name="purchased">Приобретено</string>
-
     <string name="about">О программе</string>
     <string name="about_app_description">Литературные часы показывают текущее время в виде цитат из книг. Оно служит примером принципов материального и архитектурного дизайна.\n\nЭто приложение было бы невозможно без помощи http://www.literaryclock.com веб-сайта. Спасибо!</string>
+    <string name="about_app_description_short">Current time in a form of literature quotes</string>
     <string name="about_app_version__template">версия %s</string>
     <string name="about_author">Автор:</string>
     <string name="about_dependencies">Библиотеки с открытым исходным кодом</string>
-
     <string name="donate">Помочь развитию проекта</string>
     <string name="donate_quote">Предложить цитату</string>
     <string name="donate_quote_field_hint">Информация о цитате</string>
@@ -21,7 +19,6 @@
     <string name="donate_quote__sent">Цитата отправлена</string>
     <string name="donate_quote__failed">Не удалось отправить цитату</string>
     <string name="donate_iap">Пожертвовать</string>
-
     <string name="settings">Настройки</string>
     <string name="settings_widget">Виджет</string>
     <string name="settings_widget_alt_service">Запуск фоновой службы для обновления виджета на главном экране каждую одну минуту</string>
@@ -30,15 +27,11 @@
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Тёмная</string>
     <string name="settings_theme_auto">Авто</string>
-
     <string name="quote">Цитата</string>
     <string name="quote_share">Поделиться цитатой</string>
-
-    <string name="notification_widget_update_service_title" translatable="false">Литературные часы</string>
     <string name="notification_widget_update_service_text">Long click the notification, open app info and turn off the notifications to hide this notification.</string>
     <string name="notification_widget_update_service_channel">Update widget service notification</string>
-
     <string name="error_quote_empty">Quote info can\'t be empty</string>
     <string name="error_sync_failed">Failed to sync the database of quotes</string>
-
+    <string name="error_activity_not_found">No app can perform this action</string>
 </resources>

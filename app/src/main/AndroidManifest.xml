@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!-- Chrome OS -->
     <meta-data
@@ -52,7 +53,10 @@
 
         <receiver android:name=".receivers.WidgetUpdateReceiver" />
 
-        <service android:name=".services.WidgetUpdateService" />
+        <service
+            android:name=".services.WidgetUpdateService"
+            android:foregroundServiceType="specialUse" />
+
         <service
             android:name=".services.dream.LiteraryDreamService"
             android:exported="true"

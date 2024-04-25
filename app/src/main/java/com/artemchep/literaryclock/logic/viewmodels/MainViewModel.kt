@@ -71,12 +71,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     }
 
     @UiThread
-    fun openLearnAboutWar() {
-        val url = getApplication<Application>().getString(R.string.war_learn_more_url)
-        url.let(openUrlEvent::setValue)
-    }
-
-    @UiThread
     fun shareQuote(quote: QuoteItem) {
         quote.let(shareQuoteEvent::setValue)
         analytics.logQuoteShare(quote)

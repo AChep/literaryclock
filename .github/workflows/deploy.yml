@@ -45,6 +45,13 @@ jobs:
           JAVA_HOME: ${{ steps.setup-java.outputs.path }}
         with:
           arguments: clean bundleProdRelease assembleProdRelease
+      - name: 'Upload .aab'
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-android
+          path: |
+            app/build/outputs/**/*.aab
+          retention-days: 7
       - name: create release
         id: create_release
         uses: actions/create-release@v1

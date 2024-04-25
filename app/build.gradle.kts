@@ -86,7 +86,7 @@ android {
         getByName("release").apply {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
-            isShrinkResources = true
+            isShrinkResources = false // Crashes when using a MotionLayout
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

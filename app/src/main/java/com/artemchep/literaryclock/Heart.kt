@@ -64,6 +64,11 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
         const val ACTION_UPDATE_WIDGET = "$ACTION_PREFIX.UPDATE_WIDGET"
         const val ACTION_UPDATE_DATABASE_STATE_CHANGED =
             "$ACTION_PREFIX.UPDATE_DATABASE_STATE_CHANGED"
+
+        const val TAG_LD_TIME = "LiveData<Time>"
+        const val TAG_LD_DATABASE_STATE = "LiveData<DatabaseState>"
+        const val TAG_LD_MOMENT_ITEM = "LiveData<MomentItem>"
+        const val TAG_LD_QUOTE_ITEM = "LiveData<QuoteItem>"
     }
 
     override val di = DI.lazy {
@@ -75,21 +80,23 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
          * Provides a time live data that actually represents
          * the current time.
          */
-        bind<LiveData<Time>>() with singleton { TimeLiveData(this@Heart) }
+        bind<LiveData<Time>>(tag = TAG_LD_TIME) with singleton { TimeLiveData(this@Heart) }
 
-        bind<LiveData<DatabaseState>>() with singleton { DatabaseStateLiveData(this@Heart) }
+        bind<LiveData<DatabaseState>>(tag = TAG_LD_DATABASE_STATE) with singleton { DatabaseStateLiveData(this@Heart) }
 
         /*
          * Provides a moment live data that actually represents
          * the moment of a current time.
          */
-        bind<LiveData<MomentItem>>() with multiton { time: LiveData<Time> ->
+        bind<LiveData<MomentItem>>(tag = TAG_LD_MOMENT_ITEM) with multiton { time: LiveData<Time> ->
             val repo by di.instance<Repo>()
-            val db by di.instance<LiveData<DatabaseState>>()
+            val db by di.instance<LiveData<DatabaseState>>(
+                tag = TAG_LD_DATABASE_STATE,
+            )
             return@multiton MomentLiveData(repo, db, time)
         }
 
-        bind<LiveData<QuoteItem>>() with multiton { moment: LiveData<MomentItem> ->
+        bind<LiveData<QuoteItem>>(tag = TAG_LD_QUOTE_ITEM) with multiton { moment: LiveData<MomentItem> ->
             return@multiton QuoteLiveData(moment)
         }
 

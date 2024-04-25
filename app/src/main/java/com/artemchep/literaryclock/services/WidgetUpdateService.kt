@@ -74,7 +74,9 @@ class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<S
      */
     private lateinit var executor: ExecutorService
 
-    private val timeLiveData by instance<LiveData<Time>>()
+    private val timeLiveData by instance<LiveData<Time>>(
+        tag = Heart.TAG_LD_TIME,
+    )
 
     private val timeObserver = Observer<Time> {
         val powerManager = getSystemService<PowerManager>()!!

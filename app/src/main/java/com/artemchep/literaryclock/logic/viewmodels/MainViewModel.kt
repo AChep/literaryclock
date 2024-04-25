@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.logic.SingleLiveEvent
@@ -29,7 +30,9 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val openUrlEvent = SingleLiveEvent<String>()
 
-    private val currentTimeLiveData by instance<LiveData<Time>>()
+    private val currentTimeLiveData by instance<LiveData<Time>>(
+        tag = Heart.TAG_LD_TIME,
+    )
 
     val customTimeLiveData = MutableLiveData<Time>()
 
@@ -48,7 +51,10 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
 
-    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
+    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(
+        arg = timeLiveData,
+        tag = Heart.TAG_LD_MOMENT_ITEM,
+    )
 
     /**
      * Sets the custom time if the time is not equal to the [current time][currentTimeLiveData],

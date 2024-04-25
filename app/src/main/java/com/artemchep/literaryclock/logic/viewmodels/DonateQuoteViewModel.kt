@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.Suggestions
 import com.artemchep.literaryclock.data.firestore.FirestoreSuggestionModel
@@ -37,9 +38,15 @@ class DonateQuoteViewModel(application: Application) : BaseViewModel(application
 
     val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
 
-    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(arg = timeLiveData)
+    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(
+        arg = timeLiveData,
+        tag = Heart.TAG_LD_MOMENT_ITEM,
+    )
 
-    val quoteLiveData by instance<LiveData<MomentItem>, LiveData<QuoteItem>>(arg = momentLiveData)
+    val quoteLiveData by instance<LiveData<MomentItem>, LiveData<QuoteItem>>(
+        arg = momentLiveData,
+        tag = Heart.TAG_LD_QUOTE_ITEM,
+    )
 
     @UiThread
     fun postText(text: String) {

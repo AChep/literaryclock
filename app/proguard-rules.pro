@@ -29,3 +29,5 @@
 -keep class com.artemchep.literaryclock.models.** { *; }
 -keep class com.artemchep.literaryclock.data.firestore.** { *; }
 -keep class com.artemchep.literaryclock.data.realm.** { *; }
+
+-keep class androidx.constraintlayout.motion.** { *; }

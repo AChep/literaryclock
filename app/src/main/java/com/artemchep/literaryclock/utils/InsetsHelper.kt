@@ -22,7 +22,11 @@ fun Fragment.wrapInStatusBarView(child: View): View {
             id = R.id.statusBarBg
 
             val typedValue = TypedValue()
-            context.theme.resolveAttribute(R.attr.colorSecondaryContainer, typedValue, true)
+            context.theme.resolveAttribute(
+                com.google.android.material.R.attr.colorSecondaryContainer,
+                typedValue,
+                true
+            )
             setBackgroundResource(typedValue.resourceId)
         }
 

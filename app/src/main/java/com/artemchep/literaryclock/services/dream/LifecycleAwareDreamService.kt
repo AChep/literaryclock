@@ -10,7 +10,10 @@ import androidx.lifecycle.LifecycleRegistry
  */
 abstract class LifecycleAwareDreamService : DreamService() {
 
-    val lifecycleOwner: LifecycleOwner = LifecycleOwner { lifecycleRegistry }
+    val lifecycleOwner: LifecycleOwner = object : LifecycleOwner {
+        override val lifecycle: Lifecycle
+            get() = lifecycleRegistry
+    }
 
     private val lifecycleRegistry by lazy { LifecycleRegistry(lifecycleOwner) }
 

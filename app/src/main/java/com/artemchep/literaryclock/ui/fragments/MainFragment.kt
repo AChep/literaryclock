@@ -59,7 +59,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
         AnalogClockDrawable().apply {
             val typedValue = TypedValue()
             val theme = requireContext().theme
-            theme.resolveAttribute(R.attr.colorOnSecondaryContainer, typedValue, true)
+            theme.resolveAttribute(
+                com.google.android.material.R.attr.colorOnSecondaryContainer,
+                typedValue,
+                true
+            )
             color = typedValue.data
         }
     }

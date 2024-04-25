@@ -28,6 +28,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     compileSdk = Android.targetSdkVersion
+    namespace = "com.artemchep.literaryclock"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -36,11 +37,13 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
         minSdk = Android.minSdkVersion
         targetSdk = Android.targetSdkVersion
+        applicationId = "com.artemchep.literaryclock"
 
         val versionNamePartsCount = 4
         val releaseTag = System.getenv("LITERARY_CLOCK_RELEASE_TAG")

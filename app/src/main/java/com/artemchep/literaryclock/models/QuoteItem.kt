@@ -1,6 +1,8 @@
 package com.artemchep.literaryclock.models
 
+import android.content.Context
 import android.os.Parcelable
+import com.artemchep.literaryclock.store.factory.QuoteItemFactory
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -12,4 +14,6 @@ data class QuoteItem(
     val title: String,
     val asin: String,
     val author: String
-) : Parcelable
+) : Parcelable {
+    fun quote(context: Context) = QuoteItemFactory.spanify(context, quote)
+}

@@ -26,7 +26,7 @@ class QuoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model = this[position]
         holder.apply {
-            quoteTextView.text = model.quote
+            quoteTextView.text = model.quote(quoteTextView.context)
             titleTextView.text = model.title
             authorTextView.text = model.author
         }

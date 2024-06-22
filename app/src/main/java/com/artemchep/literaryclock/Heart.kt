@@ -153,10 +153,6 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
         ProcessLifecycleOwner.get().lifecycleScope.launchWhenStarted {
             WidgetUpdateService.tryStartOrStop(this@Heart)
         }
-
-        // Check the database for updates
-        // every day.
-        startUpdateDatabaseJob(UID_DATABASE_UPDATE_JOB)
     }
 
     override fun onConfigChanged(keys: Set<String>) {

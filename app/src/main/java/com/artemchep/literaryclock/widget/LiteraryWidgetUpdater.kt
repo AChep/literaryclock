@@ -92,7 +92,7 @@ object LiteraryWidgetUpdater {
         context.packageName,
         R.layout.widget
     ).apply {
-        setTextViewText(R.id.quoteTextView, quote.quote)
+        setTextViewText(R.id.quoteTextView, quote.quote(context))
         setTextViewText(R.id.titleTextView, quote.title)
         setTextViewText(R.id.authorTextView, quote.author)
 

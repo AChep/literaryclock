@@ -4,30 +4,25 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.artemchep.literaryclock.*
-import com.artemchep.literaryclock.data.firestore.FirestoreBatchModel
 import com.artemchep.literaryclock.data.firestore.FirestoreQuoteModel
 import com.artemchep.literaryclock.data.realm.RealmMomentModel
 import com.artemchep.literaryclock.models.Message
 import com.artemchep.literaryclock.models.MessageType
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.utils.sendLocalBroadcastIntent
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.Source
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
+import org.json.JSONArray
 import kotlin.coroutines.EmptyCoroutineContext
 
-class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+
+class DatabaseUpdateWorker(context: Context, params: WorkerParameters) :
+    CoroutineWorker(context, params) {
 
     companion object {
         const val TAG = "LiteraryUpdateWorker"
@@ -60,26 +55,8 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Corouti
                 }
 
         withContext(context) {
-            val batches = loadNewBatches()
-
-            // Load all new quotes and add them to
-            // database.
-            batches
-                .map {
-                    val quotesRef = Batches.one(it.id).quotes().ref
-                    async {
-                        val task = quotesRef.get()
-                        Tasks.await(task)
-                    }
-                }
-                .map { it.await() }
-                .flatten()
-                .map {
-                    it.toObject(FirestoreQuoteModel::class.java)
-                        .apply {
-                            key = it.id
-                        }
-                }
+            val data = loadData()
+            data
                 .groupBy { it.time }
                 .map {
                     // Map it to realm model
@@ -96,21 +73,6 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Corouti
                         .getDefaultInstance()
                         .executeTransaction { it.insertOrUpdate(entries) }
                 }
-
-            // Get new synchronization time to
-            // remember.
-            batches.documents
-                .mapNotNull { it.toObject(FirestoreBatchModel::class.java) }
-                .map { it.timestamp?.toDate()?.time ?: 0L }
-                .maxOrNull()
-                // Save new time to local
-                // storage
-                ?.let { new ->
-                    CfgInternal.edit(applicationContext) {
-                        CfgInternal.syncTimestamp = new
-                    }
-                }
-
         }
 
         setState(false)
@@ -118,14 +80,27 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) : Corouti
         return Result.success()
     }
 
-    private fun loadNewBatches(): QuerySnapshot = Tasks.await(
-        Batches.ref
-            .whereGreaterThan(
-                FirestoreBatchModel::timestamp.name,
-                Timestamp(Date(CfgInternal.syncTimestamp))
-            )
-            .get(Source.SERVER)
-    )
+    private suspend fun loadData(): List<FirestoreQuoteModel> = withContext(Dispatchers.Default) {
+        val jsonString = withContext(Dispatchers.IO) {
+            val inputStream = applicationContext.resources.openRawResource(R.raw.database)
+            inputStream.reader().use { reader -> reader.readText() }
+        }
+        val jsonArray = JSONArray(jsonString)
+        // Parse JSON to a format previously used by
+        // the Firebase database.
+        (0 until jsonArray.length())
+            .map { i ->
+                val obj = jsonArray.getJSONObject(i)
+                FirestoreQuoteModel(
+                    key = obj.getString("key"),
+                    quote = obj.getString("quote"),
+                    title = obj.optString("title"),
+                    author = obj.optString("author"),
+                    asin = obj.optString("asin"),
+                    time = obj.getInt("time"),
+                )
+            }
+    }
 
     private fun setState(isRunning: Boolean) {
         DatabaseUpdateWorker.isRunning = isRunning

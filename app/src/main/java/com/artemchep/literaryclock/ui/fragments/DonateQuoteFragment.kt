@@ -89,7 +89,7 @@ class DonateQuoteFragment : BaseFragment<FragmentDonateQuoteBinding>(), View.OnC
 
     private fun showQuote(quote: QuoteItem) {
         viewBinding.quoteExampleTextView.text = """
-            ${quote.quote}
+            ${quote.quote(requireContext())}
 
             ${quote.title}
             ${quote.author}

@@ -132,7 +132,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
         openUrlEvent.observe(viewLifecycleOwner, Observer(::showUrl))
         shareQuoteEvent.observe(viewLifecycleOwner) { quote ->
             val subject = getString(R.string.app_name)
-            val text = quote.quote
+            val text = quote.quote(requireContext())
             val i = Intent(Intent.ACTION_SEND).apply {
                 type = "description/plain"
                 putExtra(Intent.EXTRA_SUBJECT, subject)

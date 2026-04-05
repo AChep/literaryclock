@@ -28,10 +28,11 @@ import com.google.android.material.color.DynamicColors
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.realm.Realm
 import org.acra.ACRA
-import org.acra.annotation.AcraCore
-import org.acra.annotation.AcraHttpSender
+import org.acra.config.CoreConfigurationBuilder
+import org.acra.config.HttpSenderConfigurationBuilder
 import org.acra.data.StringFormat
 import org.acra.sender.HttpSender
+import org.acra.sender.HttpSenderFactory
 import org.kodein.di.*
 import org.kodein.di.android.x.androidXModule
 import org.kodein.di.bindings.WeakContextScope
@@ -41,16 +42,6 @@ import java.text.DateFormat
 /**
  * @author Artem Chepurnoy
  */
-@AcraCore(
-    reportFormat = StringFormat.JSON,
-    alsoReportToAndroidFramework = true,
-)
-@AcraHttpSender(
-    uri = BuildConfig.ACRA_URI,
-    basicAuthLogin = BuildConfig.ACRA_USERNAME,
-    basicAuthPassword = BuildConfig.ACRA_PASSWORD,
-    httpMethod = HttpSender.Method.POST,
-)
 class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
 
     companion object {
@@ -132,7 +123,21 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        ACRA.init(this)
+        val acraEnabled = BuildConfig.ACRA_URI.isNotBlank()
+        val acraConfig = CoreConfigurationBuilder(this)
+            .setBuildConfigClass(BuildConfig::class.java)
+            .setReportFormat(StringFormat.JSON)
+            .setAlsoReportToAndroidFramework(true)
+            .setReportSenderFactoryClasses(HttpSenderFactory::class.java)
+            .apply {
+                getPluginConfigurationBuilder(HttpSenderConfigurationBuilder::class.java)
+                    .setEnabled(acraEnabled)
+                    .setUri(BuildConfig.ACRA_URI)
+                    .setBasicAuthLogin(BuildConfig.ACRA_USERNAME)
+                    .setBasicAuthPassword(BuildConfig.ACRA_PASSWORD)
+                    .setHttpMethod(HttpSender.Method.POST)
+            }
+        ACRA.init(this, acraConfig)
     }
 
     override fun onCreate() {

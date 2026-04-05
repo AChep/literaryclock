@@ -8,7 +8,9 @@ import java.time.Duration
 
 fun Context.startUpdateWidgetJob(key: String) {
     val policy = ExistingPeriodicWorkPolicy.REPLACE
-    val duration = Duration.ofMinutes(1L)
+    // WorkManager enforces a minimum interval for periodic work. The widget's
+    // high-frequency path remains the foreground service; this job is a fallback.
+    val duration = Duration.ofMinutes(15L)
     val request = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(duration)
         .setConstraints(
             Constraints.Builder()

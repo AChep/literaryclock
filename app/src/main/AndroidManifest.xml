@@ -53,10 +53,13 @@
                 android:resource="@xml/widget" />
         </receiver>
 
-        <receiver android:name=".receivers.WidgetUpdateReceiver" />
+        <receiver
+            android:name=".receivers.WidgetUpdateReceiver"
+            android:exported="false" />
 
         <service
             android:name=".services.WidgetUpdateService"
+            android:exported="false"
             android:foregroundServiceType="specialUse" />
 
         <service

@@ -7,15 +7,11 @@ import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.databinding.DreamMainBinding
 import com.artemchep.literaryclock.logic.viewmodels.DreamViewModel
 import com.artemchep.literaryclock.models.QuoteItem
-import kotlinx.android.extensions.LayoutContainer
 
 /**
  * @author Artem Chepurnoy
  */
-class LiteraryDreamService : LifecycleAwareDreamService(), LayoutContainer {
-
-    override val containerView: View?
-        get() = window.decorView
+class LiteraryDreamService : LifecycleAwareDreamService() {
 
     val dreamViewModel by lazy { DreamViewModel(application) }
 

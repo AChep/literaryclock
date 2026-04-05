@@ -1,10 +1,4 @@
 fun createDependencies(module: Module): List<Dependency> {
-    val kotlinStdlib = Dependency(
-        "Kotlin StdLib",
-        KOTLIN_VERSION,
-        "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
     val kotlinCoroutinesAndroid = Dependency(
         "Kotlin Coroutines Android",
         KOTLIN_COROUTINES_VERSION,
@@ -14,7 +8,7 @@ fun createDependencies(module: Module): List<Dependency> {
     val kotlinMockito = Dependency(
         "Mockito-Kotlin",
         KOTLIN_MOCKITO_VERSION,
-        "com.nhaarman.mockitokotlin2:mockito-kotlin:$KOTLIN_MOCKITO_VERSION",
+        "org.mockito.kotlin:mockito-kotlin:$KOTLIN_MOCKITO_VERSION",
         DependencyType.TEST_IMPLEMENTATION
     )
     val junit = Dependency(
@@ -43,13 +37,6 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
-    val artemchepConfig = Dependency(
-        "Config",
-        ARTEMCHEP_CONFIG_VERSION,
-        "com.artemchep.config:config:$ARTEMCHEP_CONFIG_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
-
     val solovyevCheckout = Dependency(
         "Checkout",
         SOLOVYEV_CHECKOUT_VERSION,
@@ -64,24 +51,10 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
-    val theblueallianceSpectrum = Dependency(
-        "Spectrum",
-        THEBLUEALLIANCE_SPECTRUM_VERSION,
-        "com.thebluealliance:spectrum:$THEBLUEALLIANCE_SPECTRUM_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
-
     val grendergToasty = Dependency(
         "Toasty",
         GRENDERG_TOASTY_VERSION,
         "com.github.GrenderG:Toasty:$GRENDERG_TOASTY_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
-
-    val yarolegovichDiscreteScrollView = Dependency(
-        "Discrete ScrollView",
-        YAROLEGOVICH_DISCRETESCROLLVIEW_VERSION,
-        "com.yarolegovich:discrete-scrollview:$YAROLEGOVICH_DISCRETESCROLLVIEW_VERSION",
         DependencyType.IMPLEMENTATION
     )
 
@@ -170,13 +143,6 @@ fun createDependencies(module: Module): List<Dependency> {
         "androidx.work:work-runtime-ktx:$ANDROIDARCH_WORK_VERSION",
         DependencyType.IMPLEMENTATION
     )
-    val androidArchWorkGcm = Dependency(
-        "Android Arch Work [GCMNetworkManager support]",
-        ANDROIDARCH_WORK_VERSION,
-        "androidx.work:work-gcm:$ANDROIDARCH_WORK_VERSION",
-        DependencyType.IMPLEMENTATION
-    )
-
     val googleMaterial = Dependency(
         "Google Material",
         GOOGLE_MATERIAL_VERSION,
@@ -186,14 +152,14 @@ fun createDependencies(module: Module): List<Dependency> {
 
     val googleFirebaseCore = Dependency(
         "Firebase Analytics",
-        GOOGLE_FIREBASE_ANALYTICS,
-        "com.google.firebase:firebase-analytics:$GOOGLE_FIREBASE_ANALYTICS",
+        GOOGLE_FIREBASE_BOM_VERSION,
+        "com.google.firebase:firebase-analytics",
         DependencyType.IMPLEMENTATION
     )
     val googleFirebaseFirestore = Dependency(
         "Firebase Firestore",
-        GOOGLE_FIREBASE_FIRESTORE,
-        "com.google.firebase:firebase-firestore:$GOOGLE_FIREBASE_FIRESTORE",
+        GOOGLE_FIREBASE_BOM_VERSION,
+        "com.google.firebase:firebase-firestore",
         DependencyType.IMPLEMENTATION
     )
 
@@ -206,14 +172,10 @@ fun createDependencies(module: Module): List<Dependency> {
 
     return when (module) {
         Module.APP -> listOf(
-            kotlinStdlib,
             kotlinCoroutinesAndroid,
-            artemchepConfig,
             solovyevCheckout,
             hdodenhofCircleImageView,
-            theblueallianceSpectrum,
             grendergToasty,
-            yarolegovichDiscreteScrollView,
             mikepenzFastAdapter,
             kodeinGenericJvm,
             kodeinAndroid,
@@ -230,7 +192,6 @@ fun createDependencies(module: Module): List<Dependency> {
             androidArchNavigationFragmentKtx,
             androidArchNavigationUiKtx,
             androidArchWork,
-            androidArchWorkGcm,
             googleMaterial,
             googleFirebaseCore,
             googleFirebaseFirestore,

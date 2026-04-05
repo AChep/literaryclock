@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.*
 import kotlin.math.pow
@@ -31,8 +31,8 @@ android {
     namespace = "com.artemchep.literaryclock"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -122,11 +122,10 @@ android {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-    kotlinOptions.freeCompilerArgs = listOf(
-        "-Xinline-classes"
-    )
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+    }
 }
 
 realm {
@@ -134,7 +133,15 @@ realm {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:$GOOGLE_FIREBASE_BOM_VERSION"))
     handle(this, appDependencies)
 }
 
-apply(plugin = "com.google.gms.google-services")
+val hasGoogleServicesConfig = fileTree(projectDir) {
+    include("google-services.json")
+    include("src/**/google-services.json")
+}.files.isNotEmpty()
+
+if (hasGoogleServicesConfig) {
+    apply(plugin = "com.google.gms.google-services")
+}

@@ -18,9 +18,6 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.receivers.WidgetUpdateReceiver
 import com.artemchep.literaryclock.ui.activities.MainActivity
 import com.artemchep.literaryclock.utils.currentTime
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.kodein.di.android.closestDI
 import org.kodein.di.instance
 
@@ -47,29 +44,22 @@ object LiteraryWidgetUpdater {
 
     @UiThread
     @WorkerThread
-    fun updateLiteraryWidget(context: Context) {
+    suspend fun updateLiteraryWidget(context: Context) {
         val currentTime = currentTime
-        val quote = synchronized(this) {
-            if (currentTime in range) {
-                // No need to update the data,
-                // everything is good.
-                quotes
-            } else {
-                val kodein by closestDI(context)
-                val repo by kodein.instance<Repo>()
-
-                range = currentTime..Time(currentTime.time + RANGE_SIZE)
-                repo
-                    .getMoments(range)
-                    .map { it.quotes.random() }
-                    .also {
-                        // Remember the list of quotes that we
-                        // retrieved.
-                        quotes = it
-                    }
-            }.let { quotes ->
-                val offset = currentTime.time - range.start.time
-                return@let quotes[offset]
+        val quote = getCachedQuote(currentTime) ?: run {
+            val kodein by closestDI(context)
+            val repo by kodein.instance<Repo>()
+            val requestedRange = currentTime..Time(currentTime.time + RANGE_SIZE)
+            val loadedQuotes = repo
+                .getMoments(requestedRange)
+                .map { it.quotes.random() }
+            synchronized(this) {
+                getCachedQuoteLocked(currentTime) ?: run {
+                    range = requestedRange
+                    quotes = loadedQuotes
+                    val offset = currentTime.time - requestedRange.start.time
+                    loadedQuotes[offset]
+                }
             }
         }
 
@@ -78,6 +68,19 @@ object LiteraryWidgetUpdater {
         } catch (e: Exception) {
             // Do nothing
         }
+    }
+
+    private fun getCachedQuote(currentTime: Time): QuoteItem? = synchronized(this) {
+        getCachedQuoteLocked(currentTime)
+    }
+
+    private fun getCachedQuoteLocked(currentTime: Time): QuoteItem? {
+        if (currentTime !in range || ::quotes.isInitialized.not()) {
+            return null
+        }
+
+        val offset = currentTime.time - range.start.time
+        return quotes[offset]
     }
 
     private fun updateLiteraryWidget(context: Context, quote: QuoteItem) {

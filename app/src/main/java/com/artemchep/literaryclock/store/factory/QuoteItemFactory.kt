@@ -6,7 +6,7 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.core.text.buildSpannedString
-import com.artemchep.literaryclock.data.realm.RealmQuoteModel
+import com.artemchep.literaryclock.data.room.QuoteEntity
 import com.artemchep.literaryclock.models.QuoteItem
 
 
@@ -52,13 +52,23 @@ object QuoteItemFactory {
             }
     }
 
-    fun transform(origin: RealmQuoteModel): QuoteItem {
-        return QuoteItem(
-            quote = origin.quote,
-            title = origin.title,
-            asin = origin.asin,
-            author = origin.author,
-        )
-    }
+    fun transform(origin: QuoteEntity): QuoteItem = transform(
+        quote = origin.quote,
+        title = origin.title,
+        asin = origin.asin,
+        author = origin.author,
+    )
+
+    fun transform(
+        quote: String,
+        title: String,
+        asin: String,
+        author: String,
+    ): QuoteItem = QuoteItem(
+        quote = quote,
+        title = title,
+        asin = asin,
+        author = author,
+    )
 
 }

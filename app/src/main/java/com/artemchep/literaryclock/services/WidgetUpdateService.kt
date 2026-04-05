@@ -21,6 +21,7 @@ import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.widget.LiteraryWidgetProvider
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
+import kotlinx.coroutines.runBlocking
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
@@ -85,7 +86,9 @@ class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<S
                 Log.d(TAG, "Updating the widget...")
             }
 
-            LiteraryWidgetUpdater.updateLiteraryWidget(this)
+            runBlocking {
+                LiteraryWidgetUpdater.updateLiteraryWidget(this@WidgetUpdateService)
+            }
         }
     }
 
@@ -168,4 +171,3 @@ class WidgetUpdateService : Service(), DIAware, Config.OnConfigChangedListener<S
     override fun onBind(p0: Intent?): IBinder? = null
 
 }
-

@@ -9,7 +9,6 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
-    id("realm-android")
 }
 
 val appDependencies = createDependencies(Module.APP)
@@ -44,6 +43,7 @@ android {
         minSdk = Android.minSdkVersion
         targetSdk = Android.targetSdkVersion
         applicationId = "com.artemchep.literaryclock"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         val versionNamePartsCount = 4
         val releaseTag = System.getenv("LITERARY_CLOCK_RELEASE_TAG")
@@ -91,8 +91,7 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
-                "proguard-kodein.pro",
-                "proguard-realm.pro"
+                "proguard-kodein.pro"
             )
         }
 
@@ -126,10 +125,6 @@ kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_11)
     }
-}
-
-realm {
-    isKotlinExtensionsEnabled = true
 }
 
 dependencies {

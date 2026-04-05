@@ -23,6 +23,12 @@ fun createDependencies(module: Module): List<Dependency> {
         "org.amshove.kluent:kluent-android:$KLUENT_VERSION",
         DependencyType.TEST_IMPLEMENTATION
     )
+    val kotlinCoroutinesTest = Dependency(
+        "Kotlin Coroutines Test",
+        KOTLIN_COROUTINES_VERSION,
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:$KOTLIN_COROUTINES_VERSION",
+        DependencyType.TEST_IMPLEMENTATION
+    )
 
     val kodeinGenericJvm = Dependency(
         "Kodein DI",
@@ -149,6 +155,24 @@ fun createDependencies(module: Module): List<Dependency> {
         "com.google.android.material:material:$GOOGLE_MATERIAL_VERSION",
         DependencyType.IMPLEMENTATION
     )
+    val roomRuntime = Dependency(
+        "AndroidX Room Runtime",
+        ANDROIDX_ROOM_VERSION,
+        "androidx.room:room-runtime:$ANDROIDX_ROOM_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val roomKtx = Dependency(
+        "AndroidX Room KTX",
+        ANDROIDX_ROOM_VERSION,
+        "androidx.room:room-ktx:$ANDROIDX_ROOM_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val roomCompiler = Dependency(
+        "AndroidX Room Compiler",
+        ANDROIDX_ROOM_VERSION,
+        "androidx.room:room-compiler:$ANDROIDX_ROOM_VERSION",
+        DependencyType.KAPT
+    )
 
     val googleFirebaseCore = Dependency(
         "Firebase Analytics",
@@ -169,10 +193,49 @@ fun createDependencies(module: Module): List<Dependency> {
         "ch.acra:acra-http:$ACRA_VERSION",
         DependencyType.IMPLEMENTATION
     )
+    val roomTesting = Dependency(
+        "AndroidX Room Testing",
+        ANDROIDX_ROOM_VERSION,
+        "androidx.room:room-testing:$ANDROIDX_ROOM_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
+    val androidxArchCoreTesting = Dependency(
+        "AndroidX Arch Core Testing",
+        ANDROIDX_ARCH_CORE_TESTING_VERSION,
+        "androidx.arch.core:core-testing:$ANDROIDX_ARCH_CORE_TESTING_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
+    val androidxTestCore = Dependency(
+        "AndroidX Test Core KTX",
+        ANDROIDX_TEST_CORE_VERSION,
+        "androidx.test:core-ktx:$ANDROIDX_TEST_CORE_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
+    val androidxTestExtJunit = Dependency(
+        "AndroidX Test Ext JUnit",
+        ANDROIDX_TEST_EXT_JUNIT_VERSION,
+        "androidx.test.ext:junit:$ANDROIDX_TEST_EXT_JUNIT_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
+    val androidxTestRunner = Dependency(
+        "AndroidX Test Runner",
+        ANDROIDX_TEST_CORE_VERSION,
+        "androidx.test:runner:$ANDROIDX_TEST_CORE_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
+    val androidxWorkTesting = Dependency(
+        "AndroidX Work Testing",
+        ANDROIDARCH_WORK_VERSION,
+        "androidx.work:work-testing:$ANDROIDARCH_WORK_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
 
     return when (module) {
         Module.APP -> listOf(
             kotlinCoroutinesAndroid,
+            roomRuntime,
+            roomKtx,
+            roomCompiler,
             solovyevCheckout,
             hdodenhofCircleImageView,
             grendergToasty,
@@ -197,8 +260,15 @@ fun createDependencies(module: Module): List<Dependency> {
             googleFirebaseFirestore,
             acraHttpSender,
             junit,
+            kotlinCoroutinesTest,
             kotlinMockito,
-            kluent
+            kluent,
+            roomTesting,
+            androidxArchCoreTesting,
+            androidxTestCore,
+            androidxTestExtJunit,
+            androidxTestRunner,
+            androidxWorkTesting,
         )
     }
 }

@@ -6,18 +6,17 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.artemchep.literaryclock.*
-import com.artemchep.literaryclock.data.firestore.FirestoreQuoteModel
-import com.artemchep.literaryclock.data.realm.RealmMomentModel
+import com.artemchep.literaryclock.data.room.DatabaseImporter
+import com.artemchep.literaryclock.data.room.LegacyRealmCleaner
 import com.artemchep.literaryclock.models.Message
 import com.artemchep.literaryclock.models.MessageType
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.utils.sendLocalBroadcastIntent
-import io.realm.Realm
-import io.realm.RealmList
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
+import org.kodein.di.direct
+import org.kodein.di.instance
 import kotlin.coroutines.EmptyCoroutineContext
 
 
@@ -54,52 +53,22 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) :
                     messageLiveEvent.postValue(message)
                 }
 
-        withContext(context) {
-            val data = loadData()
-            data
-                .groupBy { it.time }
-                .map {
-                    // Map it to realm model
-                    RealmMomentModel().apply {
-                        key = it.key
-                        quotes = it.value.mapTo(RealmList(), FirestoreQuoteModel::toRealmModel)
-                    }
-                }
-                .toList()
-                .also { entries ->
-                    // Insert new quotes to our
-                    // database.
-                    Realm
-                        .getDefaultInstance()
-                        .executeTransaction { it.insertOrUpdate(entries) }
-                }
+        return try {
+            withContext(context) {
+                val importer = (applicationContext as Heart).di.direct.instance<DatabaseImporter>()
+                val jsonString = loadData()
+                importer.importJson(jsonString)
+                LegacyRealmCleaner.deleteDefaultRealmFiles(applicationContext)
+            }
+            Result.success()
+        } finally {
+            setState(false)
         }
-
-        setState(false)
-
-        return Result.success()
     }
 
-    private suspend fun loadData(): List<FirestoreQuoteModel> = withContext(Dispatchers.Default) {
-        val jsonString = withContext(Dispatchers.IO) {
+    private suspend fun loadData(): String = withContext(Dispatchers.IO) {
             val inputStream = applicationContext.resources.openRawResource(R.raw.database)
             inputStream.reader().use { reader -> reader.readText() }
-        }
-        val jsonArray = JSONArray(jsonString)
-        // Parse JSON to a format previously used by
-        // the Firebase database.
-        (0 until jsonArray.length())
-            .map { i ->
-                val obj = jsonArray.getJSONObject(i)
-                FirestoreQuoteModel(
-                    key = obj.getString("key"),
-                    quote = obj.getString("quote"),
-                    title = obj.optString("title"),
-                    author = obj.optString("author"),
-                    asin = obj.optString("asin"),
-                    time = obj.getInt("time"),
-                )
-            }
     }
 
     private fun setState(isRunning: Boolean) {

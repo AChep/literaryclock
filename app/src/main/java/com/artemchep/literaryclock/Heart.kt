@@ -15,6 +15,9 @@ import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsMain
 import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.data.RepoImpl
+import com.artemchep.literaryclock.data.room.DatabaseImporter
+import com.artemchep.literaryclock.data.room.LiteraryClockDao
+import com.artemchep.literaryclock.data.room.LiteraryClockDatabase
 import com.artemchep.literaryclock.logic.live.DatabaseStateLiveData
 import com.artemchep.literaryclock.logic.live.MomentLiveData
 import com.artemchep.literaryclock.logic.live.QuoteLiveData
@@ -26,7 +29,6 @@ import com.artemchep.literaryclock.services.WidgetUpdateService
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
 import com.google.android.material.color.DynamicColors
 import com.google.firebase.analytics.FirebaseAnalytics
-import io.realm.Realm
 import org.acra.ACRA
 import org.acra.config.CoreConfigurationBuilder
 import org.acra.config.HttpSenderConfigurationBuilder
@@ -65,7 +67,21 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
     override val di = DI.lazy {
         import(androidXModule(this@Heart))
 
-        bind<Repo>() with provider { RepoImpl() }
+        bind<LiteraryClockDatabase>() with singleton {
+            LiteraryClockDatabase.create(this@Heart)
+        }
+        bind<LiteraryClockDao>() with singleton {
+            val database by di.instance<LiteraryClockDatabase>()
+            database.literaryClockDao()
+        }
+        bind<DatabaseImporter>() with singleton {
+            val database by di.instance<LiteraryClockDatabase>()
+            DatabaseImporter(database)
+        }
+        bind<Repo>() with provider {
+            val dao by di.instance<LiteraryClockDao>()
+            RepoImpl(dao)
+        }
 
         /*
          * Provides a time live data that actually represents
@@ -148,7 +164,6 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
 
         DynamicColors.applyToActivitiesIfAvailable(this)
 
-        Realm.init(this)
         Cfg.init(this)
         Cfg.observe(this)
         CfgInternal.init(this)
@@ -163,7 +178,9 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
     override fun onConfigChanged(keys: Set<String>) {
         if (Cfg.KEY_WIDGET_UPDATE_SERVICE_ENABLED in keys) {
             val context = this@Heart
-            LiteraryWidgetUpdater.updateLiteraryWidget(context)
+            ProcessLifecycleOwner.get().lifecycleScope.launchWhenStarted {
+                LiteraryWidgetUpdater.updateLiteraryWidget(context)
+            }
 
             // Try to restart the update service.
             WidgetUpdateService.tryStartOrStop(this)

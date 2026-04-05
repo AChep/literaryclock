@@ -12,6 +12,6 @@ interface Repo {
      * Returns sorted list of moments
      * within the range.
      */
-    fun getMoments(range: ClosedRange<Time>): List<MomentItem>
+    suspend fun getMoments(range: ClosedRange<Time>): List<MomentItem>
 
 }

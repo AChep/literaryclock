@@ -4,6 +4,9 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import com.artemchep.literaryclock.services.WidgetUpdateService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * @author Artem Chepurnoy
@@ -21,7 +24,14 @@ class LiteraryWidgetProvider : AppWidgetProvider() {
         appWidgetIds: IntArray?
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        LiteraryWidgetUpdater.updateLiteraryWidget(context)
+        val pendingResult = goAsync()
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                LiteraryWidgetUpdater.updateLiteraryWidget(context)
+            } finally {
+                pendingResult.finish()
+            }
+        }
         WidgetUpdateService.tryStartOrStop(context)
     }
 

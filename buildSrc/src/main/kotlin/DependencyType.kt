@@ -3,5 +3,7 @@
  */
 enum class DependencyType(val configurationName: String) {
     IMPLEMENTATION("implementation"),
-    TEST_IMPLEMENTATION("testImplementation")
+    KAPT("kapt"),
+    TEST_IMPLEMENTATION("testImplementation"),
+    ANDROID_TEST_IMPLEMENTATION("androidTestImplementation"),
 }

@@ -7,6 +7,13 @@ import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.Time
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @author Artem Chepurnoy
@@ -35,6 +42,8 @@ class MomentLiveData(
     }
 
     private val rangeInvalid = Time(-1).let { it..it }
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var loadJob: Job? = null
 
     /**
      * Current range of [moments] that we
@@ -42,21 +51,18 @@ class MomentLiveData(
      */
     private var range: ClosedRange<Time> = rangeInvalid
 
-    private lateinit var moments: List<MomentItem>
+    private var moments: List<MomentItem> = emptyList()
 
     @UiThread
     private fun processTime(time: Time) {
-        value = if (time in range) {
-            // Current list of moments should contain
-            // required moment.
-            moments
-        } else {
-            range = time..Time(time.time + RANGE_SIZE)
-            loadMoments()
-        }.let { moments ->
+        if (time in range && moments.isNotEmpty()) {
             val offset = time.time - range.start.time
-            return@let moments[offset]
+            value = moments[offset]
+            return
         }
+
+        val requestedRange = time..Time(time.time + RANGE_SIZE)
+        loadMoments(requestedRange, time)
     }
 
     @UiThread
@@ -69,11 +75,32 @@ class MomentLiveData(
         processTime(time)
     }
 
-    private fun loadMoments() = repo.getMoments(range)
-        .also {
-            // Remember the list of moments that we
-            // retrieved.
-            moments = it
+    private fun loadMoments(
+        requestedRange: ClosedRange<Time>,
+        requestedTime: Time,
+    ) {
+        loadJob?.cancel()
+        loadJob = scope.launch {
+            val loadedMoments = withContext(Dispatchers.IO) {
+                repo.getMoments(requestedRange)
+            }
+            range = requestedRange
+            moments = loadedMoments
+
+            val currentTime = timeLiveData.value ?: requestedTime
+            if (currentTime in requestedRange && loadedMoments.isNotEmpty()) {
+                val offset = currentTime.time - requestedRange.start.time
+                value = loadedMoments[offset]
+            }
         }
+    }
+
+    override fun onInactive() {
+        loadJob?.cancel()
+        if (!hasActiveObservers()) {
+            scope.coroutineContext.cancelChildren()
+        }
+        super.onInactive()
+    }
 
 }

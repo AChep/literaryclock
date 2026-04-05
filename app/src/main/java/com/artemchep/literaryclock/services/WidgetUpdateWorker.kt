@@ -8,6 +8,7 @@ import androidx.work.WorkerParameters
 import com.artemchep.literaryclock.Cfg
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
+import kotlinx.coroutines.runBlocking
 
 /**
  * @author Artem Chepurnoy
@@ -29,7 +30,9 @@ class WidgetUpdateWorker(context: Context, params: WorkerParameters) : Worker(co
             applicationContext.startForegroundService(intent)
         }
 
-        LiteraryWidgetUpdater.updateLiteraryWidget(applicationContext)
+        runBlocking {
+            LiteraryWidgetUpdater.updateLiteraryWidget(applicationContext)
+        }
         return Result.success()
     }
 

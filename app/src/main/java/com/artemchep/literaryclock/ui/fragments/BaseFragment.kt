@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.core.view.ViewGroupCompat
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.transition.MaterialFadeThrough
 import org.kodein.di.DIAware
@@ -41,6 +42,16 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment(), DIAware {
     ): View = viewBindingFactory(onCreateViewInflater(inflater), container, false)
         .also(::_viewBinding::set)
         .root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Keep predictive back transitions operating on the fragment surface
+        // instead of independently targeting child views within the hierarchy.
+        (view as? ViewGroup)?.also { root ->
+            ViewGroupCompat.setTransitionGroup(root, true)
+        }
+    }
 
     protected open fun onCreateViewInflater(inflater: LayoutInflater): LayoutInflater = inflater
 

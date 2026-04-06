@@ -236,6 +236,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
     override fun onItemClick(view: View, data: QuoteItem, position: Int) {
         when (view.id) {
             R.id.shareBtn -> mainViewModel.shareQuote(data)
+            R.id.bookmarkBtn -> mainViewModel.toggleFavorite(data)
             else -> mainViewModel.openQuote(data)
         }
     }
@@ -243,6 +244,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
     private fun showMorePopUp(view: View) {
         val popup = PopupMenu(requireContext(), view)
         val items = arrayOf(
+            getString(R.string.favorites) to {
+                navigate(MainFragmentDirections.actionMainFragmentToFavoritesFragment())
+            },
             getString(R.string.donate_iap) to {
                 navigate(MainFragmentDirections.actionMainFragmentToDonateFragment())
             },

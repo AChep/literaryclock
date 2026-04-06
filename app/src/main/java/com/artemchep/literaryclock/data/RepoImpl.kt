@@ -17,11 +17,13 @@ class RepoImpl(
         private val emptyMoment = MomentItem(
             quotes = listOf(
                 QuoteItemFactory.transform(
+                    key = "",
                     quote = "There's no quote for this time yet. " +
                             "Try connecting to internet for database to sync.",
                     title = "",
                     asin = "",
                     author = "",
+                    isPlaceholder = true,
                 ),
             ),
         )

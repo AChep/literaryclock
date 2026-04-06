@@ -10,15 +10,31 @@
     android:paddingBottom="12dp"
     android:transitionName="test">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/shareBtn"
-        style="@style/Widget.Material3.Button.IconButton"
+    <LinearLayout
+        android:id="@+id/actionContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/ic_share"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shareBtn"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_share" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bookmarkBtn"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:icon="@drawable/ic_bookmark_border" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/quoteDividerView"
@@ -38,7 +54,7 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/robotoslab"
         android:textAppearance="?textAppearanceBodyLarge"
-        app:layout_constraintEnd_toStartOf="@id/shareBtn"
+        app:layout_constraintEnd_toStartOf="@id/actionContainer"
         app:layout_constraintStart_toEndOf="@id/quoteDividerView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_goneMarginEnd="16dp"
@@ -55,7 +71,7 @@
         android:gravity="end"
         android:textAppearance="?textAppearanceLabelMedium"
         android:textColor="?android:textColorSecondary"
-        app:layout_constraintEnd_toStartOf="@id/shareBtn"
+        app:layout_constraintEnd_toStartOf="@id/actionContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/quoteTextView"
         app:layout_goneMarginEnd="16dp"
@@ -72,7 +88,7 @@
         android:textAppearance="?textAppearanceLabelMedium"
         android:textColor="?android:textColorSecondary"
         android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@id/shareBtn"
+        app:layout_constraintEnd_toStartOf="@id/actionContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
         app:layout_goneMarginEnd="16dp"

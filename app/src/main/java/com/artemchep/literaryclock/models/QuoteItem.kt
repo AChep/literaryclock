@@ -10,10 +10,13 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class QuoteItem(
+    val key: String,
     val quote: String,
     val title: String,
     val asin: String,
-    val author: String
+    val author: String,
+    val isFavorite: Boolean = false,
+    val isPlaceholder: Boolean = false,
 ) : Parcelable {
     fun quote(context: Context) = QuoteItemFactory.spanify(context, quote)
 }

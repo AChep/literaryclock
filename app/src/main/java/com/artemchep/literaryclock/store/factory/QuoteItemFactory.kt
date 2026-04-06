@@ -52,23 +52,31 @@ object QuoteItemFactory {
             }
     }
 
-    fun transform(origin: QuoteEntity): QuoteItem = transform(
+    fun transform(origin: QuoteEntity, isFavorite: Boolean = false): QuoteItem = transform(
+        key = origin.key,
         quote = origin.quote,
         title = origin.title,
         asin = origin.asin,
         author = origin.author,
+        isFavorite = isFavorite,
     )
 
     fun transform(
+        key: String,
         quote: String,
         title: String,
         asin: String,
         author: String,
+        isFavorite: Boolean = false,
+        isPlaceholder: Boolean = false,
     ): QuoteItem = QuoteItem(
+        key = key,
         quote = quote,
         title = title,
         asin = asin,
         author = author,
+        isFavorite = isFavorite,
+        isPlaceholder = isPlaceholder,
     )
 
 }

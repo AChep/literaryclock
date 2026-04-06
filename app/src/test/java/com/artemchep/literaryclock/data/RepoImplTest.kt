@@ -1,12 +1,16 @@
 package com.artemchep.literaryclock.data
 
 import com.artemchep.literaryclock.data.room.LiteraryClockDao
+import com.artemchep.literaryclock.data.room.FavoriteQuoteEntity
+import com.artemchep.literaryclock.data.room.FavoriteQuoteWithQuote
 import com.artemchep.literaryclock.data.room.MomentEntity
 import com.artemchep.literaryclock.data.room.MomentWithQuotes
 import com.artemchep.literaryclock.data.room.QuoteEntity
 import com.artemchep.literaryclock.logic.live.MomentLiveData
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.widget.LiteraryWidgetUpdater
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -76,11 +80,29 @@ class RepoImplTest {
 
         override suspend fun countMoments(): Int = moments.size
 
-        override suspend fun insertMoments(moments: List<MomentEntity>) {
+        override fun observeFavorites(): LiveData<List<FavoriteQuoteWithQuote>> =
+            MutableLiveData(emptyList())
+
+        override fun observeFavoriteQuoteKeys(): LiveData<List<String>> =
+            MutableLiveData(emptyList())
+
+        override suspend fun getAllQuoteKeys(): List<String> {
             throw NotImplementedError()
         }
 
-        override suspend fun insertQuotes(quotes: List<QuoteEntity>) {
+        override suspend fun getAllMomentKeys(): List<Int> {
+            throw NotImplementedError()
+        }
+
+        override suspend fun upsertMoments(moments: List<MomentEntity>) {
+            throw NotImplementedError()
+        }
+
+        override suspend fun upsertQuotes(quotes: List<QuoteEntity>) {
+            throw NotImplementedError()
+        }
+
+        override suspend fun upsertFavorite(favorite: FavoriteQuoteEntity) {
             throw NotImplementedError()
         }
 
@@ -89,6 +111,18 @@ class RepoImplTest {
         }
 
         override suspend fun deleteAllMoments() {
+            throw NotImplementedError()
+        }
+
+        override suspend fun deleteQuotesByKeys(keys: List<String>) {
+            throw NotImplementedError()
+        }
+
+        override suspend fun deleteMomentsByKeys(keys: List<Int>) {
+            throw NotImplementedError()
+        }
+
+        override suspend fun deleteFavoriteByQuoteKey(quoteKey: String) {
             throw NotImplementedError()
         }
     }

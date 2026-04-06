@@ -9,6 +9,7 @@
     <string name="purchased">Purchased</string>
 
     <string name="about">About</string>
+    <string name="favorites">Favorites</string>
     <string name="about_app_description">Literary Clock represents current time in a form of literature quotes.\n\nThis app could not be possible without help of the author of http://www.literaryclock.com website. Thanks!</string>
     <string name="about_app_description_short">Current time in a form of literature quotes</string>
     <string name="about_app_version__template">version %s</string>
@@ -34,6 +35,10 @@
 
     <string name="quote">Quote</string>
     <string name="quote_share">Share a quote</string>
+    <string name="bookmark_add">Add to favorites</string>
+    <string name="bookmark_remove">Remove from favorites</string>
+    <string name="favorites_empty_title">No favorite quotes yet</string>
+    <string name="favorites_empty_text">Tap the bookmark button on any quote to save it here.</string>
 
     <string name="notification_widget_update_service_title" translatable="false">Literary Clock</string>
     <string name="notification_widget_update_service_text">Long click the notification, open app info and turn off the notifications to hide this notification.</string>

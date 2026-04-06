@@ -6,15 +6,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.analytics.AnalyticsMain
+import com.artemchep.literaryclock.data.room.FavoriteQuoteEntity
+import com.artemchep.literaryclock.data.room.LiteraryClockDao
 import com.artemchep.literaryclock.logic.SingleLiveEvent
 import com.artemchep.literaryclock.logic.live.DatabaseStateLiveData
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.utils.ext.observeOnce
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.kodein.di.instance
 
 /**
@@ -23,6 +29,7 @@ import org.kodein.di.instance
 class MainViewModel(application: Application) : BaseViewModel(application) {
 
     private val analytics by instance<AnalyticsMain>()
+    private val dao by instance<LiteraryClockDao>()
 
     val shareQuoteEvent = SingleLiveEvent<QuoteItem>()
 
@@ -51,10 +58,30 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
 
-    val momentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(
+    private val rawMomentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(
         arg = timeLiveData,
         tag = Heart.TAG_LD_MOMENT_ITEM,
     )
+    private val favoriteQuoteKeysLiveData = dao.observeFavoriteQuoteKeys().map {
+        it.toSet()
+    }
+    val momentLiveData = MediatorLiveData<MomentItem>()
+        .apply {
+            fun publishMoment() {
+                val moment = rawMomentLiveData.value ?: return
+                val favoriteQuoteKeys = favoriteQuoteKeysLiveData.value.orEmpty()
+                value = moment.copy(
+                    quotes = moment.quotes.map { quote ->
+                        quote.copy(
+                            isFavorite = !quote.isPlaceholder && quote.key in favoriteQuoteKeys,
+                        )
+                    },
+                )
+            }
+
+            addSource(rawMomentLiveData) { publishMoment() }
+            addSource(favoriteQuoteKeysLiveData) { publishMoment() }
+        }
 
     /**
      * Sets the custom time if the time is not equal to the [current time][currentTimeLiveData],
@@ -72,14 +99,48 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     @UiThread
     fun openQuote(quote: QuoteItem) {
+        if (quote.isPlaceholder || quote.asin.isBlank()) {
+            return
+        }
+
         "http://www.amazon.com/dp/${quote.asin}".let(openUrlEvent::setValue)
         analytics.logQuoteOpen(quote)
     }
 
     @UiThread
     fun shareQuote(quote: QuoteItem) {
+        if (quote.isPlaceholder) {
+            return
+        }
+
         quote.let(shareQuoteEvent::setValue)
         analytics.logQuoteShare(quote)
+    }
+
+    @UiThread
+    fun toggleFavorite(quote: QuoteItem) {
+        if (quote.isPlaceholder || quote.key.isBlank()) {
+            return
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            if (quote.isFavorite) {
+                dao.deleteFavoriteByQuoteKey(quote.key)
+            } else {
+                dao.upsertFavorite(
+                    FavoriteQuoteEntity(
+                        quoteKey = quote.key,
+                        favoritedAt = System.currentTimeMillis(),
+                    ),
+                )
+            }
+        }
+
+        if (quote.isFavorite) {
+            analytics.logQuoteFavoriteRemove(quote)
+        } else {
+            analytics.logQuoteFavoriteAdd(quote)
+        }
     }
 
 }

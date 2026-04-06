@@ -36,6 +36,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/donateQuoteFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_favoritesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/favoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -57,4 +64,8 @@
         android:id="@+id/donateQuoteFragment"
         android:name="com.artemchep.literaryclock.ui.fragments.DonateQuoteFragment"
         android:label="DonateQuoteFragment" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.FavoritesFragment"
+        android:label="FavoritesFragment" />
 </navigation>

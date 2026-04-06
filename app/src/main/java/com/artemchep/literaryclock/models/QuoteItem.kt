@@ -18,5 +18,8 @@ data class QuoteItem(
     val isFavorite: Boolean = false,
     val isPlaceholder: Boolean = false,
 ) : Parcelable {
-    fun quote(context: Context) = QuoteItemFactory.spanify(context, quote)
+    fun quote(
+        context: Context,
+        accentColor: Int = QuoteItemFactory.DEFAULT_PRIMARY_COLOR,
+    ) = QuoteItemFactory.spanify(context, quote, accentColor)
 }

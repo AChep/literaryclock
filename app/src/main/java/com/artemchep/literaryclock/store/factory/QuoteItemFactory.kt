@@ -14,6 +14,7 @@ import com.artemchep.literaryclock.models.QuoteItem
  * @author Artem Chepurnoy
  */
 object QuoteItemFactory {
+    const val DEFAULT_PRIMARY_COLOR = 0xFF5891ee.toInt()
 
     private const val BEGIN = "<strong>"
     private const val END = "</strong>"
@@ -21,8 +22,8 @@ object QuoteItemFactory {
     fun spanify(
         context: Context,
         quote: String,
+        accentColor: Int = DEFAULT_PRIMARY_COLOR,
     ) = buildSpannedString {
-        val primaryColor = 0xFF5891ee
         quote
             .splitToSequence(BEGIN)
             .forEachIndexed { index, s ->
@@ -42,7 +43,7 @@ object QuoteItemFactory {
                                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE,
                             )
                             setSpan(
-                                ForegroundColorSpan(primaryColor.toInt()),
+                                ForegroundColorSpan(accentColor),
                                 length - s.length,
                                 length,
                                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE,

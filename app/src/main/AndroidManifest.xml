@@ -41,6 +41,10 @@
                 android:defaultHeight="480dp" />
         </activity>
 
+        <activity
+            android:name=".ui.activities.DreamSettingsActivity"
+            android:exported="true" />
+
         <receiver
             android:name=".widget.LiteraryWidgetProvider"
             android:exported="true">
@@ -66,6 +70,9 @@
             android:name=".services.dream.LiteraryDreamService"
             android:exported="true"
             android:permission="android.permission.BIND_DREAM_SERVICE">
+            <meta-data
+                android:name="android.service.dream"
+                android:resource="@xml/dream_info" />
             <intent-filter>
                 <action android:name="android.service.dreams.DreamService" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -23,6 +23,9 @@ const val HDODENHOF_CIRCLEIMAGEVIEW_VERSION = "3.1.0"
 // https://github.com/GrenderG/Toasty
 const val GRENDERG_TOASTY_VERSION = "1.5.2"
 
+// https://github.com/yukuku/ambilwarna
+const val AMBIL_WARNA_VERSION = "2.0.1"
+
 // https://github.com/mikepenz/FastAdapter
 const val MIKEPENZ_FASTADAPTER_VERSION = "5.7.0"
 

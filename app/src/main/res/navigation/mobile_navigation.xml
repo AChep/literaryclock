@@ -59,7 +59,15 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.artemchep.literaryclock.ui.fragments.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_dreamSettingsFragment"
+            app:destination="@id/dreamSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dreamSettingsFragment"
+        android:name="com.artemchep.literaryclock.ui.fragments.DreamSettingsFragment"
+        android:label="DreamSettingsFragment" />
     <fragment
         android:id="@+id/donateQuoteFragment"
         android:name="com.artemchep.literaryclock.ui.fragments.DonateQuoteFragment"

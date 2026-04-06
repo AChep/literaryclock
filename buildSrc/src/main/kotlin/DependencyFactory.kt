@@ -63,6 +63,12 @@ fun createDependencies(module: Module): List<Dependency> {
         "com.github.GrenderG:Toasty:$GRENDERG_TOASTY_VERSION",
         DependencyType.IMPLEMENTATION
     )
+    val yukukuAmbilWarna = Dependency(
+        "AmbilWarna",
+        AMBIL_WARNA_VERSION,
+        "com.github.yukuku:ambilwarna:$AMBIL_WARNA_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
 
     val mikepenzFastAdapter = Dependency(
         "Fast Adapter",
@@ -239,6 +245,7 @@ fun createDependencies(module: Module): List<Dependency> {
             solovyevCheckout,
             hdodenhofCircleImageView,
             grendergToasty,
+            yukukuAmbilWarna,
             mikepenzFastAdapter,
             kodeinGenericJvm,
             kodeinAndroid,

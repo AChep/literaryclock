@@ -3,6 +3,7 @@ package com.artemchep.literaryclock.services.dream
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.artemchep.literaryclock.Cfg
 import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.databinding.DreamMainBinding
 import com.artemchep.literaryclock.logic.viewmodels.DreamViewModel
@@ -21,6 +22,7 @@ class LiteraryDreamService : LifecycleAwareDreamService() {
         super.onAttachedToWindow()
         setContentView(R.layout.dream_main)
         viewBinding = DreamMainBinding.bind(window.decorView.findViewById<ViewGroup>(android.R.id.content).getChildAt(0))
+        applyAppearance()
 
         dreamViewModel.setup()
     }
@@ -30,9 +32,20 @@ class LiteraryDreamService : LifecycleAwareDreamService() {
     }
 
     private fun showQuote(quote: QuoteItem) = viewBinding.bounceFrameLayout.bounce {
-        viewBinding.quoteTextView.text = quote.quote(viewBinding.quoteTextView.context)
+        val context = viewBinding.quoteTextView.context
+        viewBinding.quoteTextView.text = quote.quote(
+            context = context,
+            accentColor = DreamAppearance.resolveEffectiveAccentColor(),
+        )
         viewBinding.titleTextView.text = quote.title
         viewBinding.authorTextView.text = quote.author
+    }
+
+    private fun applyAppearance() {
+        val textColor = Cfg.dreamTextColor ?: return
+        viewBinding.quoteTextView.setTextColor(textColor)
+        viewBinding.titleTextView.setTextColor(textColor)
+        viewBinding.authorTextView.setTextColor(textColor)
     }
 
 }

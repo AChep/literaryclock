@@ -76,6 +76,36 @@
                     app:layout_constraintTop_toBottomOf="@id/themeLabel" />
 
                 <TextView
+                    android:id="@+id/dreamLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/frame_margin_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                    android:text="@string/settings_dream"
+                    android:textAppearance="?textAppearanceLabelMedium"
+                    android:textColor="?colorTertiary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/themeSpinner" />
+
+                <TextView
+                    android:id="@+id/dreamSettingsTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="?selectableItemBackground"
+                    android:paddingStart="@dimen/frame_margin_horizontal"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="@dimen/frame_margin_horizontal"
+                    android:paddingBottom="12dp"
+                    android:text="@string/settings_dream_customize"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dreamLabelTextView" />
+
+                <TextView
                     android:id="@+id/widgetLabelTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -87,7 +117,7 @@
                     android:textColor="?colorTertiary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/themeSpinner" />
+                    app:layout_constraintTop_toBottomOf="@id/dreamSettingsTextView" />
 
                 <TextView
                     android:id="@+id/altWidgetUpdaterTextView"

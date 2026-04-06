@@ -72,6 +72,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
             }
         }
 
+        viewBinding.dreamSettingsTextView.setOnClickListener(this)
         setupWidgetUpdaterPreference()
     }
 
@@ -117,6 +118,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(),
 
     override fun onClick(view: View) {
         when (view.id) {
+            R.id.dreamSettingsTextView -> findNavController()
+                .navigate(SettingsFragmentDirections.actionSettingsFragmentToDreamSettingsFragment())
             R.id.altWidgetUpdaterTextView -> viewBinding.altWidgetUpdaterSwitch.toggle()
         }
     }

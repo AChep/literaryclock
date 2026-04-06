@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            style="@style/ToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_left"
+                app:title="@string/settings_dream"
+                app:titleCentered="@bool/titleCentered" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/frame_margin_horizontal"
+                android:layout_marginEnd="@dimen/frame_margin_horizontal"
+                android:text="@string/settings_dream_description"
+                android:textAppearance="?textAppearanceBodyMedium"
+                android:textColor="?android:textColorSecondary" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/textColorRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="?selectableItemBackground"
+                android:minHeight="72dp"
+                android:paddingStart="@dimen/frame_margin_horizontal"
+                android:paddingTop="12dp"
+                android:paddingEnd="@dimen/frame_margin_horizontal"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:id="@+id/textColorTitleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_dream_text_color"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    app:layout_constraintEnd_toStartOf="@id/textColorResetButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textColorSummaryTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    android:textColor="?android:textColorSecondary"
+                    app:layout_constraintEnd_toStartOf="@id/textColorResetButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textColorTitleTextView"
+                    tools:text="#FF000000 (default)" />
+
+                <View
+                    android:id="@+id/textColorSwatchView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/textColorResetButton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/textColorResetButton"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:text="@string/settings_reset"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/accentColorRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:minHeight="72dp"
+                android:paddingStart="@dimen/frame_margin_horizontal"
+                android:paddingTop="12dp"
+                android:paddingEnd="@dimen/frame_margin_horizontal"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:id="@+id/accentColorTitleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_dream_accent_color"
+                    android:textAppearance="?textAppearanceBodyLarge"
+                    app:layout_constraintEnd_toStartOf="@id/accentColorResetButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/accentColorSummaryTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textAppearance="?textAppearanceBodyMedium"
+                    android:textColor="?android:textColorSecondary"
+                    app:layout_constraintEnd_toStartOf="@id/accentColorResetButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/accentColorTitleTextView"
+                    tools:text="#FF5891EE (default)" />
+
+                <View
+                    android:id="@+id/accentColorSwatchView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/accentColorResetButton"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/accentColorResetButton"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:text="@string/settings_reset"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

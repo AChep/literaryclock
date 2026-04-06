@@ -86,6 +86,14 @@ class RepoImplTest {
         override fun observeFavoriteQuoteKeys(): LiveData<List<String>> =
             MutableLiveData(emptyList())
 
+        override suspend fun isFavoriteQuote(quoteKey: String): Boolean = false
+
+        override suspend fun getQuoteByKey(quoteKey: String): QuoteEntity? =
+            moments
+                .asSequence()
+                .flatMap { it.quotes.asSequence() }
+                .firstOrNull { it.key == quoteKey }
+
         override suspend fun getAllQuoteKeys(): List<String> {
             throw NotImplementedError()
         }

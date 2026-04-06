@@ -28,6 +28,12 @@ interface LiteraryClockDao {
     @Query("SELECT quoteKey FROM favorite_quotes")
     fun observeFavoriteQuoteKeys(): LiveData<List<String>>
 
+    @Query("SELECT EXISTS(SELECT 1 FROM favorite_quotes WHERE quoteKey = :quoteKey)")
+    suspend fun isFavoriteQuote(quoteKey: String): Boolean
+
+    @Query("SELECT * FROM quotes WHERE `key` = :quoteKey LIMIT 1")
+    suspend fun getQuoteByKey(quoteKey: String): QuoteEntity?
+
     @Query("SELECT `key` FROM quotes")
     suspend fun getAllQuoteKeys(): List<String>
 

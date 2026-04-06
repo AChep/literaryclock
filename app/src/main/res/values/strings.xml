@@ -37,6 +37,7 @@
     <string name="quote_share">Share a quote</string>
     <string name="bookmark_add">Add to favorites</string>
     <string name="bookmark_remove">Remove from favorites</string>
+    <string name="widget_refresh">Refresh widget quote</string>
     <string name="favorites_empty_title">No favorite quotes yet</string>
     <string name="favorites_empty_text">Tap the bookmark button on any quote to save it here.</string>
 

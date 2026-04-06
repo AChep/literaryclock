@@ -13,7 +13,7 @@
         android:id="@+id/quoteTextView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/titleTextView"
+        android:layout_above="@id/footerContainer"
         android:layout_alignParentTop="true"
         android:autoSizeMaxTextSize="32sp"
         android:autoSizeMinTextSize="12sp"
@@ -25,45 +25,79 @@
         android:textSize="18sp"
         tools:text="At one minute to twelve, she was sure of it, and cursed herself for even thinking for a moment the cat-creature would help her escape." />
 
-    <ImageView
-        android:id="@+id/refreshBtn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:scaleType="center"
-        android:src="@drawable/ic_refresh"
-        android:tint="?android:colorControlNormal"
-        android:visibility="gone"
-        tools:ignore="UseAppTint" />
-
-    <TextView
-        android:id="@+id/titleTextView"
+    <LinearLayout
+        android:id="@+id/footerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/authorTextView"
-        android:layout_marginStart="8dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@id/refreshBtn"
-        android:fontFamily="@font/robotoslab"
-        android:gravity="end"
-        android:text="@string/preview_title"
-        android:textColor="?android:textColorSecondary"
-        android:textSize="14sp"
-        tools:text="Clariel" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/authorTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="8dp"
-        android:layout_toEndOf="@id/refreshBtn"
-        android:fontFamily="@font/robotoslab"
-        android:gravity="end"
-        android:text="@string/preview_author"
-        android:textColor="?android:textColorSecondary"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        tools:text="Garth Nix" />
+        <LinearLayout
+            android:id="@+id/actionContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/favoriteBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="@string/bookmark_add"
+                android:scaleType="center"
+                android:src="@drawable/ic_bookmark_border"
+                android:tint="?android:colorControlNormal"
+                tools:ignore="UseAppTint" />
+
+            <ImageView
+                android:id="@+id/refreshBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/widget_refresh"
+                android:scaleType="center"
+                android:src="@drawable/ic_refresh"
+                android:tint="?android:colorControlNormal"
+                android:visibility="gone"
+                tools:ignore="UseAppTint" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/metaContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoslab"
+                android:gravity="end"
+                android:text="@string/preview_title"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                tools:text="Clariel" />
+
+            <TextView
+                android:id="@+id/authorTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoslab"
+                android:gravity="end"
+                android:text="@string/preview_author"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:text="Garth Nix" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

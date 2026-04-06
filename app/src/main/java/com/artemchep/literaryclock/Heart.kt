@@ -52,9 +52,11 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
 
         const val PI_OPEN_MAIN_SCREEN = 1
         const val PI_UPDATE_WIDGET = 2
+        const val PI_TOGGLE_WIDGET_FAVORITE = 3
 
         private const val ACTION_PREFIX = "com.artemchep.literaryclock"
         const val ACTION_UPDATE_WIDGET = "$ACTION_PREFIX.UPDATE_WIDGET"
+        const val ACTION_TOGGLE_WIDGET_FAVORITE = "$ACTION_PREFIX.TOGGLE_WIDGET_FAVORITE"
         const val ACTION_UPDATE_DATABASE_STATE_CHANGED =
             "$ACTION_PREFIX.UPDATE_DATABASE_STATE_CHANGED"
 

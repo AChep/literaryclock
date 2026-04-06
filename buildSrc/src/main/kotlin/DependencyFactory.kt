@@ -119,10 +119,28 @@ fun createDependencies(module: Module): List<Dependency> {
         "androidx.browser:browser:$ANDROIDX_BROWSER_VERSION",
         DependencyType.IMPLEMENTATION
     )
+    val androidxFragment = Dependency(
+        "AndroidX Fragment",
+        ANDROIDX_FRAGMENT_VERSION,
+        "androidx.fragment:fragment:$ANDROIDX_FRAGMENT_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val androidxFragmentKtx = Dependency(
+        "AndroidX Fragment KTX",
+        ANDROIDX_FRAGMENT_VERSION,
+        "androidx.fragment:fragment-ktx:$ANDROIDX_FRAGMENT_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
     val androidxConstraintLayout = Dependency(
         "AndroidX Constraint Layout",
         ANDROIDX_CONSTRAINTLAYOUT_VERSION,
         "androidx.constraintlayout:constraintlayout:$ANDROIDX_CONSTRAINTLAYOUT_VERSION",
+        DependencyType.IMPLEMENTATION
+    )
+    val androidxTransition = Dependency(
+        "AndroidX Transition",
+        ANDROIDX_TRANSITION_VERSION,
+        "androidx.transition:transition:$ANDROIDX_TRANSITION_VERSION",
         DependencyType.IMPLEMENTATION
     )
     val androidArchNavigationFragment = Dependency(
@@ -256,7 +274,10 @@ fun createDependencies(module: Module): List<Dependency> {
             androidxLifecycleRuntime,
             androidxLifecycleProcess,
             androidxBrowser,
+            androidxFragment,
+            androidxFragmentKtx,
             androidxConstraintLayout,
+            androidxTransition,
             androidArchNavigationFragment,
             androidArchNavigationUi,
             androidArchNavigationFragmentKtx,

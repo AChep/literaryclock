@@ -3,7 +3,6 @@ package com.artemchep.literaryclock.services.dream
 import android.service.dreams.DreamService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 
 /**
  * @author Artem Chepurnoy
@@ -12,38 +11,38 @@ abstract class LifecycleAwareDreamService : DreamService() {
 
     val lifecycleOwner: LifecycleOwner = object : LifecycleOwner {
         override val lifecycle: Lifecycle
-            get() = lifecycleRegistry
+            get() = lifecycleController.lifecycle
     }
 
-    private val lifecycleRegistry by lazy { LifecycleRegistry(lifecycleOwner) }
+    private val lifecycleController by lazy { DreamLifecycleController(lifecycleOwner) }
 
     override fun onCreate() {
         super.onCreate()
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        lifecycleController.onCreate()
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        lifecycleController.onAttachedToWindow()
     }
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        lifecycleController.onDreamingStarted()
     }
 
     override fun onDreamingStopped() {
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        lifecycleController.onDreamingStopped()
         super.onDreamingStopped()
     }
 
     override fun onDetachedFromWindow() {
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        lifecycleController.onDetachedFromWindow()
         super.onDetachedFromWindow()
     }
 
     override fun onDestroy() {
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        lifecycleController.onDestroy()
         super.onDestroy()
     }
 

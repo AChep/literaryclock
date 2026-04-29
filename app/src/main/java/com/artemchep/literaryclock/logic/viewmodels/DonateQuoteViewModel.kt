@@ -104,7 +104,7 @@ class DonateQuoteViewModel(application: Application) : BaseViewModel(application
                 }
 
             // Pop the navigation stack
-            popEvent.call()
+            popEvent.value = Unit
         }
     }
 

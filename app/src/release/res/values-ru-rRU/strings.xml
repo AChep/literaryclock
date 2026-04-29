@@ -7,6 +7,7 @@
     <string name="error">Ой, блин!</string>
     <string name="purchased">Приобретено</string>
     <string name="about">О программе</string>
+    <string name="favorites">Favorites</string>
     <string name="about_app_description">Литературные часы показывают текущее время в виде цитат из книг. Оно служит примером принципов материального и архитектурного дизайна.\n\nЭто приложение было бы невозможно без помощи http://www.literaryclock.com веб-сайта. Спасибо!</string>
     <string name="about_app_description_short">Current time in a form of literature quotes</string>
     <string name="about_app_version__template">версия %s</string>
@@ -20,6 +21,14 @@
     <string name="donate_quote__failed">Не удалось отправить цитату</string>
     <string name="donate_iap">Пожертвовать</string>
     <string name="settings">Настройки</string>
+    <string name="settings_reset">Reset</string>
+    <string name="settings_follow_system_theme">Follow system theme</string>
+    <string name="settings_color_value_default">%1$s (default)</string>
+    <string name="settings_dream">Dream</string>
+    <string name="settings_dream_customize">Customize dream appearance</string>
+    <string name="settings_dream_description">Choose a custom text color and accent color for the screensaver. The accent color applies only to the highlighted time in the quote.</string>
+    <string name="settings_dream_text_color">Text color</string>
+    <string name="settings_dream_accent_color">Accent color</string>
     <string name="settings_widget">Виджет</string>
     <string name="settings_widget_alt_service">Запуск фоновой службы для обновления виджета на главном экране каждую одну минуту</string>
     <string name="settings_widget_color">Основной цвет</string>
@@ -29,6 +38,11 @@
     <string name="settings_theme_auto">Авто</string>
     <string name="quote">Цитата</string>
     <string name="quote_share">Поделиться цитатой</string>
+    <string name="bookmark_add">Add to favorites</string>
+    <string name="bookmark_remove">Remove from favorites</string>
+    <string name="widget_refresh">Refresh widget quote</string>
+    <string name="favorites_empty_title">No favorite quotes yet</string>
+    <string name="favorites_empty_text">Tap the bookmark button on any quote to save it here.</string>
     <string name="notification_widget_update_service_text">Long click the notification, open app info and turn off the notifications to hide this notification.</string>
     <string name="notification_widget_update_service_channel">Update widget service notification</string>
     <string name="error_quote_empty">Quote info can\'t be empty</string>

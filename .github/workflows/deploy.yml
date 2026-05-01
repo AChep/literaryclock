@@ -29,7 +29,7 @@ jobs:
           cache: 'gradle'
       - id: vars
         run: |
-          echo ::set-output name=tag::${GITHUB_REF:10}
+          echo "tag=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
       - id: env
         run: |
           echo "LITERARY_CLOCK_RELEASE_TAG=${{ steps.vars.outputs.tag }}" >> $GITHUB_ENV
@@ -41,18 +41,27 @@ jobs:
           echo ${{ secrets.GOOGLE_SERVICES }} | base64 -d | zcat >> app/google-services.json
           echo ${{ secrets.KEYSTORE_B64 }} | base64 -d | zcat >> app/literaryclock-release.keystore
           echo ${{ secrets.KEYSTORE_PROPS_B64 }} | base64 -d | zcat >> app/literaryclock-release.properties
-      - name: "./gradlew clean bundleProdRelease assembleProdRelease"
+      - name: "./gradlew clean app and watchface release artifacts"
         uses: eskatos/gradle-command-action@v2
         env:
           JAVA_HOME: ${{ steps.setup-java.outputs.path }}
         with:
-          arguments: clean bundleProdRelease assembleProdRelease
-      - name: 'Upload .aab'
+          arguments: clean :app:bundleProdRelease :app:assembleProdRelease :watchface:bundleRelease :watchface:assembleRelease
+      - name: 'Upload app artifacts'
         uses: actions/upload-artifact@v4
         with:
           name: app-android
           path: |
             app/build/outputs/**/*.aab
+            app/build/outputs/**/*.apk
+          retention-days: 7
+      - name: 'Upload watchface artifacts'
+        uses: actions/upload-artifact@v4
+        with:
+          name: watchface-android
+          path: |
+            watchface/build/outputs/**/*.aab
+            watchface/build/outputs/**/*.apk
           retention-days: 7
       - name: create release
         id: create_release
@@ -69,10 +78,25 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: app/build/outputs/apk/prod/release/literaryclock-prod-release.apk
           asset_name: literaryclock-release-${{ steps.vars.outputs.tag }}.apk
-          asset_content_type: application/zip
-      - name: upload to play store
+          asset_content_type: application/vnd.android.package-archive
+      - name: upload watchface Release apk
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: watchface/build/outputs/apk/release/literaryclock-watchface-release.apk
+          asset_name: literaryclock-watchface-release-${{ steps.vars.outputs.tag }}.apk
+          asset_content_type: application/vnd.android.package-archive
+      - name: upload app to play store
         uses: r0adkll/upload-google-play@v1.0.15
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT }}
           packageName: com.artemchep.literaryclock
           releaseFiles: app/build/outputs/bundle/prodRelease/literaryclock-prod-release.aab
+          track: production
+      - name: upload watchface to play store
+        uses: r0adkll/upload-google-play@v1.0.15
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT }}
+          packageName: com.artemchep.literaryclock
+          releaseFiles: watchface/build/outputs/bundle/release/literaryclock-watchface-release.aab
+          track: wear:production

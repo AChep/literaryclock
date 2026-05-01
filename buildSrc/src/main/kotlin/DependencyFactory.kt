@@ -17,6 +17,18 @@ fun createDependencies(module: Module): List<Dependency> {
         "junit:junit:$JUNIT_VERSION",
         DependencyType.TEST_IMPLEMENTATION
     )
+    val robolectric = Dependency(
+        "Robolectric",
+        ROBOLECTRIC_VERSION,
+        "org.robolectric:robolectric:$ROBOLECTRIC_VERSION",
+        DependencyType.TEST_IMPLEMENTATION,
+    )
+    val truth = Dependency(
+        "Truth",
+        TRUTH_VERSION,
+        "com.google.truth:truth:$TRUTH_VERSION",
+        DependencyType.TEST_IMPLEMENTATION,
+    )
     val kluent = Dependency(
         "Kluent",
         KLUENT_VERSION,
@@ -131,6 +143,12 @@ fun createDependencies(module: Module): List<Dependency> {
         "androidx.fragment:fragment-ktx:$ANDROIDX_FRAGMENT_VERSION",
         DependencyType.IMPLEMENTATION
     )
+    val androidxFragmentTesting = Dependency(
+        "AndroidX Fragment Testing",
+        ANDROIDX_FRAGMENT_VERSION,
+        "androidx.fragment:fragment-testing:$ANDROIDX_FRAGMENT_VERSION",
+        DependencyType.DEBUG_IMPLEMENTATION,
+    )
     val androidxConstraintLayout = Dependency(
         "AndroidX Constraint Layout",
         ANDROIDX_CONSTRAINTLAYOUT_VERSION,
@@ -227,9 +245,27 @@ fun createDependencies(module: Module): List<Dependency> {
         "AndroidX Arch Core Testing",
         ANDROIDX_ARCH_CORE_TESTING_VERSION,
         "androidx.arch.core:core-testing:$ANDROIDX_ARCH_CORE_TESTING_VERSION",
-        DependencyType.ANDROID_TEST_IMPLEMENTATION
+        DependencyType.TEST_IMPLEMENTATION
     )
-    val androidxTestCore = Dependency(
+    val androidxTestCoreJvm = Dependency(
+        "AndroidX Test Core KTX",
+        ANDROIDX_TEST_CORE_VERSION,
+        "androidx.test:core-ktx:$ANDROIDX_TEST_CORE_VERSION",
+        DependencyType.TEST_IMPLEMENTATION,
+    )
+    val androidxWorkTestingJvm = Dependency(
+        "AndroidX Work Testing",
+        ANDROIDARCH_WORK_VERSION,
+        "androidx.work:work-testing:$ANDROIDARCH_WORK_VERSION",
+        DependencyType.TEST_IMPLEMENTATION,
+    )
+    val androidArchNavigationTestingJvm = Dependency(
+        "Android Arch Navigation Testing",
+        ANDROIDARCH_NAVIGATION_VERSION,
+        "androidx.navigation:navigation-testing:$ANDROIDARCH_NAVIGATION_VERSION",
+        DependencyType.TEST_IMPLEMENTATION,
+    )
+    val androidxTestCoreAndroid = Dependency(
         "AndroidX Test Core KTX",
         ANDROIDX_TEST_CORE_VERSION,
         "androidx.test:core-ktx:$ANDROIDX_TEST_CORE_VERSION",
@@ -247,11 +283,53 @@ fun createDependencies(module: Module): List<Dependency> {
         "androidx.test:runner:$ANDROIDX_TEST_CORE_VERSION",
         DependencyType.ANDROID_TEST_IMPLEMENTATION
     )
+    val androidxTestRules = Dependency(
+        "AndroidX Test Rules",
+        ANDROIDX_TEST_CORE_VERSION,
+        "androidx.test:rules:$ANDROIDX_TEST_CORE_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION,
+    )
     val androidxWorkTesting = Dependency(
         "AndroidX Work Testing",
         ANDROIDARCH_WORK_VERSION,
         "androidx.work:work-testing:$ANDROIDARCH_WORK_VERSION",
         DependencyType.ANDROID_TEST_IMPLEMENTATION
+    )
+    val androidArchNavigationTesting = Dependency(
+        "Android Arch Navigation Testing",
+        ANDROIDARCH_NAVIGATION_VERSION,
+        "androidx.navigation:navigation-testing:$ANDROIDARCH_NAVIGATION_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION,
+    )
+    val androidxTestEspressoCore = Dependency(
+        "AndroidX Test Espresso Core",
+        ANDROIDX_TEST_ESPRESSO_VERSION,
+        "androidx.test.espresso:espresso-core:$ANDROIDX_TEST_ESPRESSO_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION,
+    )
+    val androidxTestEspressoContrib = Dependency(
+        "AndroidX Test Espresso Contrib",
+        ANDROIDX_TEST_ESPRESSO_VERSION,
+        "androidx.test.espresso:espresso-contrib:$ANDROIDX_TEST_ESPRESSO_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION,
+    )
+    val androidxTestEspressoIntents = Dependency(
+        "AndroidX Test Espresso Intents",
+        ANDROIDX_TEST_ESPRESSO_VERSION,
+        "androidx.test.espresso:espresso-intents:$ANDROIDX_TEST_ESPRESSO_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION,
+    )
+    val androidxTestUiAutomator = Dependency(
+        "AndroidX Test UI Automator",
+        ANDROIDX_TEST_UIAUTOMATOR_VERSION,
+        "androidx.test.uiautomator:uiautomator:$ANDROIDX_TEST_UIAUTOMATOR_VERSION",
+        DependencyType.ANDROID_TEST_IMPLEMENTATION,
+    )
+    val androidxTestOrchestrator = Dependency(
+        "AndroidX Test Orchestrator",
+        ANDROIDX_TEST_CORE_VERSION,
+        "androidx.test:orchestrator:$ANDROIDX_TEST_CORE_VERSION",
+        DependencyType.ANDROID_TEST_UTIL,
     )
 
     return when (module) {
@@ -276,6 +354,7 @@ fun createDependencies(module: Module): List<Dependency> {
             androidxBrowser,
             androidxFragment,
             androidxFragmentKtx,
+            androidxFragmentTesting,
             androidxConstraintLayout,
             androidxTransition,
             androidArchNavigationFragment,
@@ -288,15 +367,27 @@ fun createDependencies(module: Module): List<Dependency> {
             googleFirebaseFirestore,
             acraHttpSender,
             junit,
+            robolectric,
+            truth,
             kotlinCoroutinesTest,
             kotlinMockito,
             kluent,
+            androidxTestCoreJvm,
+            androidxWorkTestingJvm,
+            androidArchNavigationTestingJvm,
             roomTesting,
             androidxArchCoreTesting,
-            androidxTestCore,
+            androidxTestCoreAndroid,
             androidxTestExtJunit,
             androidxTestRunner,
+            androidxTestRules,
             androidxWorkTesting,
+            androidArchNavigationTesting,
+            androidxTestEspressoCore,
+            androidxTestEspressoContrib,
+            androidxTestEspressoIntents,
+            androidxTestUiAutomator,
+            androidxTestOrchestrator,
         )
     }
 }

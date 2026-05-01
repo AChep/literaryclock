@@ -1,10 +1,13 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.io.FileInputStream
 import java.util.*
 import kotlin.math.pow
 
 plugins {
     id("com.android.application")
+    id("jacoco")
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
@@ -44,6 +47,7 @@ android {
         targetSdk = Android.targetSdkVersion
         applicationId = "com.artemchep.literaryclock"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
 
         val versionNamePartsCount = 4
         val releaseTag = System.getenv("LITERARY_CLOCK_RELEASE_TAG")
@@ -63,7 +67,7 @@ android {
                 val reverseIndex = versionParts.size - index - 1
                 v * 100.toDouble().pow(reverseIndex).toInt()
             }
-            .sum()
+            .sum() * 10 + 1
         versionName = versionParts.joinToString(separator = ".")
 
         setProperty("archivesBaseName", "literaryclock")
@@ -119,6 +123,25 @@ android {
             dimension = "common"
         }
     }
+
+    testOptions {
+        animationsDisabled = true
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+
+        managedDevices {
+            allDevices {
+                create<ManagedVirtualDevice>("pixel6Api34") {
+                    device = "Pixel 6"
+                    apiLevel = 34
+                    systemImageSource = "aosp-atd"
+                }
+            }
+        }
+    }
 }
 
 kotlin {
@@ -130,6 +153,64 @@ kotlin {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:$GOOGLE_FIREBASE_BOM_VERSION"))
     handle(this, appDependencies)
+}
+
+val jacocoExclusions = listOf(
+    "**/R.class",
+    "**/R$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*",
+    "**/*Binding.class",
+    "**/*BindingImpl.class",
+    "**/BR.class",
+    "**/databinding/**/*.*",
+    "**/android/databinding/**/*.*",
+    "**/*Directions*.*",
+    "**/*Args*.*",
+)
+
+tasks.register<JacocoReport>("jacocoProdDebugUnitTestReport") {
+    dependsOn("testProdDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    classDirectories.setFrom(
+        files(
+            fileTree("${layout.buildDirectory.asFile.get()}/tmp/kotlin-classes/prodDebug") {
+                exclude(jacocoExclusions)
+            },
+            fileTree("${layout.buildDirectory.asFile.get()}/intermediates/javac/prodDebug/classes") {
+                exclude(jacocoExclusions)
+            },
+        ),
+    )
+    sourceDirectories.setFrom(
+        files(
+            "src/main/java",
+            "src/main/kotlin",
+        ),
+    )
+    executionData.setFrom(
+        fileTree(layout.buildDirectory.asFile.get()) {
+            include(
+                "jacoco/testProdDebugUnitTest.exec",
+                "outputs/unit_test_code_coverage/prodDebugUnitTest/testProdDebugUnitTest.exec",
+            )
+        },
+    )
+}
+
+tasks.register("verifyUnitTests") {
+    group = "verification"
+    description = "Runs the prodDebug unit test suite and generates the JaCoCo report."
+    dependsOn(
+        "testProdDebugUnitTest",
+        "jacocoProdDebugUnitTestReport",
+    )
 }
 
 val hasGoogleServicesConfig = fileTree(projectDir) {

@@ -10,6 +10,10 @@ const val KOTLIN_MOCKITO_VERSION = "6.3.0"
 const val KLUENT_VERSION = "1.73"
 // https://mvnrepository.com/artifact/junit/junit
 const val JUNIT_VERSION = "4.13.2"
+// https://github.com/robolectric/robolectric
+const val ROBOLECTRIC_VERSION = "4.16"
+// https://github.com/google/truth
+const val TRUTH_VERSION = "1.4.4"
 
 // https://kodein.org/
 const val KODEIN_VERSION = "7.31.0"
@@ -44,6 +48,8 @@ const val ANDROIDARCH_WORK_VERSION = "2.11.2"
 const val ANDROIDX_ARCH_CORE_TESTING_VERSION = "2.2.0"
 const val ANDROIDX_TEST_CORE_VERSION = "1.7.0"
 const val ANDROIDX_TEST_EXT_JUNIT_VERSION = "1.3.0"
+const val ANDROIDX_TEST_ESPRESSO_VERSION = "3.7.0"
+const val ANDROIDX_TEST_UIAUTOMATOR_VERSION = "2.3.0"
 const val ANDROIDX_ROOM_VERSION = "2.8.4"
 
 // https://mvnrepository.com/artifact/com.google.android.material/material

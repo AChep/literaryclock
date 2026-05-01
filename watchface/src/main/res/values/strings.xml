@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="watch_face_name">Literary Clock</string>
+    <string name="quote_accent_color">Quote accent color</string>
+    <string name="quote_accent_color_blue">Blue</string>
+    <string name="quote_accent_color_cyan">Cyan</string>
+    <string name="quote_accent_color_green">Green</string>
+    <string name="quote_accent_color_amber">Amber</string>
+    <string name="quote_accent_color_pink">Pink</string>
+    <string name="quote_accent_color_purple">Purple</string>
+</resources>

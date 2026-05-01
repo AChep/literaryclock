@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="android.hardware.type.watch"
+        android:required="true" />
+
+    <application
+        android:allowBackup="false"
+        android:hasCode="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/watch_face_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true">
+
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" />
+
+        <property
+            android:name="com.google.wear.watchface.format.version"
+            android:value="3" />
+
+        <property
+            android:name="com.google.wear.watchface.format.publisher"
+            android:value="literaryclock-gradle" />
+
+    </application>
+
+</manifest>

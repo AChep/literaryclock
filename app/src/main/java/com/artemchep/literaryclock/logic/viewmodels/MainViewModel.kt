@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.artemchep.literaryclock.Heart
-import com.artemchep.literaryclock.R
+import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.data.room.FavoriteQuoteEntity
 import com.artemchep.literaryclock.data.room.LiteraryClockDao
@@ -19,27 +19,47 @@ import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.utils.ext.observeOnce
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.kodein.di.direct
 import org.kodein.di.instance
 
 /**
  * @author Artem Chepurnoy
  */
-class MainViewModel(application: Application) : BaseViewModel(application) {
+class MainViewModel internal constructor(
+    application: Application,
+    private val analytics: AnalyticsMain,
+    private val dao: LiteraryClockDao,
+    private val currentTimeLiveData: LiveData<Time>,
+    val databaseIsUpdatingLiveData: LiveData<DatabaseState>,
+    rawMomentLiveDataFactory: (LiveData<Time>) -> LiveData<MomentItem>,
+    private val favoriteMutationDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val currentTimeMillis: () -> Long = System::currentTimeMillis,
+) : BaseViewModel(application) {
 
-    private val analytics by instance<AnalyticsMain>()
-    private val dao by instance<LiteraryClockDao>()
+    constructor(application: Application) : this(
+        application = application,
+        analytics = (application as Heart).di.direct.instance<AnalyticsMain>(),
+        dao = (application as Heart).di.direct.instance<LiteraryClockDao>(),
+        currentTimeLiveData = (application as Heart).di.direct.instance(
+            tag = Heart.TAG_LD_TIME,
+        ),
+        databaseIsUpdatingLiveData = DatabaseStateLiveData(application),
+        rawMomentLiveDataFactory = { timeLiveData ->
+            (application as Heart).di.direct.instance(
+                arg = timeLiveData,
+                tag = Heart.TAG_LD_MOMENT_ITEM,
+            )
+        },
+    )
 
     val shareQuoteEvent = SingleLiveEvent<QuoteItem>()
 
     val editTimeEvent = SingleLiveEvent<Time>()
 
     val openUrlEvent = SingleLiveEvent<String>()
-
-    private val currentTimeLiveData by instance<LiveData<Time>>(
-        tag = Heart.TAG_LD_TIME,
-    )
 
     val customTimeLiveData = MutableLiveData<Time>()
 
@@ -56,12 +76,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
             addSource(customTimeLiveData, resolver)
         }
 
-    val databaseIsUpdatingLiveData = DatabaseStateLiveData(application)
-
-    private val rawMomentLiveData by instance<LiveData<Time>, LiveData<MomentItem>>(
-        arg = timeLiveData,
-        tag = Heart.TAG_LD_MOMENT_ITEM,
-    )
+    private val rawMomentLiveData = rawMomentLiveDataFactory(timeLiveData)
     private val favoriteQuoteKeysLiveData = dao.observeFavoriteQuoteKeys().map {
         it.toSet()
     }
@@ -123,14 +138,14 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
             return
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(favoriteMutationDispatcher) {
             if (quote.isFavorite) {
                 dao.deleteFavoriteByQuoteKey(quote.key)
             } else {
                 dao.upsertFavorite(
                     FavoriteQuoteEntity(
                         quoteKey = quote.key,
-                        favoritedAt = System.currentTimeMillis(),
+                        favoritedAt = currentTimeMillis(),
                     ),
                 )
             }

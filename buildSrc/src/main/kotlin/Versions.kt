@@ -53,7 +53,7 @@ const val ANDROIDX_TEST_UIAUTOMATOR_VERSION = "2.3.0"
 const val ANDROIDX_ROOM_VERSION = "2.8.4"
 
 // https://mvnrepository.com/artifact/com.google.android.material/material
-const val GOOGLE_MATERIAL_VERSION = "1.13.0"
+const val GOOGLE_MATERIAL_VERSION = "1.14.0"
 
 // https://github.com/ACRA/acra
 const val ACRA_VERSION = "5.7.0"

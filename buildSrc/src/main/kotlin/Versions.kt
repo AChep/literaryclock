@@ -16,7 +16,7 @@ const val ROBOLECTRIC_VERSION = "4.16.1"
 const val TRUTH_VERSION = "1.4.5"
 
 // https://kodein.org/
-const val KODEIN_VERSION = "7.31.0"
+const val KODEIN_VERSION = "7.32.0"
 
 // https://github.com/serso/android-checkout
 const val SOLOVYEV_CHECKOUT_VERSION = "1.3.2"

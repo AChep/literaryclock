@@ -13,7 +13,7 @@ const val JUNIT_VERSION = "4.13.2"
 // https://github.com/robolectric/robolectric
 const val ROBOLECTRIC_VERSION = "4.16.1"
 // https://github.com/google/truth
-const val TRUTH_VERSION = "1.4.4"
+const val TRUTH_VERSION = "1.4.5"
 
 // https://kodein.org/
 const val KODEIN_VERSION = "7.31.0"

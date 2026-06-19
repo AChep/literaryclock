@@ -11,7 +11,7 @@ const val KLUENT_VERSION = "1.73"
 // https://mvnrepository.com/artifact/junit/junit
 const val JUNIT_VERSION = "4.13.2"
 // https://github.com/robolectric/robolectric
-const val ROBOLECTRIC_VERSION = "4.16"
+const val ROBOLECTRIC_VERSION = "4.16.1"
 // https://github.com/google/truth
 const val TRUTH_VERSION = "1.4.4"
 

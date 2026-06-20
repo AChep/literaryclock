@@ -56,7 +56,7 @@ const val ANDROIDX_ROOM_VERSION = "2.8.4"
 const val GOOGLE_MATERIAL_VERSION = "1.14.0"
 
 // https://github.com/ACRA/acra
-const val ACRA_VERSION = "5.7.0"
+const val ACRA_VERSION = "5.13.1"
 
 // https://firebase.google.com/support/release-notes/android
 const val GOOGLE_FIREBASE_BOM_VERSION = "34.15.0"

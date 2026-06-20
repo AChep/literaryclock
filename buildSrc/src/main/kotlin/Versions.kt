@@ -59,4 +59,4 @@ const val GOOGLE_MATERIAL_VERSION = "1.14.0"
 const val ACRA_VERSION = "5.7.0"
 
 // https://firebase.google.com/support/release-notes/android
-const val GOOGLE_FIREBASE_BOM_VERSION = "34.11.0"
+const val GOOGLE_FIREBASE_BOM_VERSION = "34.15.0"

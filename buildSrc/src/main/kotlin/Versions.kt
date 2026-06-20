@@ -2,7 +2,7 @@
 const val KOTLIN_VERSION = "2.3.20"
 
 // https://github.com/Kotlin/kotlinx.coroutines
-const val KOTLIN_COROUTINES_VERSION = "1.10.2"
+const val KOTLIN_COROUTINES_VERSION = "1.11.0"
 
 // https://github.com/nhaarman/mockito-kotlin
 const val KOTLIN_MOCKITO_VERSION = "6.3.0"

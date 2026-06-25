@@ -88,6 +88,10 @@ private val quoteAccentColorOptions = listOf(
     AccentColorOption(id = "purple", displayName = "quote_accent_color_purple", color = "#ff9575cd"),
 )
 
+base {
+    archivesName.set("literaryclock-watchface")
+}
+
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("app/literaryclock-release.properties")
 if (keystorePropertiesFile.exists()) {
@@ -102,7 +106,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.artemchep.literaryclock"
-    compileSdk = Android.targetSdkVersion
+    compileSdk = Android.compileSdkVersion
 
     defaultConfig {
         applicationId = "com.artemchep.literaryclock"
@@ -129,8 +133,6 @@ android {
             }
             .sum() * 10 + 2
         versionName = versionParts.joinToString(separator = ".")
-
-        setProperty("archivesBaseName", "literaryclock-watchface")
     }
 
     signingConfigs {

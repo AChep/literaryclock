@@ -213,7 +213,7 @@ fun createDependencies(module: Module): List<Dependency> {
         "AndroidX Room Compiler",
         ANDROIDX_ROOM_VERSION,
         "androidx.room:room-compiler:$ANDROIDX_ROOM_VERSION",
-        DependencyType.KAPT
+        DependencyType.KSP
     )
 
     val googleFirebaseCore = Dependency(

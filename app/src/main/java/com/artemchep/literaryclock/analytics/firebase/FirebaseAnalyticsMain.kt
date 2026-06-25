@@ -1,6 +1,6 @@
 package com.artemchep.literaryclock.analytics.firebase
 
-import androidx.core.os.bundleOf
+import android.os.Bundle
 import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.models.QuoteItem
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -13,29 +13,35 @@ class FirebaseAnalyticsMain(
 ) : AnalyticsMain {
 
     override fun logFavoritesOpen() {
-        val bundle = bundleOf(
-            FirebaseAnalytics.Param.ITEM_CATEGORY to FAVORITES_ITEM_CATEGORY,
-            FirebaseAnalytics.Param.ITEM_ID to FAVORITES_ITEM_ID,
-            FirebaseAnalytics.Param.ITEM_NAME to FAVORITES_ITEM_NAME,
-        )
+        val bundle = Bundle().apply {
+            putString(FirebaseAnalytics.Param.ITEM_CATEGORY, FAVORITES_ITEM_CATEGORY)
+            putString(FirebaseAnalytics.Param.ITEM_ID, FAVORITES_ITEM_ID)
+            putString(FirebaseAnalytics.Param.ITEM_NAME, FAVORITES_ITEM_NAME)
+        }
         firebaseAnalytics.logEvent(FAVORITES_OPEN_EVENT, bundle)
     }
 
     override fun logQuoteOpen(quote: QuoteItem) {
-        val bundle = bundleOf(
-            FirebaseAnalytics.Param.ITEM_CATEGORY to FirebaseAnalyticsContract.VIEW_ITEM_CATEGORY_QUOTE,
-            FirebaseAnalytics.Param.ITEM_ID to quote.asin,
-            FirebaseAnalytics.Param.ITEM_NAME to quote.title
-        )
+        val bundle = Bundle().apply {
+            putString(
+                FirebaseAnalytics.Param.ITEM_CATEGORY,
+                FirebaseAnalyticsContract.VIEW_ITEM_CATEGORY_QUOTE
+            )
+            putString(FirebaseAnalytics.Param.ITEM_ID, quote.asin)
+            putString(FirebaseAnalytics.Param.ITEM_NAME, quote.title)
+        }
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle)
     }
 
     override fun logQuoteShare(quote: QuoteItem) {
-        val bundle = bundleOf(
-            FirebaseAnalytics.Param.CONTENT_TYPE to FirebaseAnalyticsContract.SHARE_CATEGORY_QUOTE,
-            FirebaseAnalytics.Param.ITEM_ID to quote.asin,
-            FirebaseAnalytics.Param.METHOD to FirebaseAnalyticsContract.SHARE_METHOD_SYSTEM
-        )
+        val bundle = Bundle().apply {
+            putString(
+                FirebaseAnalytics.Param.CONTENT_TYPE,
+                FirebaseAnalyticsContract.SHARE_CATEGORY_QUOTE
+            )
+            putString(FirebaseAnalytics.Param.ITEM_ID, quote.asin)
+            putString(FirebaseAnalytics.Param.METHOD, FirebaseAnalyticsContract.SHARE_METHOD_SYSTEM)
+        }
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle)
     }
 
@@ -48,11 +54,14 @@ class FirebaseAnalyticsMain(
     }
 
     private fun logFavoriteEvent(eventName: String, quote: QuoteItem) {
-        val bundle = bundleOf(
-            FirebaseAnalytics.Param.ITEM_CATEGORY to FirebaseAnalyticsContract.VIEW_ITEM_CATEGORY_QUOTE,
-            FirebaseAnalytics.Param.ITEM_ID to quote.asin,
-            FirebaseAnalytics.Param.ITEM_NAME to quote.title,
-        )
+        val bundle = Bundle().apply {
+            putString(
+                FirebaseAnalytics.Param.ITEM_CATEGORY,
+                FirebaseAnalyticsContract.VIEW_ITEM_CATEGORY_QUOTE
+            )
+            putString(FirebaseAnalytics.Param.ITEM_ID, quote.asin)
+            putString(FirebaseAnalytics.Param.ITEM_NAME, quote.title)
+        }
         firebaseAnalytics.logEvent(eventName, bundle)
     }
 

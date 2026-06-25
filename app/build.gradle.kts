@@ -8,13 +8,16 @@ import kotlin.math.pow
 plugins {
     id("com.android.application")
     id("jacoco")
-    id("kotlin-android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
 }
 
 val appDependencies = createDependencies(Module.APP)
+
+base {
+    archivesName.set("literaryclock")
+}
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = file("literaryclock-release.properties")
@@ -29,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdk = Android.targetSdkVersion
+    compileSdk = Android.compileSdkVersion
     namespace = "com.artemchep.literaryclock"
 
     compileOptions {
@@ -69,8 +72,6 @@ android {
             }
             .sum() * 10 + 1
         versionName = versionParts.joinToString(separator = ".")
-
-        setProperty("archivesBaseName", "literaryclock")
     }
 
     signingConfigs {

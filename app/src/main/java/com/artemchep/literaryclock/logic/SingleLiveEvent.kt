@@ -26,6 +26,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     }
 
     private val pending = AtomicBoolean(false)
+    private val observers = mutableMapOf<Observer<in T>, Observer<T>>()
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         if (hasActiveObservers()) {
@@ -33,11 +34,28 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         }
 
         // Observe the internal MutableLiveData
-        super.observe(owner, Observer<T> { t ->
-            if (pending.compareAndSet(true, false)) {
-                observer.onChanged(t)
-            }
-        })
+        super.observe(owner, wrapObserver(observer))
+    }
+
+    override fun observeForever(observer: Observer<in T>) {
+        if (hasActiveObservers()) {
+            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
+        }
+
+        super.observeForever(wrapObserver(observer))
+    }
+
+    override fun removeObserver(observer: Observer<in T>) {
+        val wrappedObserver = observers.remove(observer)
+        if (wrappedObserver == null) {
+            observers.entries.removeAll { it.value == observer }
+        }
+
+        if (wrappedObserver != null) {
+            super.removeObserver(wrappedObserver)
+        } else {
+            super.removeObserver(observer)
+        }
     }
 
     @MainThread
@@ -53,5 +71,14 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     fun call() {
         value = null
     }
+
+    private fun wrapObserver(observer: Observer<in T>): Observer<T> =
+        observers.getOrPut(observer) {
+            Observer<T> { t ->
+                if (pending.compareAndSet(true, false)) {
+                    observer.onChanged(t)
+                }
+            }
+        }
 
 }

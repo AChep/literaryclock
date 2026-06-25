@@ -31,8 +31,8 @@ class FavoritesViewModel internal constructor(
     constructor(application: Application) : this(
         application = application,
         analytics = (application as Heart).di.direct.instance<AnalyticsMain>(),
-        dao = (application as Heart).di.direct.instance<LiteraryClockDao>(),
-        favoritesSource = (application as Heart).di.direct
+        dao = application.di.direct.instance<LiteraryClockDao>(),
+        favoritesSource = application.di.direct
             .instance<LiteraryClockDao>()
             .observeFavorites(),
     )

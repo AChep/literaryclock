@@ -42,13 +42,13 @@ class MainViewModel internal constructor(
     constructor(application: Application) : this(
         application = application,
         analytics = (application as Heart).di.direct.instance<AnalyticsMain>(),
-        dao = (application as Heart).di.direct.instance<LiteraryClockDao>(),
-        currentTimeLiveData = (application as Heart).di.direct.instance(
+        dao = application.di.direct.instance<LiteraryClockDao>(),
+        currentTimeLiveData = application.di.direct.instance(
             tag = Heart.TAG_LD_TIME,
         ),
         databaseIsUpdatingLiveData = DatabaseStateLiveData(application),
         rawMomentLiveDataFactory = { timeLiveData ->
-            (application as Heart).di.direct.instance(
+            application.di.direct.instance(
                 arg = timeLiveData,
                 tag = Heart.TAG_LD_MOMENT_ITEM,
             )

@@ -37,16 +37,18 @@ open class SharedPrefConfig(
 
         currentEditor = sharedPreferences.edit()
         currentChangedKeys = linkedSetOf()
+        var changedKeys: Set<String> = emptySet()
         try {
             block()
             currentEditor?.apply()
+            changedKeys = currentChangedKeys.orEmpty()
         } finally {
             currentEditor = null
-            val changedKeys = currentChangedKeys.orEmpty()
             currentChangedKeys = null
-            if (changedKeys.isNotEmpty()) {
-                notifyChanged(changedKeys)
-            }
+        }
+
+        if (changedKeys.isNotEmpty()) {
+            notifyChanged(changedKeys)
         }
     }
 

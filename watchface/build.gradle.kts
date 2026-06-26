@@ -192,7 +192,7 @@ private val sourceDatabase = rootProject.layout.projectDirectory.file("app/src/m
 private val generatedWatchFaceXml = layout.projectDirectory.file("src/main/res/raw/watchface.xml")
 private val focusFont = layout.projectDirectory.file("src/main/res/font/robotoslab.ttf")
 
-val generateLiteraryWatchFaceXml by tasks.registering {
+val generateLiteraryWatchFaceXml = tasks.register("generateLiteraryWatchFaceXml") {
     group = "watch face"
     description = "Regenerates the Literary Clock Watch Face Format XML from the app quote database."
 
@@ -207,7 +207,7 @@ val generateLiteraryWatchFaceXml by tasks.registering {
     }
 }
 
-val verifyLiteraryWatchFaceXml by tasks.registering {
+val verifyLiteraryWatchFaceXml = tasks.register("verifyLiteraryWatchFaceXml") {
     group = "verification"
     description = "Verifies that the checked-in Literary Clock Watch Face Format XML is current."
 

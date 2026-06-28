@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.kodein.di.direct
 import org.kodein.di.instance
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.EmptyCoroutineContext
 
 
@@ -28,8 +29,10 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) :
 
         // True if the database update worker is running at this
         // moment, false otherwise.
-        @Volatile
-        var isRunning = false
+        val isRunning: Boolean
+            get() = runningWorkerCount.get() > 0
+
+        private val runningWorkerCount = AtomicInteger(0)
     }
 
     override suspend fun doWork(): Result {
@@ -72,7 +75,13 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) :
     }
 
     private fun setState(isRunning: Boolean) {
-        DatabaseUpdateWorker.isRunning = isRunning
+        if (isRunning) {
+            runningWorkerCount.incrementAndGet()
+        } else {
+            runningWorkerCount.updateAndGet { count ->
+                (count - 1).coerceAtLeast(0)
+            }
+        }
 
         // Notify that the state has changed.
         val action = Intent(Heart.ACTION_UPDATE_DATABASE_STATE_CHANGED)

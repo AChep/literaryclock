@@ -30,6 +30,7 @@ class TimeLiveData(private val context: Context) : LiveData<Time>() {
         val intentFilter = IntentFilter().apply {
             addAction(Intent.ACTION_TIME_CHANGED)
             addAction(Intent.ACTION_TIME_TICK)
+            addAction(Intent.ACTION_TIMEZONE_CHANGED)
         }
         context.registerReceiver(broadcastReceiver, intentFilter)
     }

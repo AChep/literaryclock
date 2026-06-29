@@ -41,9 +41,9 @@ class DonateViewModel(application: Application) : BaseViewModel(application) {
                 return
             }
 
-            // Update the inventory.
-            if (!productLiveData.hasActiveObservers()) {
-                productLiveData.loadInventory()
+            if (productLiveData.hasActiveObservers()) {
+                val checkout = checkoutLiveData.value ?: return
+                productLiveData.loadInventory(checkout)
             }
         }
     }

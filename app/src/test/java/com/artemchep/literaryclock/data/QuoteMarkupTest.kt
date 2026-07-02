@@ -27,6 +27,18 @@ class QuoteMarkupTest {
             .isEmpty()
     }
 
+    @Test
+    fun bundledDatabaseHighlightsKnownQuoteTime() {
+        val quote = findQuoteByKey(
+            jsonString = readRawResource(R.raw.database),
+            key = "ebsdgM9MxNjlzKnqVTXo",
+        )
+
+        assertWithMessage("The 03:21 quote should highlight its 03:21 phrase")
+            .that(quote.getString("quote"))
+            .contains("<strong>twenty-one minutes past three</strong>")
+    }
+
     private fun findUnbalancedStrongMarkers(
         name: String,
         jsonString: String,
@@ -47,6 +59,15 @@ class QuoteMarkupTest {
             }
         }
     }
+
+    private fun findQuoteByKey(jsonString: String, key: String) =
+        JSONArray(jsonString)
+            .let { array ->
+                (0 until array.length())
+                    .asSequence()
+                    .map(array::getJSONObject)
+                    .first { obj -> obj.getString("key") == key }
+            }
 
     private fun readRawResource(resourceId: Int): String =
         context.resources.openRawResource(resourceId)

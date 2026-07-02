@@ -50,7 +50,7 @@ const val ANDROIDX_ARCH_CORE_TESTING_VERSION = "2.2.0"
 const val ANDROIDX_TEST_CORE_VERSION = "1.7.0"
 const val ANDROIDX_TEST_EXT_JUNIT_VERSION = "1.3.0"
 const val ANDROIDX_TEST_ESPRESSO_VERSION = "3.7.0"
-const val ANDROIDX_TEST_UIAUTOMATOR_VERSION = "2.4.0-rc01"
+const val ANDROIDX_TEST_UIAUTOMATOR_VERSION = "2.4.0"
 const val ANDROIDX_ROOM_VERSION = "2.8.4"
 
 // https://mvnrepository.com/artifact/com.google.android.material/material

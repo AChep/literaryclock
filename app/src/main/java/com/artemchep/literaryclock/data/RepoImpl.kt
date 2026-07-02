@@ -14,6 +14,8 @@ class RepoImpl(
 ) : Repo {
 
     companion object {
+        private const val MINUTES_PER_DAY = 24 * 60
+
         private val emptyMoment = MomentItem(
             quotes = listOf(
                 QuoteItemFactory.transform(
@@ -30,13 +32,22 @@ class RepoImpl(
     }
 
     override suspend fun getMoments(range: ClosedRange<Time>): List<MomentItem> {
-        val moments = dao
-            .getMoments(range.start.time, range.endInclusive.time)
+        val requestedTimes = range.start.time..range.endInclusive.time
+        val start = range.start.time.floorMod(MINUTES_PER_DAY)
+        val end = range.endInclusive.time.floorMod(MINUTES_PER_DAY)
+        val moments = if (start <= end) {
+            dao.getMoments(start, end)
+        } else {
+            dao.getMoments(start, MINUTES_PER_DAY - 1) + dao.getMoments(0, end)
+        }
             .associateBy { it.moment.key }
-        return (range.start.time..range.endInclusive.time)
+        return requestedTimes
             .map { time ->
-                moments[time]?.let(MomentItemFactory::transform) ?: emptyMoment
+                val key = time.floorMod(MINUTES_PER_DAY)
+                moments[key]?.let(MomentItemFactory::transform) ?: emptyMoment
             }
     }
 
 }
+
+private fun Int.floorMod(other: Int): Int = ((this % other) + other) % other

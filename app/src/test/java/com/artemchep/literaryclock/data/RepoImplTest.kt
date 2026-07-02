@@ -70,6 +70,28 @@ class RepoImplTest {
         assertEquals("quote-22", moments[2].quotes.single().quote)
     }
 
+    @Test
+    fun wrapsRequestedRangeAcrossMidnight() = runBlocking {
+        val repo = RepoImpl(
+            dao = FakeLiteraryClockDao(
+                moments = listOf(
+                    momentWithSingleQuote(1438),
+                    momentWithSingleQuote(1439),
+                    momentWithSingleQuote(0),
+                    momentWithSingleQuote(1),
+                ),
+            ),
+        )
+
+        val moments = repo.getMoments(Time(1438)..Time(1441))
+
+        assertEquals(4, moments.size)
+        assertEquals("quote-1438", moments[0].quotes.single().quote)
+        assertEquals("quote-1439", moments[1].quotes.single().quote)
+        assertEquals("quote-0", moments[2].quotes.single().quote)
+        assertEquals("quote-1", moments[3].quotes.single().quote)
+    }
+
     private class FakeLiteraryClockDao(
         private val moments: List<MomentWithQuotes>,
     ) : LiteraryClockDao {

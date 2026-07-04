@@ -69,7 +69,7 @@ class MainViewModel internal constructor(
                 val time =
                     customTimeLiveData.value?.takeUnless { it.time < 0 }
                         ?: currentTimeLiveData.value
-                time?.let(::postValue)
+                time?.let(::setValue)
             }
 
             addSource(currentTimeLiveData, resolver)

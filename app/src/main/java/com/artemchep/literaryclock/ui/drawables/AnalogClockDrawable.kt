@@ -52,9 +52,9 @@ class AnalogClockDrawable : Drawable() {
     override fun draw(canvas: Canvas) = canvas.performDraw()
 
     private fun Canvas.performDraw() {
-        val centerX = bounds.exactCenterX() + bounds.left
-        val centerY = bounds.exactCenterY() + bounds.top
-        val radius = min(bounds.exactCenterX(), bounds.exactCenterY())
+        val centerX = bounds.exactCenterX()
+        val centerY = bounds.exactCenterY()
+        val radius = min(bounds.width(), bounds.height()) / 2f
 
         // Draw hour hand
         val hourHandLength = (radius - paint.strokeWidth) * 0.4f

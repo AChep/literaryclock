@@ -7,6 +7,7 @@ import com.artemchep.literaryclock.models.Loader
 import org.solovyev.android.checkout.Checkout
 import org.solovyev.android.checkout.Inventory
 import org.solovyev.android.checkout.ProductTypes
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * @author Artem Chepurnoy
@@ -14,6 +15,8 @@ import org.solovyev.android.checkout.ProductTypes
 class ProductLiveData(
     private val checkoutLiveData: LiveData<out Checkout>
 ) : MediatorLiveData<Loader<Inventory.Products>>() {
+
+    private val loadGeneration = AtomicInteger()
 
     init {
         addSource(checkoutLiveData) {
@@ -24,18 +27,19 @@ class ProductLiveData(
         }
     }
 
-    private val inventoryCallback = Inventory.Callback {
-        postValue(Loader.Ok(it))
-    }
-
     fun loadInventory(checkout: Checkout = checkoutLiveData.value!!) {
+        val generation = loadGeneration.incrementAndGet()
         postValue(Loader.Loading())
 
         val request = Inventory.Request.create().apply {
             loadAllPurchases()
             loadSkus(ProductTypes.IN_APP, listOfSkus())
         }
-        checkout.loadInventory(request, inventoryCallback)
+        checkout.loadInventory(request) {
+            if (generation == loadGeneration.get()) {
+                postValue(Loader.Ok(it))
+            }
+        }
     }
 
 }

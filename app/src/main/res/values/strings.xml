@@ -41,6 +41,8 @@
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_auto">Auto</string>
 
+    <string name="main_more_options">More options</string>
+
     <string name="quote">Quote</string>
     <string name="quote_share">Share a quote</string>
     <string name="bookmark_add">Add to favorites</string>

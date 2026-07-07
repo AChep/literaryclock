@@ -83,6 +83,7 @@
             style="?actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/app_bar_height__collapsed"
+            android:contentDescription="@string/main_more_options"
             android:src="@drawable/ic_more"
             app:tint="?colorOnSecondaryContainer" />
 

@@ -15,6 +15,9 @@
     <string name="about_app_version__template">version %s</string>
     <string name="about_author">Written by:</string>
     <string name="about_dependencies">Open source libraries</string>
+    <string name="about_author_linkedin">Open LinkedIn profile</string>
+    <string name="about_author_twitter">Open Twitter profile</string>
+    <string name="about_author_instagram">Open Instagram profile</string>
 
     <string name="donate">Contribute</string>
     <string name="donate_quote">Suggest a quote</string>

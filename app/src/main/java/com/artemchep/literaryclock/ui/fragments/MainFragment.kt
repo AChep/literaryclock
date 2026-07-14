@@ -133,11 +133,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
         shareQuoteEvent.observe(viewLifecycleOwner) { quote ->
             val subject = getString(R.string.app_name)
             val text = quote.quote(requireContext())
-            val i = Intent(Intent.ACTION_SEND).apply {
-                type = "description/plain"
-                putExtra(Intent.EXTRA_SUBJECT, subject)
-                putExtra(Intent.EXTRA_TEXT, text)
-            }
+            val i = createQuoteShareIntent(subject, text)
             startActivityIfExists(Intent.createChooser(i, getString(R.string.quote_share)))
         }
         editTimeEvent.observe(viewLifecycleOwner) { time ->
@@ -275,3 +271,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
     private fun navigate(direction: NavDirections) = view?.findNavController()?.navigate(direction)
 
 }
+
+internal fun createQuoteShareIntent(subject: String, text: CharSequence) =
+    Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, text)
+    }

@@ -12,13 +12,12 @@ import com.artemchep.literaryclock.models.Message
 import com.artemchep.literaryclock.models.MessageType
 import com.artemchep.literaryclock.utils.ext.ifDebug
 import com.artemchep.literaryclock.utils.sendLocalBroadcastIntent
-import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.kodein.di.direct
 import org.kodein.di.instance
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.coroutines.EmptyCoroutineContext
 
 
 class DatabaseUpdateWorker(context: Context, params: WorkerParameters) :
@@ -42,28 +41,28 @@ class DatabaseUpdateWorker(context: Context, params: WorkerParameters) :
 
         setState(true)
 
-        val context = EmptyCoroutineContext +
-                CoroutineExceptionHandler { _, throwable ->
-                    Log.e(TAG, "The database update went wrong.")
-                    throwable.printStackTrace()
-
-                    val message = Message(
-                        type = MessageType.ERROR,
-                        text = {
-                            getString(R.string.error_sync_failed)
-                        }
-                    )
-                    messageLiveEvent.postValue(message)
-                }
-
         return try {
-            withContext(context) {
-                val importer = (applicationContext as Heart).di.direct.instance<DatabaseImporter>()
-                val jsonString = loadData()
-                importer.importJson(jsonString)
-                LegacyRealmCleaner.deleteDefaultRealmFiles(applicationContext)
-            }
+            val importer = (applicationContext as Heart).di.direct.instance<DatabaseImporter>()
+            val jsonString = loadData()
+            importer.importJson(jsonString)
+            LegacyRealmCleaner.deleteDefaultRealmFiles(applicationContext)
             Result.success()
+        } catch (throwable: Throwable) {
+            if (throwable is CancellationException) {
+                throw throwable
+            }
+
+            Log.e(TAG, "The database update went wrong.", throwable)
+
+            val message = Message(
+                type = MessageType.ERROR,
+                text = {
+                    getString(R.string.error_sync_failed)
+                }
+            )
+            messageLiveEvent.postValue(message)
+
+            Result.failure()
         } finally {
             setState(false)
         }

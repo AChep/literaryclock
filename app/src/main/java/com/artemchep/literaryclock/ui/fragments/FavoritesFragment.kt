@@ -52,11 +52,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(),
         shareQuoteEvent.observe(viewLifecycleOwner) { quote ->
             val subject = getString(R.string.app_name)
             val text = quote.quote(requireContext())
-            val i = Intent(Intent.ACTION_SEND).apply {
-                type = "description/plain"
-                putExtra(Intent.EXTRA_SUBJECT, subject)
-                putExtra(Intent.EXTRA_TEXT, text)
-            }
+            val i = createFavoriteQuoteShareIntent(subject, text)
             startActivityIfExists(Intent.createChooser(i, getString(R.string.quote_share)))
         }
         favoritesLiveData.observe(viewLifecycleOwner, Observer(::showFavorites))
@@ -78,3 +74,10 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(),
         }
     }
 }
+
+internal fun createFavoriteQuoteShareIntent(subject: String, text: CharSequence) =
+    Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, text)
+    }

@@ -81,11 +81,7 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
                 val subject = getString(R.string.app_name)
                 val text = "Literary Clock represents time in a form of literature quotes. " +
                         "Check it out: https://play.google.com/store/apps/details?id=com.artemchep.literaryclock"
-                val i = Intent(Intent.ACTION_SEND).apply {
-                    type = "description/plain"
-                    putExtra(Intent.EXTRA_SUBJECT, subject)
-                    putExtra(Intent.EXTRA_TEXT, text)
-                }
+                val i = createAppShareIntent(subject, text)
                 startActivityIfExists(Intent.createChooser(i, getString(R.string.app_share)))
             }
             R.id.twitterBtn -> aboutViewModel.openTwitter()
@@ -102,3 +98,10 @@ class AboutFragment : BaseFragment<FragmentAboutBinding>(), View.OnClickListener
     }
 
 }
+
+internal fun createAppShareIntent(subject: String, text: CharSequence) =
+    Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, text)
+    }

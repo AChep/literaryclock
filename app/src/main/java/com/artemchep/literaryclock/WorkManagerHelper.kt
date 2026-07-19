@@ -6,6 +6,8 @@ import com.artemchep.literaryclock.services.DatabaseUpdateWorker
 import com.artemchep.literaryclock.services.WidgetUpdateWorker
 import java.time.Duration
 
+private const val UID_DATABASE_UPDATE_IMMEDIATE_JOB = "job::database_update_immediate"
+
 fun Context.startUpdateWidgetJob(key: String) {
     val policy = ExistingPeriodicWorkPolicy.REPLACE
     // WorkManager enforces a minimum interval for periodic work. The widget's
@@ -49,7 +51,11 @@ fun Context.startUpdateDatabaseImmediateJob() {
     val request = OneTimeWorkRequestBuilder<DatabaseUpdateWorker>()
         .build()
 
-    // Enqueue the periodic work of updating the
+    // Enqueue the immediate work of updating the
     // database.
-    WorkManager.getInstance(this).enqueue(request)
+    WorkManager.getInstance(this).enqueueUniqueWork(
+        UID_DATABASE_UPDATE_IMMEDIATE_JOB,
+        ExistingWorkPolicy.KEEP,
+        request,
+    )
 }

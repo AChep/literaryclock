@@ -42,6 +42,7 @@ class AnalogClockDrawable : Drawable() {
         set(value) {
             paint.color = value
             paintDot.color = value
+            invalidateSelf()
         }
 
     private val paintDot = Paint()
@@ -81,11 +82,15 @@ class AnalogClockDrawable : Drawable() {
     }
 
     override fun setColorFilter(colorFilter: ColorFilter?) {
-        error("Unsupported")
+        paint.colorFilter = colorFilter
+        paintDot.colorFilter = colorFilter
+        invalidateSelf()
     }
 
     override fun setAlpha(alpha: Int) {
-        error("Unsupported")
+        paint.alpha = alpha
+        paintDot.alpha = alpha
+        invalidateSelf()
     }
 
     override fun getOpacity(): Int = PixelFormat.TRANSLUCENT

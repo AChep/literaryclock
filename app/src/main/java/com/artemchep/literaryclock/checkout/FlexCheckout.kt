@@ -49,8 +49,11 @@ class FlexCheckout(tag: Any, billing: Billing) : UiCheckout(tag, billing), Inten
         }
 
         intentStarter = starter
-        block.invoke(this)
-        intentStarter = null
+        try {
+            block.invoke(this)
+        } finally {
+            intentStarter = null
+        }
     }
 
     //

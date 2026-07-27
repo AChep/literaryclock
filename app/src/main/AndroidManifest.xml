@@ -65,7 +65,11 @@
         <service
             android:name=".services.WidgetUpdateService"
             android:exported="false"
-            android:foregroundServiceType="specialUse" />
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="keep_literary_clock_widgets_current" />
+        </service>
 
         <service
             android:name=".services.dream.LiteraryDreamService"

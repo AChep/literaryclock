@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.view.children
+import androidx.core.view.doOnNextLayout
 import kotlin.random.Random
 
 /**
@@ -36,7 +37,7 @@ class BounceFrameLayout @JvmOverloads constructor(
                 block.invoke()
 
                 child.requestLayout()
-                child.post {
+                child.doOnNextLayout {
                     child.translationX = (width - child.measuredWidth) * Random.nextFloat()
                     child.translationY = (height - child.measuredHeight) * Random.nextFloat()
                     child.animate()

@@ -87,11 +87,15 @@ class AnalogClockDrawable : Drawable() {
         invalidateSelf()
     }
 
+    override fun getColorFilter(): ColorFilter? = paint.colorFilter
+
     override fun setAlpha(alpha: Int) {
         paint.alpha = alpha
         paintDot.alpha = alpha
         invalidateSelf()
     }
+
+    override fun getAlpha(): Int = paint.alpha
 
     override fun getOpacity(): Int = PixelFormat.TRANSLUCENT
 

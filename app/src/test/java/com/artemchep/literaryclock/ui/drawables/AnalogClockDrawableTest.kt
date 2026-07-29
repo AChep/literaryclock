@@ -48,4 +48,23 @@ class AnalogClockDrawableTest {
         assertThat(shadowCanvas.getDrawnCircle(0).paint.alpha).isEqualTo(128)
         assertThat(shadowCanvas.getDrawnCircle(0).paint.colorFilter).isSameInstanceAs(colorFilter)
     }
+
+    @Test
+    fun getAlphaReturnsCurrentDrawableAlpha() {
+        val drawable = AnalogClockDrawable()
+
+        drawable.alpha = 128
+
+        assertThat(drawable.alpha).isEqualTo(128)
+    }
+
+    @Test
+    fun getColorFilterReturnsCurrentDrawableColorFilter() {
+        val colorFilter = PorterDuffColorFilter(Color.RED, PorterDuff.Mode.SRC_IN)
+        val drawable = AnalogClockDrawable()
+
+        drawable.colorFilter = colorFilter
+
+        assertThat(drawable.colorFilter).isSameInstanceAs(colorFilter)
+    }
 }

@@ -100,6 +100,20 @@ class MainViewModelTest {
     }
 
     @Test
+    fun toggleFavoriteUsesCurrentFavoriteStateForRepeatedClicks() {
+        val viewModel = createViewModel()
+        val quote = quoteItem(key = "quote-1", asin = "ASIN-1")
+
+        viewModel.toggleFavorite(quote)
+        viewModel.toggleFavorite(quote)
+
+        assertThat(dao.upsertedFavorites.map { it.quoteKey }).containsExactly("quote-1")
+        assertThat(dao.deletedFavoriteQuoteKeys).containsExactly("quote-1")
+        assertThat(analytics.favoriteAddedQuotes).containsExactly(quote)
+        assertThat(analytics.favoriteRemovedQuotes).containsExactly(quote)
+    }
+
+    @Test
     fun momentLiveDataAppliesFavoriteOverlayOnlyToRealMatchingQuotes() {
         val viewModel = createViewModel()
         val favoriteQuote = quoteItem(key = "favorite-key", asin = "ASIN-1")

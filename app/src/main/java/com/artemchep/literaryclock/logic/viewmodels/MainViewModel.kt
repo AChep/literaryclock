@@ -139,8 +139,10 @@ class MainViewModel internal constructor(
         }
 
         viewModelScope.launch(favoriteMutationDispatcher) {
-            if (quote.isFavorite) {
+            val isFavorite = dao.isFavoriteQuote(quote.key)
+            if (isFavorite) {
                 dao.deleteFavoriteByQuoteKey(quote.key)
+                analytics.logQuoteFavoriteRemove(quote)
             } else {
                 dao.upsertFavorite(
                     FavoriteQuoteEntity(
@@ -148,13 +150,8 @@ class MainViewModel internal constructor(
                         favoritedAt = currentTimeMillis(),
                     ),
                 )
+                analytics.logQuoteFavoriteAdd(quote)
             }
-        }
-
-        if (quote.isFavorite) {
-            analytics.logQuoteFavoriteRemove(quote)
-        } else {
-            analytics.logQuoteFavoriteAdd(quote)
         }
     }
 

@@ -80,6 +80,7 @@ class FavoritesViewModelTest {
 
     @Test
     fun toggleFavoriteDeletesFavoriteAndLogsRemovalAnalytics() {
+        dao.favoriteQuoteKeysLiveData.value = listOf("quote-1")
         val viewModel = createViewModel()
         val quote = quoteItem(
             key = "quote-1",
@@ -91,6 +92,28 @@ class FavoritesViewModelTest {
 
         assertThat(dao.deletedFavoriteQuoteKeys).containsExactly("quote-1")
         assertThat(analytics.favoriteRemovedQuotes).containsExactly(quote)
+    }
+
+    @Test
+    fun toggleFavoriteUsesCurrentFavoriteStateWhenQuoteItemIsStale() {
+        val viewModel = createViewModel()
+        val quote = quoteItem(
+            key = "quote-1",
+            asin = "ASIN-1",
+            isFavorite = true,
+        )
+
+        viewModel.toggleFavorite(quote)
+
+        assertThat(dao.upsertedFavorites).containsExactly(
+            FavoriteQuoteEntity(
+                quoteKey = "quote-1",
+                favoritedAt = 4321L,
+            ),
+        )
+        assertThat(dao.deletedFavoriteQuoteKeys).isEmpty()
+        assertThat(analytics.favoriteAddedQuotes).containsExactly(quote)
+        assertThat(analytics.favoriteRemovedQuotes).isEmpty()
     }
 
     @Test

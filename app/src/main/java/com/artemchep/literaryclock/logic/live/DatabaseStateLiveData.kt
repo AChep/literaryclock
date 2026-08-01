@@ -22,12 +22,13 @@ class DatabaseStateLiveData(private val context: Context) : LiveData<DatabaseSta
     }
 
     override fun onActive() {
-        postCurrentState()
         super.onActive()
 
         val intentFilter = IntentFilter(Heart.ACTION_UPDATE_DATABASE_STATE_CHANGED)
         val lbm = LocalBroadcastManager.getInstance(context)
         lbm.registerReceiver(broadcastReceiver, intentFilter)
+
+        postCurrentState()
     }
 
     override fun onInactive() {

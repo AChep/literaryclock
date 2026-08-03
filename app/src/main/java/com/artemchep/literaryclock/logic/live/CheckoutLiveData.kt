@@ -24,12 +24,12 @@ class CheckoutLiveData(private val context: Context) : LiveData<FlexCheckout>() 
 
     override fun onActive() {
         super.onActive()
+        // Start the checkout process.
+        checkout.start()
+
         // Post the checkout instance when we went active
         // a first time.
         value ?: setValue(checkout)
-
-        // Start the checkout process.
-        checkout.start()
     }
 
     override fun onInactive() {

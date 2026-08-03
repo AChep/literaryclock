@@ -173,7 +173,9 @@ object LiteraryWidgetUpdater {
         }
 
         // On click open the main screen.
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         val pendingIntent = PendingIntent.getActivity(
             context,
             Heart.PI_OPEN_MAIN_SCREEN,

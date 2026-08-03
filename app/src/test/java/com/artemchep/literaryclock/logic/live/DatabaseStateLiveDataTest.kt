@@ -12,6 +12,7 @@ import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.services.DatabaseUpdateWorker
 import com.google.common.truth.Truth.assertThat
 import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,13 +25,23 @@ class DatabaseStateLiveDataTest {
 
     private val application = ApplicationProvider.getApplicationContext<Application>()
 
+    @Before
+    fun setUp() {
+        resetWorkerRunningState()
+        resetLocalBroadcastManager()
+    }
+
     @After
     fun tearDown() {
+        resetWorkerRunningState()
+        resetLocalBroadcastManager()
+    }
+
+    private fun resetWorkerRunningState() {
         val worker = newWorker()
         while (DatabaseUpdateWorker.isRunning) {
             worker.setRunningState(false)
         }
-        resetLocalBroadcastManager()
     }
 
     @Test

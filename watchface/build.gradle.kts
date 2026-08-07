@@ -6,6 +6,7 @@ import java.awt.font.TextAttribute
 import java.io.FileInputStream
 import java.text.AttributedString
 import java.util.*
+import java.util.zip.ZipFile
 import kotlin.math.ceil
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -157,19 +158,20 @@ android {
     }
 }
 
+configurations.configureEach {
+    exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+}
+
 androidComponents {
     onVariants(selector().all()) { variant ->
         val variantName = variant.name
         val taskSuffix = variantName.replaceFirstChar { it.uppercaseChar() }
-        listOf(
-            "mergeDex$taskSuffix",
-            "mergeProjectDex$taskSuffix",
-        ).forEach { mergeDexTaskName ->
-            tasks.matching { it.name == mergeDexTaskName }.configureEach {
+        fun removeDexOutputs(taskName: String, dexDirPath: String) {
+            tasks.matching { it.name == taskName }.configureEach {
                 outputs.upToDateWhen { false }
                 doLast {
                     val dexDir = layout.buildDirectory
-                        .dir("intermediates/dex/$variantName/$mergeDexTaskName")
+                        .dir(dexDirPath)
                         .get()
                         .asFile
                     if (dexDir.exists()) {
@@ -185,6 +187,20 @@ androidComponents {
                 }
             }
         }
+
+        listOf(
+            "mergeDex$taskSuffix",
+            "mergeProjectDex$taskSuffix",
+        ).forEach { mergeDexTaskName ->
+            removeDexOutputs(
+                taskName = mergeDexTaskName,
+                dexDirPath = "intermediates/dex/$variantName/$mergeDexTaskName",
+            )
+        }
+        removeDexOutputs(
+            taskName = "generate${taskSuffix}GlobalSynthetics",
+            dexDirPath = "intermediates/global_synthetics_dex/$variantName/generate${taskSuffix}GlobalSynthetics",
+        )
     }
 }
 
@@ -231,6 +247,34 @@ val verifyLiteraryWatchFaceXml = tasks.register("verifyLiteraryWatchFaceXml") {
             throw GradleException(
                 "${output.relativeTo(projectDir)} is stale. Run :watchface:generateLiteraryWatchFaceXml.",
             )
+        }
+    }
+}
+
+val verifyResourceOnlyWatchFaceApk = tasks.register("verifyResourceOnlyWatchFaceApk") {
+    group = "verification"
+    description = "Verifies that the Watch Face Format APK does not package executable dex code."
+
+    dependsOn("assembleDebug")
+
+    val apk = layout.buildDirectory.file("outputs/apk/debug/literaryclock-watchface-debug.apk")
+    inputs.file(apk)
+
+    doLast {
+        val apkFile = apk.get().asFile
+        ZipFile(apkFile).use { zip ->
+            val dexEntries = zip
+                .entries()
+                .asSequence()
+                .map { it.name }
+                .filter { it.matches(Regex("classes(\\d*)\\.dex")) }
+                .toList()
+            if (dexEntries.isNotEmpty()) {
+                throw GradleException(
+                    "${apkFile.relativeTo(projectDir)} must be resource-only but contains " +
+                        dexEntries.joinToString(),
+                )
+            }
         }
     }
 }

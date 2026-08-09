@@ -39,6 +39,32 @@ class QuoteMarkupTest {
             .contains("<strong>twenty-one minutes past three</strong>")
     }
 
+    @Test
+    fun bundledDatabaseDoesNotReuseHighlightedQuoteForDifferentTimes() {
+        val errors = findReusedHighlightedQuotes(readRawResource(R.raw.database))
+
+        assertWithMessage("Bundled quote rows must not reuse the same highlighted text for different times")
+            .that(errors)
+            .isEmpty()
+    }
+
+    private fun findReusedHighlightedQuotes(jsonString: String): List<String> {
+        val array = JSONArray(jsonString)
+        return (0 until array.length())
+            .asSequence()
+            .map(array::getJSONObject)
+            .groupBy { obj -> obj.getString("quote") }
+            .filterValues { quotes ->
+                quotes.map { quote -> quote.getInt("time") }.distinct().size > 1
+            }
+            .map { (quote, quotes) ->
+                val keys = quotes.joinToString { row ->
+                    "${row.getString("key")}@${row.getInt("time")}"
+                }
+                "$keys reuse ${quote.take(80)}"
+            }
+    }
+
     private fun findUnbalancedStrongMarkers(
         name: String,
         jsonString: String,

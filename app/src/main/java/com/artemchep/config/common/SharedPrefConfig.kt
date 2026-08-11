@@ -13,6 +13,7 @@ open class SharedPrefConfig(
     private val listeners = linkedSetOf<Config.OnConfigChangedListener<String>>()
 
     private var currentEditor: SharedPreferences.Editor? = null
+    private var currentOriginalValues: MutableMap<String, Any?>? = null
     private var currentChangedKeys: MutableSet<String>? = null
 
     fun init(context: Context) {
@@ -36,6 +37,7 @@ open class SharedPrefConfig(
         check(currentEditor == null) { "Nested config edits are not supported." }
 
         currentEditor = sharedPreferences.edit()
+        currentOriginalValues = linkedMapOf()
         currentChangedKeys = linkedSetOf()
         var changedKeys: Set<String> = emptySet()
         try {
@@ -44,6 +46,7 @@ open class SharedPrefConfig(
             changedKeys = currentChangedKeys.orEmpty()
         } finally {
             currentEditor = null
+            currentOriginalValues = null
             currentChangedKeys = null
         }
 
@@ -96,7 +99,14 @@ open class SharedPrefConfig(
             }
 
             setter(editor, key, value)
-            currentChangedKeys?.add(key)
+            val originalValue = currentOriginalValues?.getOrPut(key) {
+                getter(sharedPreferences, key, defaultValue)
+            }
+            if (originalValue != value) {
+                currentChangedKeys?.add(key)
+            } else {
+                currentChangedKeys?.remove(key)
+            }
         }
     }
 

@@ -59,6 +59,30 @@ class SharedPrefConfigTest {
         assertThat(changedKeys).isEmpty()
     }
 
+    @Test
+    fun unchangedEditDoesNotNotifyChangedKeys() {
+        val config = TestConfig(uniqueName("unchanged_edit"))
+        val changedKeys = mutableListOf<Set<String>>()
+        val listener = object : Config.OnConfigChangedListener<String> {
+            override fun onConfigChanged(keys: Set<String>) {
+                changedKeys += keys
+            }
+        }
+
+        config.init(context)
+        config.edit(context) {
+            config.enabled = false
+        }
+        config.observe(listener)
+
+        config.edit(context) {
+            config.enabled = false
+        }
+
+        assertThat(config.enabled).isFalse()
+        assertThat(changedKeys).isEmpty()
+    }
+
     private class TestConfig(name: String) : SharedPrefConfig(name) {
         var enabled by configDelegate("enabled", true)
     }

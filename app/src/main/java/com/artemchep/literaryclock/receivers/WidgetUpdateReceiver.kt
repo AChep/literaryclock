@@ -3,6 +3,7 @@ package com.artemchep.literaryclock.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
 import com.artemchep.literaryclock.Heart
 import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.data.room.FavoriteQuoteEntity
@@ -53,12 +54,17 @@ class WidgetUpdateReceiver : BroadcastReceiver() {
         if (isFavorite) {
             dao.deleteFavoriteByQuoteKey(quoteKey)
         } else {
-            dao.upsertFavorite(
-                FavoriteQuoteEntity(
-                    quoteKey = quoteKey,
-                    favoritedAt = System.currentTimeMillis(),
-                ),
-            )
+            try {
+                dao.upsertFavorite(
+                    FavoriteQuoteEntity(
+                        quoteKey = quoteKey,
+                        favoritedAt = System.currentTimeMillis(),
+                    ),
+                )
+            } catch (e: SQLiteConstraintException) {
+                LiteraryWidgetUpdater.updateLiteraryWidget(context)
+                return
+            }
         }
 
         val updatedQuote = LiteraryWidgetUpdater.resolveQuoteForWidget(

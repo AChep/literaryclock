@@ -36,7 +36,6 @@ import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
 import org.kodein.di.*
 import org.kodein.di.android.x.androidXModule
-import org.kodein.di.bindings.WeakContextScope
 import org.solovyev.android.checkout.Billing
 import java.text.DateFormat
 
@@ -110,21 +109,21 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
 
         bind<DateFormat>() with provider { android.text.format.DateFormat.getTimeFormat(this@Heart) }
 
-        bind<FirebaseAnalytics>() with scoped(WeakContextScope.of<Context>()).singleton {
-            FirebaseAnalytics.getInstance(context)
+        bind<FirebaseAnalytics>() with singleton {
+            FirebaseAnalytics.getInstance(this@Heart)
         }
 
-        bind<AnalyticsMain>() with scoped(WeakContextScope.of<Context>()).singleton {
+        bind<AnalyticsMain>() with singleton {
             val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsMain(firebaseAnalytics)
         }
 
-        bind<AnalyticsDonate>() with scoped(WeakContextScope.of<Context>()).singleton {
+        bind<AnalyticsDonate>() with singleton {
             val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsDonate(firebaseAnalytics)
         }
 
-        bind<AnalyticsAbout>() with scoped(WeakContextScope.of<Context>()).singleton {
+        bind<AnalyticsAbout>() with singleton {
             val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsAbout(firebaseAnalytics)
         }

@@ -159,7 +159,9 @@ android {
 }
 
 configurations.configureEach {
-    exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+    if (!name.contains("lint", ignoreCase = true)) {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+    }
 }
 
 androidComponents {

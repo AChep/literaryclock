@@ -62,7 +62,13 @@ class FlexCheckout(tag: Any, billing: Billing) : UiCheckout(tag, billing), Inten
 
     override fun makeIntentStarter(): IntentStarter = this
 
-    override fun startForResult(intentSender: IntentSender, requestCode: Int, intent: Intent) =
-        intentStarter!!.startForResult(intentSender, requestCode, intent)
+    override fun startForResult(intentSender: IntentSender, requestCode: Int, intent: Intent) {
+        val starter = intentStarter!!
+        try {
+            starter.startForResult(intentSender, requestCode, intent)
+        } finally {
+            intentStarter = null
+        }
+    }
 
 }

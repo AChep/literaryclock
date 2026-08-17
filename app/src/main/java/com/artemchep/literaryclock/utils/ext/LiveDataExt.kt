@@ -10,8 +10,11 @@ import androidx.lifecycle.Observer
 inline fun <T> LiveData<T>.observeOnce(crossinline observer: (T) -> Unit) {
     observeForever(object : Observer<T> {
         override fun onChanged(t: T) {
-            observer.invoke(t)
-            removeObserver(this)
+            try {
+                observer.invoke(t)
+            } finally {
+                removeObserver(this)
+            }
         }
     })
 }

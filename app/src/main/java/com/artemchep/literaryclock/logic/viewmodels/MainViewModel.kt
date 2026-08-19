@@ -1,6 +1,7 @@
 package com.artemchep.literaryclock.logic.viewmodels
 
 import android.app.Application
+import android.database.sqlite.SQLiteConstraintException
 import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -144,12 +145,16 @@ class MainViewModel internal constructor(
                 dao.deleteFavoriteByQuoteKey(quote.key)
                 analytics.logQuoteFavoriteRemove(quote)
             } else {
-                dao.upsertFavorite(
-                    FavoriteQuoteEntity(
-                        quoteKey = quote.key,
-                        favoritedAt = currentTimeMillis(),
-                    ),
-                )
+                try {
+                    dao.upsertFavorite(
+                        FavoriteQuoteEntity(
+                            quoteKey = quote.key,
+                            favoritedAt = currentTimeMillis(),
+                        ),
+                    )
+                } catch (e: SQLiteConstraintException) {
+                    return@launch
+                }
                 analytics.logQuoteFavoriteAdd(quote)
             }
         }

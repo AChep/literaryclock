@@ -1,11 +1,14 @@
 package com.artemchep.literaryclock.logic.viewmodels
 
 import android.app.Application
+import android.database.sqlite.SQLiteConstraintException
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
 import com.artemchep.literaryclock.data.DatabaseState
+import com.artemchep.literaryclock.data.room.FavoriteQuoteEntity
+import com.artemchep.literaryclock.data.room.LiteraryClockDao
 import com.artemchep.literaryclock.models.MomentItem
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
@@ -37,7 +40,9 @@ class MainViewModelTest {
     private val rawMomentLiveData = MutableLiveData<MomentItem>()
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private fun createViewModel() = MainViewModel(
+    private fun createViewModel(
+        dao: LiteraryClockDao = this.dao,
+    ) = MainViewModel(
         application = application,
         analytics = analytics,
         dao = dao,
@@ -111,6 +116,22 @@ class MainViewModelTest {
         assertThat(dao.deletedFavoriteQuoteKeys).containsExactly("quote-1")
         assertThat(analytics.favoriteAddedQuotes).containsExactly(quote)
         assertThat(analytics.favoriteRemovedQuotes).containsExactly(quote)
+    }
+
+    @Test
+    fun toggleFavoriteIgnoresStaleQuoteKeyInsert() {
+        val staleQuoteDao = object : LiteraryClockDao by dao {
+            override suspend fun upsertFavorite(favorite: FavoriteQuoteEntity) {
+                throw SQLiteConstraintException("FOREIGN KEY constraint failed")
+            }
+        }
+        val viewModel = createViewModel(dao = staleQuoteDao)
+        val quote = quoteItem(key = "stale-quote-key", asin = "ASIN-1")
+
+        viewModel.toggleFavorite(quote)
+
+        assertThat(analytics.favoriteAddedQuotes).isEmpty()
+        assertThat(analytics.favoriteRemovedQuotes).isEmpty()
     }
 
     @Test

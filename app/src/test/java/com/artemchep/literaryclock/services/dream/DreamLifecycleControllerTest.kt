@@ -8,7 +8,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class DreamLifecycleControllerTest {
     private val lifecycleOwner = TestLifecycleOwner()
     private val controller = DreamLifecycleController(

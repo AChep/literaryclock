@@ -123,6 +123,7 @@
                     android:id="@+id/altWidgetUpdaterTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:labelFor="@id/altWidgetUpdaterSwitch"
                     android:layout_marginTop="8dp"
                     android:background="?selectableItemBackground"
                     android:paddingStart="@dimen/frame_margin_horizontal"

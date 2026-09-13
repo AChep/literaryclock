@@ -1,6 +1,6 @@
 
 const val KOTLIN_VERSION = "2.4.20"
-const val KSP_VERSION = "2.3.11"
+const val KSP_VERSION = "2.3.12"
 
 // https://github.com/Kotlin/kotlinx.coroutines
 const val KOTLIN_COROUTINES_VERSION = "1.11.0"

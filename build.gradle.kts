@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:9.5.0-alpha04")
+        classpath("com.android.tools.build:gradle:9.5.0-alpha05")
         classpath("com.google.devtools.ksp:symbol-processing-gradle-plugin:$KSP_VERSION")
         classpath("com.google.gms:google-services:4.5.0")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$ANDROIDARCH_NAVIGATION_VERSION")

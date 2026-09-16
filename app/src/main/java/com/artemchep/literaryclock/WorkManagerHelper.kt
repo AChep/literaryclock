@@ -9,7 +9,7 @@ import java.time.Duration
 private const val UID_DATABASE_UPDATE_IMMEDIATE_JOB = "job::database_update_immediate"
 
 fun Context.startUpdateWidgetJob(key: String) {
-    val policy = ExistingPeriodicWorkPolicy.REPLACE
+    val policy = ExistingPeriodicWorkPolicy.UPDATE
     // WorkManager enforces a minimum interval for periodic work. The widget's
     // high-frequency path remains the foreground service; this job is a fallback.
     val duration = Duration.ofMinutes(15L)
@@ -30,7 +30,7 @@ fun Context.cancelUpdateWidgetJob(key: String) {
 }
 
 fun Context.startUpdateDatabaseJob(key: String) {
-    val policy = ExistingPeriodicWorkPolicy.REPLACE
+    val policy = ExistingPeriodicWorkPolicy.UPDATE
     val duration = Duration.ofDays(20)
     val request = PeriodicWorkRequestBuilder<DatabaseUpdateWorker>(duration)
         .setConstraints(

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/background"
     style="@style/Widget.AppWidget.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="8dp"
     android:theme="@style/Theme.AppWidget.AppWidgetContainer">
 
     <TextView
         android:id="@+id/quoteTextView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/footerContainer"
-        android:layout_alignParentTop="true"
+        android:layout_weight="1"
         android:autoSizeMaxTextSize="32sp"
         android:autoSizeMinTextSize="12sp"
         android:autoSizeTextType="uniform"
@@ -28,8 +27,7 @@
         android:id="@+id/footerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -76,8 +74,10 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:fontFamily="@font/robotoslab"
                 android:gravity="end"
+                android:maxLines="1"
                 android:textColor="?android:textColorSecondary"
                 android:textSize="14sp"
                 tools:text="Clariel" />
@@ -86,8 +86,10 @@
                 android:id="@+id/authorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:fontFamily="@font/robotoslab"
                 android:gravity="end"
+                android:maxLines="1"
                 android:textColor="?android:textColorSecondary"
                 android:textSize="14sp"
                 android:textStyle="italic"
@@ -97,4 +99,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

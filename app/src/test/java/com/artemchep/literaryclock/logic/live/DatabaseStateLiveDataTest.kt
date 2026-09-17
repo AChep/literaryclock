@@ -3,6 +3,7 @@ package com.artemchep.literaryclock.logic.live
 import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Looper
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -17,8 +18,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
+import org.robolectric.annotation.LooperMode
 
 @RunWith(RobolectricTestRunner::class)
+@LooperMode(LooperMode.Mode.PAUSED)
 class DatabaseStateLiveDataTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -64,6 +68,26 @@ class DatabaseStateLiveDataTest {
         liveData.observeForever(observer)
         try {
             assertThat(states.last()).isEqualTo(DatabaseState.UPDATING)
+        } finally {
+            liveData.removeObserver(observer)
+        }
+    }
+
+    @Test
+    fun observesRunningStateIfUpdateFinishesBeforeQueuedBroadcastDelivery() {
+        val worker = newWorker()
+        val liveData = DatabaseStateLiveData(application)
+        val states = mutableListOf<DatabaseState>()
+        val observer = Observer<DatabaseState>(states::add)
+
+        liveData.observeForever(observer)
+        try {
+            worker.setRunningState(true)
+            worker.setRunningState(false)
+
+            shadowOf(Looper.getMainLooper()).idle()
+
+            assertThat(states).contains(DatabaseState.UPDATING)
         } finally {
             liveData.removeObserver(observer)
         }

@@ -6,5 +6,5 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 fun sendLocalBroadcastIntent(context: Context, intent: Intent) {
     val lbm = LocalBroadcastManager.getInstance(context)
-    lbm.sendBroadcast(intent)
+    lbm.sendBroadcastSync(intent)
 }

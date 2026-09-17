@@ -20,24 +20,31 @@ class BounceFrameLayout @JvmOverloads constructor(
         const val ANIMATION_DURATION = 200L
     }
 
+    private var bounceGeneration = 0
+
     /**
      * Plays fade-out animation, invokes the block and
      * plays fade-in animation.
      */
-    inline fun bounce(crossinline block: () -> Unit) {
+    fun bounce(block: () -> Unit) {
         val child = children.firstOrNull() ?: error("Bounce layout should have one child.")
+        val generation = ++bounceGeneration
         child.animate()
             .alpha(0f)
             .scaleX(0.95f)
             .scaleY(0.95f)
             .setDuration(ANIMATION_DURATION)
             .withEndAction {
+                if (generation != bounceGeneration) return@withEndAction
+
                 // Perform some actions on the
                 // child view.
                 block.invoke()
 
                 child.requestLayout()
                 child.doOnNextLayout {
+                    if (generation != bounceGeneration) return@doOnNextLayout
+
                     child.translationX = (width - child.measuredWidth) * Random.nextFloat()
                     child.translationY = (height - child.measuredHeight) * Random.nextFloat()
                     child.animate()

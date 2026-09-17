@@ -42,6 +42,42 @@ class BounceFrameLayoutTest {
         assertThat(child.translationX).isEqualTo(0f)
     }
 
+    @Test
+    fun staleLayoutCallbackDoesNotCancelNewerBounce() {
+        ShadowView.setUseRealViewAnimations(false)
+        val parent = BounceFrameLayout(context)
+        val child = ImmediatePostView(context)
+        parent.addView(child, FrameLayout.LayoutParams(100, 100))
+        parent.measure(
+            View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.EXACTLY),
+        )
+        parent.layout(0, 0, 500, 500)
+
+        var quote = "initial"
+        parent.bounce {
+            quote = "first"
+            child.layoutParams = FrameLayout.LayoutParams(110, 100)
+        }
+        child.animate().runPendingEndAction()
+
+        parent.bounce {
+            quote = "second"
+            child.layoutParams = FrameLayout.LayoutParams(120, 100)
+        }
+        child.translationX = -1f
+        parent.measure(
+            View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.EXACTLY),
+        )
+        parent.layout(0, 0, 500, 500)
+
+        assertThat(child.translationX).isEqualTo(-1f)
+        child.animate().runPendingEndAction()
+
+        assertThat(quote).isEqualTo("second")
+    }
+
     private class ImmediatePostView(context: Context) : View(context) {
         override fun post(action: Runnable): Boolean {
             action.run()

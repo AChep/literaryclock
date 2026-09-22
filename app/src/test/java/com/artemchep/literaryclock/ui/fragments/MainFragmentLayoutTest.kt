@@ -40,4 +40,16 @@ class MainFragmentLayoutTest {
         assertThat(intent.getStringExtra(Intent.EXTRA_SUBJECT)).isEqualTo("Literary Clock")
         assertThat(intent.getCharSequenceExtra(Intent.EXTRA_TEXT).toString()).isEqualTo("Quote text")
     }
+
+    @Test
+    fun clockHandRotationUsesShortestForwardPathAcrossZeroDegrees() {
+        assertThat(calculateClockHandRotationDelta(new = 0f, old = 350f))
+            .isEqualTo(10f)
+    }
+
+    @Test
+    fun clockHandRotationUsesShortestBackwardPathAcrossZeroDegrees() {
+        assertThat(calculateClockHandRotationDelta(new = 350f, old = 0f))
+            .isEqualTo(-10f)
+    }
 }

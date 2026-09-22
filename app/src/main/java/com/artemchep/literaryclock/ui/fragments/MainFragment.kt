@@ -176,23 +176,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
         val minuteHandRotationNew = calculateMinuteHandRotation(time.time)
 
         if (viewBinding.analogClock.isLaidOut) {
-            fun rotationDelta(new: Float, old: Float) =
-                (new - old).let { dt ->
-                    if (dt < 360f - dt) {
-                        // Rotate forwards
-                        dt
-                    } else {
-                        // Rotate backwards
-                        dt - 360f
-                    }
-                }
-
             val hourHandRotationOld = analogClockDrawable.hourHandRotation % 360f
             val minuteHandRotationOld = analogClockDrawable.minuteHandRotation % 360f
             val hourHandRotationDelta =
-                rotationDelta(hourHandRotationNew, hourHandRotationOld)
+                calculateClockHandRotationDelta(hourHandRotationNew, hourHandRotationOld)
             val minuteHandRotationDelta =
-                rotationDelta(minuteHandRotationNew, minuteHandRotationOld)
+                calculateClockHandRotationDelta(minuteHandRotationNew, minuteHandRotationOld)
 
             // Animate analog clock changing
             // time.
@@ -278,3 +267,6 @@ internal fun createQuoteShareIntent(subject: String, text: CharSequence) =
         putExtra(Intent.EXTRA_SUBJECT, subject)
         putExtra(Intent.EXTRA_TEXT, text)
     }
+
+internal fun calculateClockHandRotationDelta(new: Float, old: Float) =
+    (new - old + 540f) % 360f - 180f

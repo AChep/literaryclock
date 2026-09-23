@@ -1,11 +1,13 @@
 package com.artemchep.literaryclock.logic.viewmodels
 
 import android.app.Application
+import android.database.sqlite.SQLiteConstraintException
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
 import com.artemchep.literaryclock.data.room.FavoriteQuoteEntity
 import com.artemchep.literaryclock.data.room.FavoriteQuoteWithQuote
+import com.artemchep.literaryclock.data.room.LiteraryClockDao
 import com.artemchep.literaryclock.data.room.QuoteEntity
 import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.test.FakeLiteraryClockDao
@@ -33,7 +35,10 @@ class FavoritesViewModelTest {
     private val dao = FakeLiteraryClockDao()
     private val dispatcher = UnconfinedTestDispatcher()
 
-    private fun createViewModel(favorites: List<FavoriteQuoteWithQuote> = emptyList()) =
+    private fun createViewModel(
+        favorites: List<FavoriteQuoteWithQuote> = emptyList(),
+        dao: LiteraryClockDao = this.dao,
+    ) =
         FavoritesViewModel(
             application = application,
             analytics = analytics,
@@ -113,6 +118,25 @@ class FavoritesViewModelTest {
         )
         assertThat(dao.deletedFavoriteQuoteKeys).isEmpty()
         assertThat(analytics.favoriteAddedQuotes).containsExactly(quote)
+        assertThat(analytics.favoriteRemovedQuotes).isEmpty()
+    }
+
+    @Test
+    fun toggleFavoriteIgnoresStaleQuoteKeyInsert() {
+        val staleQuoteDao = object : LiteraryClockDao by dao {
+            override suspend fun upsertFavorite(favorite: FavoriteQuoteEntity) {
+                throw SQLiteConstraintException("FOREIGN KEY constraint failed")
+            }
+        }
+        val viewModel = createViewModel(dao = staleQuoteDao)
+        val quote = quoteItem(
+            key = "stale-quote-key",
+            asin = "ASIN-1",
+        )
+
+        viewModel.toggleFavorite(quote)
+
+        assertThat(analytics.favoriteAddedQuotes).isEmpty()
         assertThat(analytics.favoriteRemovedQuotes).isEmpty()
     }
 

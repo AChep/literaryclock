@@ -35,7 +35,7 @@ const val AMBIL_WARNA_VERSION = "2.0.1"
 const val MIKEPENZ_FASTADAPTER_VERSION = "5.7.0"
 
 // https://developer.android.com/kotlin/ktx
-const val ANDROIDX_KTX_VERSION = "1.19.0"
+const val ANDROIDX_KTX_VERSION = "1.19.1"
 
 // https://developer.android.com/jetpack/androidx/versions
 const val ANDROIDX_APPCOMPAT_VERSION = "1.8.0"

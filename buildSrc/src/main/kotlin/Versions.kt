@@ -40,7 +40,7 @@ const val ANDROIDX_KTX_VERSION = "1.19.1"
 // https://developer.android.com/jetpack/androidx/versions
 const val ANDROIDX_APPCOMPAT_VERSION = "1.8.0"
 const val ANDROIDX_BROWSER_VERSION = "1.10.0"
-const val ANDROIDX_FRAGMENT_VERSION = "1.9.0"
+const val ANDROIDX_FRAGMENT_VERSION = "1.9.1"
 const val ANDROIDX_LIFECYCLE_VERSION = "2.12.0-alpha03"
 const val ANDROIDX_CONSTRAINTLAYOUT_VERSION = "2.2.2"
 const val ANDROIDX_TRANSITION_VERSION = "1.7.1"

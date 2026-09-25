@@ -92,6 +92,27 @@ class RepoImplTest {
         assertEquals("quote-1", moments[3].quotes.single().quote)
     }
 
+    @Test
+    fun returnsAllAvailableMomentsWhenRangeSpansFullDay() = runBlocking {
+        val repo = RepoImpl(
+            dao = FakeLiteraryClockDao(
+                moments = listOf(
+                    momentWithSingleQuote(0),
+                    momentWithSingleQuote(1),
+                    momentWithSingleQuote(1439),
+                ),
+            ),
+        )
+
+        val moments = repo.getMoments(Time(0)..Time(1440))
+
+        assertEquals(1441, moments.size)
+        assertEquals("quote-0", moments[0].quotes.single().quote)
+        assertEquals("quote-1", moments[1].quotes.single().quote)
+        assertEquals("quote-1439", moments[1439].quotes.single().quote)
+        assertEquals("quote-0", moments[1440].quotes.single().quote)
+    }
+
     private class FakeLiteraryClockDao(
         private val moments: List<MomentWithQuotes>,
     ) : LiteraryClockDao {

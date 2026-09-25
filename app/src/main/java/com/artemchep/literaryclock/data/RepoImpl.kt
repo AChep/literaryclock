@@ -35,11 +35,13 @@ class RepoImpl(
         val requestedTimes = range.start.time..range.endInclusive.time
         val start = range.start.time.floorMod(MINUTES_PER_DAY)
         val end = range.endInclusive.time.floorMod(MINUTES_PER_DAY)
-        val moments = if (start <= end) {
+        val moments = (if (range.endInclusive.time.toLong() - range.start.time >= MINUTES_PER_DAY) {
+            dao.getMoments(0, MINUTES_PER_DAY - 1)
+        } else if (start <= end) {
             dao.getMoments(start, end)
         } else {
             dao.getMoments(start, MINUTES_PER_DAY - 1) + dao.getMoments(0, end)
-        }
+        })
             .associateBy { it.moment.key }
         return requestedTimes
             .map { time ->

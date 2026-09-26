@@ -27,9 +27,9 @@ class CheckoutLiveData(private val context: Context) : LiveData<FlexCheckout>() 
         // Start the checkout process.
         checkout.start()
 
-        // Post the checkout instance when we went active
-        // a first time.
-        value ?: setValue(checkout)
+        // Stopping the checkout clears its purchase flows, so consumers
+        // must be notified again to configure it after each restart.
+        value = checkout
     }
 
     override fun onInactive() {

@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.artemchep.literaryclock.Heart
@@ -14,6 +16,8 @@ import com.artemchep.literaryclock.services.DatabaseUpdateWorker
  * @author Artem Chepurnoy
  */
 class DatabaseStateLiveData(private val context: Context) : LiveData<DatabaseState>() {
+
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -37,12 +41,18 @@ class DatabaseStateLiveData(private val context: Context) : LiveData<DatabaseSta
         super.onInactive()
     }
 
-    private fun postCurrentState(): Unit = postValue(
-        if (DatabaseUpdateWorker.isRunning) {
+    private fun postCurrentState() {
+        val state = if (DatabaseUpdateWorker.isRunning) {
             DatabaseState.UPDATING
         } else {
             DatabaseState.IDLE
         }
-    )
+
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            value = state
+        } else {
+            mainHandler.post { value = state }
+        }
+    }
 
 }

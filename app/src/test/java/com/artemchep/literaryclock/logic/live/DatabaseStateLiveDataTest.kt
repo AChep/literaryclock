@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Looper
+import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.arch.core.executor.TaskExecutor
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -20,6 +22,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.LooperMode
+import kotlin.concurrent.thread
 
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
@@ -90,6 +93,42 @@ class DatabaseStateLiveDataTest {
             assertThat(states).contains(DatabaseState.UPDATING)
         } finally {
             liveData.removeObserver(observer)
+        }
+    }
+
+    @Test
+    fun deliversBothStatesWhenWorkerFinishesBeforeMainThreadProcessesUpdates() {
+        val worker = newWorker()
+        val liveData = DatabaseStateLiveData(application)
+        val states = mutableListOf<DatabaseState>()
+        val observer = Observer<DatabaseState>(states::add)
+        liveData.observeForever(observer)
+
+        val queuedTasks = mutableListOf<Runnable>()
+        ArchTaskExecutor.getInstance().setDelegate(object : TaskExecutor() {
+            override fun executeOnDiskIO(runnable: Runnable) = runnable.run()
+            override fun postToMainThread(runnable: Runnable) {
+                queuedTasks.add(runnable)
+            }
+            override fun isMainThread() = true
+        })
+        try {
+            thread {
+                worker.setRunningState(true)
+                worker.setRunningState(false)
+            }.join()
+
+            queuedTasks.forEach(Runnable::run)
+            shadowOf(Looper.getMainLooper()).idle()
+
+            assertThat(states).containsExactly(
+                DatabaseState.IDLE,
+                DatabaseState.UPDATING,
+                DatabaseState.IDLE,
+            ).inOrder()
+        } finally {
+            liveData.removeObserver(observer)
+            ArchTaskExecutor.getInstance().setDelegate(null)
         }
     }
 

@@ -26,7 +26,10 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     }
 
     private val pending = AtomicBoolean(false)
-    private val observers = mutableMapOf<Observer<in T>, Observer<T>>()
+
+    // Match by equality, as LiveData does. A callback's hash code can change
+    // when its bound receiver is mutable.
+    private val observers = mutableListOf<Pair<Observer<in T>, Observer<T>>>()
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         if (hasActiveObservers()) {
@@ -46,16 +49,15 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     }
 
     override fun removeObserver(observer: Observer<in T>) {
-        val wrappedObserver = observers.remove(observer)
-        if (wrappedObserver == null) {
-            observers.entries.removeAll { it.value == observer }
+        val index = observers.indexOfFirst { (original, wrapped) ->
+            original == observer || wrapped == observer
         }
-
-        if (wrappedObserver != null) {
-            super.removeObserver(wrappedObserver)
+        val wrappedObserver: Observer<in T> = if (index >= 0) {
+            observers.removeAt(index).second
         } else {
-            super.removeObserver(observer)
+            observer
         }
+        super.removeObserver(wrappedObserver)
     }
 
     @MainThread
@@ -73,12 +75,13 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     }
 
     private fun wrapObserver(observer: Observer<in T>): Observer<T> =
-        observers.getOrPut(observer) {
-            Observer<T> { t ->
+        observers.firstOrNull { it.first == observer }?.second
+            ?: Observer<T> { t ->
                 if (pending.compareAndSet(true, false)) {
                     observer.onChanged(t)
                 }
+            }.also { wrapped ->
+                observers.add(observer to wrapped)
             }
-        }
 
 }

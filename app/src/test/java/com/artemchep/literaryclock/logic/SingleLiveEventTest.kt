@@ -46,6 +46,35 @@ class SingleLiveEventTest {
         assertThat(values).isEmpty()
     }
 
+    @Test
+    fun removesObserverAfterCallbackChangesItsHashCode() {
+        val liveEvent = SingleLiveEvent<String>()
+        val values = mutableListOf<String>()
+        val observer = Observer<String>(values::add)
+
+        liveEvent.observeForever(observer)
+        liveEvent.value = "first"
+        liveEvent.removeObserver(observer)
+        liveEvent.value = "second"
+
+        assertThat(values).containsExactly("first")
+        assertThat(liveEvent.hasObservers()).isFalse()
+    }
+
+    @Test
+    fun reusesWrapperForEqualObserverAfterBoundReceiverChanges() {
+        val liveEvent = SingleLiveEvent<String>()
+        val values = mutableListOf<String>()
+
+        liveEvent.observeForever(Observer(values::add))
+        liveEvent.value = "first"
+        liveEvent.observeForever(Observer(values::add))
+        liveEvent.removeObserver(Observer(values::add))
+
+        assertThat(liveEvent.hasObservers()).isFalse()
+        assertThat(values).containsExactly("first")
+    }
+
     private class TestLifecycleOwner : LifecycleOwner {
         private val registry = LifecycleRegistry.createUnsafe(this).apply {
             currentState = Lifecycle.State.STARTED

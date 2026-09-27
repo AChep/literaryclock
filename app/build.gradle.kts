@@ -1,5 +1,12 @@
 import com.android.build.api.dsl.ManagedVirtualDevice
+import com.android.build.api.artifact.ScopedArtifact
+import com.android.build.api.variant.ScopedArtifacts
+import org.gradle.api.file.Directory
+import org.gradle.api.file.RegularFile
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.tasks.Internal
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.io.FileInputStream
 import java.util.*
@@ -134,6 +141,11 @@ android {
         }
 
         unitTests.all {
+            it.extensions.configure<JacocoTaskExtension> {
+                // Robolectric loads app classes without a source location.
+                isIncludeNoLocationClasses = true
+                includes = listOf("com.artemchep.*")
+            }
             it.jvmArgs(
                 "--add-opens=java.base/java.lang=ALL-UNNAMED",
                 "--add-opens=java.base/java.util=ALL-UNNAMED",
@@ -184,7 +196,16 @@ val jacocoExclusions = listOf(
     "**/*Args*.*",
 )
 
-tasks.register<JacocoReport>("jacocoProdDebugUnitTestReport") {
+abstract class AndroidJacocoReport : JacocoReport() {
+    // The filtered classDirectories collection declares these as task inputs.
+    @get:Internal
+    abstract val projectClassJars: ListProperty<RegularFile>
+
+    @get:Internal
+    abstract val projectClassDirectories: ListProperty<Directory>
+}
+
+val jacocoProdDebugUnitTestReport = tasks.register<AndroidJacocoReport>("jacocoProdDebugUnitTestReport") {
     dependsOn("testProdDebugUnitTest")
 
     reports {
@@ -194,14 +215,16 @@ tasks.register<JacocoReport>("jacocoProdDebugUnitTestReport") {
     }
 
     classDirectories.setFrom(
-        files(
-            fileTree("${layout.buildDirectory.asFile.get()}/tmp/kotlin-classes/prodDebug") {
-                exclude(jacocoExclusions)
-            },
-            fileTree("${layout.buildDirectory.asFile.get()}/intermediates/javac/prodDebug/classes") {
-                exclude(jacocoExclusions)
-            },
-        ),
+        projectClassDirectories.map { directories ->
+            directories.map { directory ->
+                fileTree(directory.asFile) { exclude(jacocoExclusions) }
+            }
+        },
+        projectClassJars.map { jars ->
+            jars.map { jar ->
+                zipTree(jar.asFile).matching { exclude(jacocoExclusions) }
+            }
+        },
     )
     sourceDirectories.setFrom(
         files(
@@ -217,6 +240,18 @@ tasks.register<JacocoReport>("jacocoProdDebugUnitTestReport") {
             )
         },
     )
+}
+
+androidComponents {
+    onVariants(selector().withName("prodDebug")) { variant ->
+        variant.artifacts.forScope(ScopedArtifacts.Scope.PROJECT)
+            .use(jacocoProdDebugUnitTestReport)
+            .toGet(
+                ScopedArtifact.CLASSES,
+                AndroidJacocoReport::projectClassJars,
+                AndroidJacocoReport::projectClassDirectories,
+            )
+    }
 }
 
 tasks.register("verifyUnitTests") {

@@ -5,8 +5,8 @@ const val KSP_VERSION = "2.3.12"
 // https://github.com/Kotlin/kotlinx.coroutines
 const val KOTLIN_COROUTINES_VERSION = "1.11.0"
 
-// https://github.com/nhaarman/mockito-kotlin
-const val KOTLIN_MOCKITO_VERSION = "6.3.0"
+// https://github.com/mockito/mockito-kotlin
+const val KOTLIN_MOCKITO_VERSION = "6.4.0"
 // https://github.com/MarkusAmshove/Kluent
 const val KLUENT_VERSION = "1.73"
 // https://mvnrepository.com/artifact/junit/junit

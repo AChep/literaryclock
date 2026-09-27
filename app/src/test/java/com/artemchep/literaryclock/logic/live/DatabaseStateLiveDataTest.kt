@@ -132,6 +132,35 @@ class DatabaseStateLiveDataTest {
         }
     }
 
+    @Test
+    fun reactivationDiscardsStatesQueuedDuringPreviousActivation() {
+        val worker = newWorker()
+        val liveData = DatabaseStateLiveData(application)
+        val states = mutableListOf<DatabaseState>()
+        val observer = Observer<DatabaseState>(states::add)
+        liveData.observeForever(observer)
+
+        try {
+            thread {
+                worker.setRunningState(true)
+                worker.setRunningState(false)
+            }.join()
+            liveData.removeObserver(observer)
+
+            thread { worker.setRunningState(true) }.join()
+            liveData.observeForever(observer)
+            shadowOf(Looper.getMainLooper()).idle()
+
+            assertThat(DatabaseUpdateWorker.isRunning).isTrue()
+            assertThat(states).containsExactly(
+                DatabaseState.IDLE,
+                DatabaseState.UPDATING,
+            ).inOrder()
+        } finally {
+            liveData.removeObserver(observer)
+        }
+    }
+
     private fun newWorker(context: Context = application): DatabaseUpdateWorker =
         TestListenableWorkerBuilder<DatabaseUpdateWorker>(context).build()
 

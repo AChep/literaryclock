@@ -19,39 +19,49 @@ class DatabaseStateLiveData(private val context: Context) : LiveData<DatabaseSta
 
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    private val broadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            postCurrentState()
-        }
-    }
+    private var broadcastReceiver: BroadcastReceiver? = null
 
     override fun onActive() {
         super.onActive()
 
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                postCurrentState(this)
+            }
+        }
+        broadcastReceiver = receiver
         val intentFilter = IntentFilter(Heart.ACTION_UPDATE_DATABASE_STATE_CHANGED)
         val lbm = LocalBroadcastManager.getInstance(context)
-        lbm.registerReceiver(broadcastReceiver, intentFilter)
+        lbm.registerReceiver(receiver, intentFilter)
 
-        postCurrentState()
+        postCurrentState(receiver)
     }
 
     override fun onInactive() {
         val lbm = LocalBroadcastManager.getInstance(context)
-        lbm.unregisterReceiver(broadcastReceiver)
+        broadcastReceiver?.let(lbm::unregisterReceiver)
+        broadcastReceiver = null
         super.onInactive()
     }
 
-    private fun postCurrentState() {
+    private fun postCurrentState(receiver: BroadcastReceiver) {
         val state = if (DatabaseUpdateWorker.isRunning) {
             DatabaseState.UPDATING
         } else {
             DatabaseState.IDLE
         }
 
+        val update = Runnable {
+            // A new activation publishes a fresh snapshot. Ignore callbacks
+            // queued by a receiver from an earlier activation.
+            if (broadcastReceiver === receiver) {
+                value = state
+            }
+        }
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            value = state
+            update.run()
         } else {
-            mainHandler.post { value = state }
+            mainHandler.post(update)
         }
     }
 

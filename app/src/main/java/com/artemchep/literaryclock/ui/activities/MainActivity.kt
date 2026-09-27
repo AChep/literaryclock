@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), DIAware {
                 MessageType.SUCCESS -> Toasty.success(context, text)
                 MessageType.NORMAL -> Toasty.normal(context, text)
                 MessageType.ERROR -> Toasty.error(context, text)
-            }
+            }.show()
         })
 
         startUpdateDatabaseJob(Heart.UID_DATABASE_UPDATE_JOB)

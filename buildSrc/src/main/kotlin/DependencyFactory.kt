@@ -327,8 +327,8 @@ fun createDependencies(module: Module): List<Dependency> {
     )
     val androidxTestOrchestrator = Dependency(
         "AndroidX Test Orchestrator",
-        ANDROIDX_TEST_CORE_VERSION,
-        "androidx.test:orchestrator:$ANDROIDX_TEST_CORE_VERSION",
+        ANDROIDX_TEST_ORCHESTRATOR_VERSION,
+        "androidx.test:orchestrator:$ANDROIDX_TEST_ORCHESTRATOR_VERSION",
         DependencyType.ANDROID_TEST_UTIL,
     )
 

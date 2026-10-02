@@ -55,10 +55,10 @@ fun createDependencies(module: Module): List<Dependency> {
         DependencyType.IMPLEMENTATION
     )
 
-    val solovyevCheckout = Dependency(
-        "Checkout",
-        SOLOVYEV_CHECKOUT_VERSION,
-        "org.solovyev.android:checkout:$SOLOVYEV_CHECKOUT_VERSION",
+    val googlePlayBilling = Dependency(
+        "Google Play Billing",
+        GOOGLE_PLAY_BILLING_VERSION,
+        "com.android.billingclient:billing:$GOOGLE_PLAY_BILLING_VERSION",
         DependencyType.IMPLEMENTATION
     )
 
@@ -338,7 +338,7 @@ fun createDependencies(module: Module): List<Dependency> {
             roomRuntime,
             roomKtx,
             roomCompiler,
-            solovyevCheckout,
+            googlePlayBilling,
             hdodenhofCircleImageView,
             grendergToasty,
             yukukuAmbilWarna,

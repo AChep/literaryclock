@@ -1,34 +1,28 @@
 package com.artemchep.literaryclock.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.artemchep.literaryclock.R
-import com.artemchep.literaryclock.checkout.intentstarters.FragmentIntentStarter
+import com.artemchep.literaryclock.billing.DonationProduct
 import com.artemchep.literaryclock.databinding.FragmentDonateBinding
 import com.artemchep.literaryclock.logic.viewmodels.DonateViewModel
 import com.artemchep.literaryclock.models.Loader
 import com.artemchep.literaryclock.ui.items.SkuItem
-import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
-import com.artemchep.literaryclock.utils.wrapInStatusBarView
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import org.solovyev.android.checkout.Inventory
 
 /**
  * @author Artem Chepurnoy
  */
-class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListener {
+class DonateFragment : BaseFragment<FragmentDonateBinding>() {
 
     override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDonateBinding
         get() = FragmentDonateBinding::inflate
@@ -51,8 +45,9 @@ class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListen
                     item: SkuItem,
                     position: Int
                 ): Boolean {
-                    val intentStarter = FragmentIntentStarter(this@DonateFragment)
-                    donateViewModel.purchase(intentStarter, item.sku)
+                    if (item.product.canPurchase) {
+                        donateViewModel.purchase(requireActivity(), item.product)
+                    }
 
                     // We handled the click
                     return true
@@ -61,31 +56,27 @@ class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListen
         }
 
         donateViewModel.setup()
+        viewBinding.errorView.setOnClickListener { donateViewModel.refresh() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        donateViewModel.refresh()
     }
 
     private fun DonateViewModel.setup() {
         productLiveData.observe(viewLifecycleOwner, Observer(::showProducts))
     }
 
-    private fun showProducts(products: Loader<Inventory.Products>) {
-        when(products) {
+    private fun showProducts(products: Loader<List<DonationProduct>>) {
+        when (products) {
             is Loader.Ok -> {
                 viewBinding.errorView.isVisible = false
                 viewBinding.progressView.isVisible = false
                 viewBinding.recyclerView.isVisible = true
 
                 // Bind products to recycler view.
-                val items = products.value
-                    .flatMap { product ->
-                        product.skus
-                            .map { sku ->
-                                SkuItem(
-                                    sku = sku,
-                                    isPurchased = product.isPurchased(sku)
-                                )
-                            }
-                    }
-                    .sortedBy { sku -> sku.sku.detailedPrice.amount }
+                val items = products.value.map(::SkuItem)
 
                 itemAdapter.setNewList(items)
             }
@@ -100,14 +91,6 @@ class DonateFragment : BaseFragment<FragmentDonateBinding>(), View.OnClickListen
                 viewBinding.recyclerView.isVisible = false
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        donateViewModel.result(requestCode, resultCode, data)
-    }
-
-    override fun onClick(view: View) {
     }
 
 }

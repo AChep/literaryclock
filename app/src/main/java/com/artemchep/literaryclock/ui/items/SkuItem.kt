@@ -7,14 +7,14 @@ import com.artemchep.literaryclock.R
 import com.artemchep.literaryclock.databinding.ItemDonationBinding
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
-import org.solovyev.android.checkout.Sku
+import com.artemchep.literaryclock.billing.DonationProduct
+import com.artemchep.literaryclock.billing.DonationState
 
 /**
  * @author Artem Chepurnoy
  */
 class SkuItem(
-    val sku: Sku,
-    val isPurchased: Boolean
+    val product: DonationProduct,
 ) : AbstractItem<SkuItem.ViewHolder>() {
     override val layoutRes: Int
         get() = R.layout.item_donation
@@ -29,11 +29,18 @@ class SkuItem(
         private val viewBinding = ItemDonationBinding.bind(view)
 
         override fun bindView(item: SkuItem, payloads: List<Any>) {
-            viewBinding.priceTextView.text = item.sku.price
-            viewBinding.priceTextView.isGone = item.isPurchased
-            viewBinding.purchasedTextView.isVisible = item.isPurchased
-            viewBinding.titleTextView.text = item.sku.displayTitle
-            viewBinding.summaryTextView.text = item.sku.description
+            val product = item.product
+            val purchased = product.state == DonationState.PURCHASED
+            viewBinding.priceTextView.text = if (product.state == DonationState.PENDING) {
+                itemView.context.getString(R.string.donation_pending)
+            } else {
+                product.formattedPrice
+            }
+            viewBinding.priceTextView.isEnabled = product.canPurchase
+            viewBinding.priceTextView.isGone = purchased
+            viewBinding.purchasedTextView.isVisible = purchased
+            viewBinding.titleTextView.text = product.title
+            viewBinding.summaryTextView.text = product.description
         }
 
         override fun unbindView(item: SkuItem) {

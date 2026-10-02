@@ -12,6 +12,7 @@ import com.artemchep.literaryclock.analytics.AnalyticsMain
 import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsAbout
 import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsDonate
 import com.artemchep.literaryclock.analytics.firebase.FirebaseAnalyticsMain
+import com.artemchep.literaryclock.billing.DonationBillingRepository
 import com.artemchep.literaryclock.data.DatabaseState
 import com.artemchep.literaryclock.data.Repo
 import com.artemchep.literaryclock.data.RepoImpl
@@ -36,7 +37,6 @@ import org.acra.ktx.initAcra
 import org.acra.sender.HttpSender
 import org.kodein.di.*
 import org.kodein.di.android.x.androidXModule
-import org.solovyev.android.checkout.Billing
 import java.text.DateFormat
 
 /**
@@ -123,19 +123,15 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
             FirebaseAnalyticsDonate(firebaseAnalytics)
         }
 
+        bind<DonationBillingRepository>() with singleton {
+            DonationBillingRepository(this@Heart)
+        }
+
         bind<AnalyticsAbout>() with singleton {
             val firebaseAnalytics by di.instance<FirebaseAnalytics>()
             FirebaseAnalyticsAbout(firebaseAnalytics)
         }
     }
-
-    val billing = Billing(this, object : Billing.DefaultConfiguration() {
-
-        override fun getPublicKey(): String {
-            return BuildConfig.LICENSE_KEY
-        }
-
-    })
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -165,6 +161,9 @@ class Heart : Application(), DIAware, Config.OnConfigChangedListener<String> {
         Cfg.init(this)
         Cfg.observe(this)
         CfgInternal.init(this)
+
+        val billing by di.instance<DonationBillingRepository>()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(billing)
 
         // Wait till the app is in the
         // foreground and start the update service.

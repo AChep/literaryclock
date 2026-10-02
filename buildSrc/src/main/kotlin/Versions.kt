@@ -19,8 +19,8 @@ const val TRUTH_VERSION = "1.4.5"
 // https://kodein.org/
 const val KODEIN_VERSION = "7.33.0"
 
-// https://github.com/serso/android-checkout
-const val SOLOVYEV_CHECKOUT_VERSION = "1.3.2"
+// https://developer.android.com/google/play/billing/release-notes
+const val GOOGLE_PLAY_BILLING_VERSION = "9.1.0"
 
 // https://github.com/hdodenhof/CircleImageView
 const val HDODENHOF_CIRCLEIMAGEVIEW_VERSION = "3.1.0"

@@ -1,53 +1,51 @@
 package com.artemchep.literaryclock.logic.viewmodels
 
+import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.test.core.app.ApplicationProvider
-import com.artemchep.literaryclock.checkout.FlexCheckout
-import com.artemchep.literaryclock.logic.live.ProductLiveData
+import com.artemchep.literaryclock.analytics.AnalyticsDonate
+import com.artemchep.literaryclock.billing.DonationBillingRepository
+import com.artemchep.literaryclock.billing.DonationProduct
+import com.artemchep.literaryclock.models.Loader
+import com.artemchep.literaryclock.test.testDonationProduct
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
-import org.solovyev.android.checkout.Purchase
-import org.solovyev.android.checkout.RequestListener
 
 @RunWith(RobolectricTestRunner::class)
 class DonateViewModelTest {
     private val application = ApplicationProvider.getApplicationContext<Application>()
+    private val billing = mock<DonationBillingRepository>()
+    private val analytics = mock<AnalyticsDonate>()
+    private val product = testDonationProduct()
 
     @Test
-    fun successfulPurchaseReloadsInventoryWhenProductsAreObserved() {
-        val viewModel = DonateViewModel(application)
-        val checkout = mock<FlexCheckout>()
-        val productLiveData = mock<ProductLiveData>()
-        whenever(productLiveData.hasActiveObservers()).thenReturn(true)
-        viewModel.replaceCheckoutLiveData(MutableLiveData(checkout))
-        viewModel.replaceProductLiveData(productLiveData)
-
-        viewModel.purchaseListener().onSuccess(mock())
-
-        verify(productLiveData).loadInventory(checkout)
+    fun exposesRepositoryProductsAndRefreshesOnRequest() {
+        val products = MutableLiveData<Loader<List<DonationProduct>>>()
+        whenever(billing.products).thenReturn(products)
+        val viewModel = DonateViewModel(application, billing, analytics)
+        assertThat(viewModel.productLiveData).isSameInstanceAs(products)
+        viewModel.refresh()
+        verify(billing).refresh()
     }
 
-    private fun DonateViewModel.replaceCheckoutLiveData(checkoutLiveData: MutableLiveData<FlexCheckout>) {
-        val field = DonateViewModel::class.java.getDeclaredField("checkoutLiveData")
-        field.isAccessible = true
-        field.set(this, checkoutLiveData)
+    @Test
+    fun acceptedPurchaseLaunchLogsCheckout() {
+        val activity = mock<Activity>()
+        whenever(billing.purchase(activity, product.id)).thenReturn(true)
+        DonateViewModel(application, billing, analytics).purchase(activity, product)
+        verify(analytics).logDonateSkuOpen(product)
     }
 
-    private fun DonateViewModel.replaceProductLiveData(productLiveData: ProductLiveData) {
-        val field = DonateViewModel::class.java.getDeclaredField("productLiveData")
-        field.isAccessible = true
-        field.set(this, productLiveData)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun DonateViewModel.purchaseListener(): RequestListener<Purchase> {
-        val field = DonateViewModel::class.java.getDeclaredField("requestListener")
-        field.isAccessible = true
-        return field.get(this) as RequestListener<Purchase>
+    @Test
+    fun rejectedOrDuplicateLaunchDoesNotLogCheckout() {
+        DonateViewModel(application, billing, analytics).purchase(mock(), product)
+        verifyNoInteractions(analytics)
     }
 }

@@ -1,5 +1,6 @@
 package com.artemchep.literaryclock.analytics.firebase
 
+import com.artemchep.literaryclock.test.testDonationProduct
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -9,7 +10,6 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.robolectric.RobolectricTestRunner
-import org.solovyev.android.checkout.Sku
 
 @RunWith(RobolectricTestRunner::class)
 class FirebaseAnalyticsDonateTest {
@@ -17,22 +17,9 @@ class FirebaseAnalyticsDonateTest {
     fun logDonateSkuOpenConvertsPriceMicrosToCurrencyUnits() {
         val firebaseAnalytics = mock<FirebaseAnalytics>()
         val analytics = FirebaseAnalyticsDonate(firebaseAnalytics)
-        val sku = Sku(
-            "inapp",
-            "donation",
-            "$7.99",
-            Sku.Price(7_990_000L, "USD"),
-            "Donation",
-            "Support development",
-            "",
-            Sku.Price.EMPTY,
-            "",
-            "",
-            "",
-            0,
-        )
+        val product = testDonationProduct(formattedPrice = "$7.99", priceAmountMicros = 7_990_000L)
 
-        analytics.logDonateSkuOpen(sku)
+        analytics.logDonateSkuOpen(product)
 
         val bundleCaptor = argumentCaptor<android.os.Bundle>()
         verify(firebaseAnalytics).logEvent(

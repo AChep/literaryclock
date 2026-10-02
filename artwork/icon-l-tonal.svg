@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Literary Clock — Tonal</title>
+  <desc id="description">A softly rounded, geometric slab-serif L in deep olive charcoal on a pale citron field. Broad color surfaces and restrained tonal shading preserve a clear, compact silhouette.</desc>
+  <defs>
+    <linearGradient id="citron" x1="0" y1="0" x2="0.55" y2="1">
+      <stop stop-color="#F2F5B5"/>
+      <stop offset="0.55" stop-color="#E8EF9C"/>
+      <stop offset="1" stop-color="#D8E58B"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="0.8" y2="1">
+      <stop stop-color="#303D2C"/>
+      <stop offset="1" stop-color="#253329"/>
+    </linearGradient>
+  </defs>
+  <!-- Full-bleed background; final corner shape and outer shadow are supplied by the platform. -->
+  <rect width="512" height="512" fill="url(#citron)"/>
+  <path id="monogram" fill="url(#ink)" d="M158 124H268Q276 124 276 132V148Q276 156 268 156H246V322Q246 336 260 336H312Q338 336 340 310L342 298Q343 290 351 290H368Q378 290 377 300L372 364Q371 382 353 382H158Q150 382 150 374V360Q150 352 158 352H174V156H158Q150 156 150 148V132Q150 124 158 124Z"/>
+</svg>

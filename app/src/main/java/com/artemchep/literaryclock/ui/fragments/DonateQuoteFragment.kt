@@ -20,6 +20,7 @@ import com.artemchep.literaryclock.models.QuoteItem
 import com.artemchep.literaryclock.models.Time
 import com.artemchep.literaryclock.ui.adapters.QuoteAdapter
 import com.artemchep.literaryclock.ui.setProgressBarShown
+import com.artemchep.literaryclock.ui.restoreTimePickerDialog
 import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.createTimeFormat
 import com.artemchep.literaryclock.utils.ext.setOnApplyWindowInsetsListener
@@ -30,6 +31,10 @@ import com.artemchep.literaryclock.utils.wrapInStatusBarView
  * @author Artem Chepurnoy
  */
 class DonateQuoteFragment : BaseFragment<FragmentDonateQuoteBinding>(), View.OnClickListener {
+
+    companion object {
+        private const val TIME_PICKER_TAG = "donate_quote_time_picker"
+    }
 
     override val viewBindingFactory: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDonateQuoteBinding
         get() = FragmentDonateQuoteBinding::inflate
@@ -72,12 +77,13 @@ class DonateQuoteFragment : BaseFragment<FragmentDonateQuoteBinding>(), View.OnC
     }
 
     private fun DonateQuoteViewModel.setup() {
+        parentFragmentManager.restoreTimePickerDialog(TIME_PICKER_TAG, donateQuoteViewModel::postTime)
         popEvent.observe(viewLifecycleOwner, Observer {
             navigateUp()
         })
 
         editTimeEvent.observe(viewLifecycleOwner, Observer { time ->
-            parentFragmentManager.showTimePickerDialog(time, donateQuoteViewModel::postTime)
+            parentFragmentManager.showTimePickerDialog(TIME_PICKER_TAG, time, donateQuoteViewModel::postTime)
         })
 
         textLiveData.observe(viewLifecycleOwner, Observer(::showText))

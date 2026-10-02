@@ -27,6 +27,7 @@ import com.artemchep.literaryclock.ui.adapters.QuoteAdapter
 import com.artemchep.literaryclock.ui.drawables.AnalogClockDrawable
 import com.artemchep.literaryclock.ui.interfaces.OnItemClickListener
 import com.artemchep.literaryclock.ui.setProgressBarShown
+import com.artemchep.literaryclock.ui.restoreTimePickerDialog
 import com.artemchep.literaryclock.ui.showTimePickerDialog
 import com.artemchep.literaryclock.utils.*
 import com.artemchep.literaryclock.utils.ext.launchInCustomTabs
@@ -49,6 +50,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
 
     companion object {
         const val ANALOG_CLOCK_ANIM_DURATION = 1200L
+        private const val TIME_PICKER_TAG = "main_time_picker"
     }
 
     private val mainViewModel: MainViewModel by viewModels()
@@ -129,6 +131,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
     }
 
     private fun MainViewModel.setup() {
+        parentFragmentManager.restoreTimePickerDialog(TIME_PICKER_TAG, mainViewModel::postTime)
         openUrlEvent.observe(viewLifecycleOwner, Observer(::showUrl))
         shareQuoteEvent.observe(viewLifecycleOwner) { quote ->
             val subject = getString(R.string.app_name)
@@ -137,7 +140,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(),
             startActivityIfExists(Intent.createChooser(i, getString(R.string.quote_share)))
         }
         editTimeEvent.observe(viewLifecycleOwner) { time ->
-            parentFragmentManager.showTimePickerDialog(time, mainViewModel::postTime)
+            parentFragmentManager.showTimePickerDialog(TIME_PICKER_TAG, time, mainViewModel::postTime)
         }
 
         timeLiveData.observe(viewLifecycleOwner, Observer(::showTime))
